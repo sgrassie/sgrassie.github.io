@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="last-modified" content="2014-02-02T23:21:26.1273517+00:00" />
+    <meta name="keywords" content="PHP" />
+    <title>Snow Byte</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <link rel="canonical" href="http://www.philliphaydon.com/2007/10/cakephp-with-eclipse/" />
+</head>
+<body class="home blog">
+    <div id="page" class="hfeed site">
+        <header id="masthead" class="site-header" role="banner">
+            <hgroup>
+                <h1 class="site-title"><a href="/" title="Snow Byte" rel="home">Snow Byte</a>
+                <p><small>Minimal Sandra.Snow Theme.</small></p></h1>
+            </hgroup>
+            <nav role="navigation" class="site-navigation main-navigation">
+                <h1 class="assistive-text">Menu</h1>
+                <div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/" class="home"><i class="fa fa-home"></i></a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/category">Categories</a></li>
+                        <li><a href="/archive">Archive</a></li>
+                        <li><a href="/rss">RSS</a></li>
+                        <li><a href="/feed">Atom</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="main">
+            <div id="primary" class="site-content">
+                <div id="content" role="main">
+                  
+
+<div class="post">
+    <h1>cakePHP with Eclipse</h1> 
+      <div class="meta">
+        <p class="posted">07 Oct 2007</p>
+        <ul class="categories">
+          <li><a href="/category/php" title="Snow.Models.Category">PHP</a></li>
+        </ul>
+      </div>
+
+      <!--div class="addthis_toolbox addthis_default_style" style="float:right;">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_tweet"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        <a class="addthis_button_linkedin_counter"></a>
+        <a class="addthis_counter addthis_pill_style"></a>
+      </div-->
+    </div>
+    
+    
+        
+    <p><a href="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.png" title="cakePHP development in Eclipse"><img src="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.thumbnail.png" title="cakePHP development in Eclipse" alt="cakePHP development in Eclipse" align="left" height="223" hspace="20" width="295" /></a></p>
+
+<p>After chatting with one of my friends who is earning loads of cash doing php web development, I've decided that I'm going  relearn PHP, not because I want a change of career, I'm happy where I am, but because... I just want to.</p>
+
+<p>Because I've become a bit of a snob, used to having intellisense and and all the wonders that IDE's such as Visual Studio and Borland Delphi provide, I wanted to do my PHP development in a proper IDE. Since I've been doing a lot of Java at work - enter <a href="http://www.eclipse.org" title="The Eclipse IDE" target="_blank">Eclipse</a>, and the <a href="http://www.eclipse.org/pdt/" title="Eclipse PDT plugins" target="_blank">Eclipse PHP</a> plugins.</p>
+
+<p>As you can see in the screenshot above (which shows some code from the <a href="http://www.cakephp.org" title="A Nice Piece of Cake!">cakePHP</a> 15 minute blog tutorial), the plugins provide an awesome amount of functionality, such as:</p>
+
+<ul>
+    <li>Code folding</li>
+    <li>Intellisense/code completion</li>
+    <li>Syntax highlighting/colouring</li>
+    <li>API Documentation tool-tips</li>
+</ul>
+
+<p>All this functionality is pretty easy to set up, and there is a pretty good guide available in <a href="http://bakery.cakephp.org/articles/view/setting-up-eclipse-to-work-with-cake" target="_blank">The Bakery</a> that covers just about everything you need to know to get going. There was a little bit of configuration that I did that was slightly different to that guide:</p>
+
+<p>Firstly, I don't believe that you need to set up cakePHP as a project in order to get the code completion to work. If you expand your project, and right click on your project include paths, you should be on the PHP Include path dialog, in the projects properties. If you add an external folder, and browse to the cake core directory (for me: C:xampphtdocscake), and click ok, you should now have code completion and all the associated awesomeness in your project, with the added benefit that for any different projects in your workspace, you can set up different versions of cakePHP or (I haven't tried this though) a different framework such as <a href="http://www.symfony-project.com">Symfony</a>.</p>
+
+<p>Secondly, for code completion in Models, you just have to do something like this:</p>
+
+<pre lang="PHP">
+class PostsController extends AppController{var $name = 'Posts';
+
+/**
+
+* @var Post
+
+*/
+
+var $Post;
+
+...code
+
+}</pre>
+
+<p>Hope this is of use to somebody :)</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.philliphaydon.com/2007/10/cakephp-with-eclipse/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = '*disqus id*';
+    var disqus_url = 'http://www.philliphaydon.com/2007/10/cakephp-with-eclipse/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-****"></script>
+
+</div>
+                </div>
+                <!-- #content -->
+            </div>
+            <!-- #primary .site-content -->
+        </div>
+        <!-- #main -->
+
+        <footer class="site-footer" role="contentinfo">
+            <div class="site-info">
+                Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.	
+            </div>
+            <!-- .site-info -->
+        </footer>
+        <!-- #colophon .site-footer -->
+    </div>
+    <!-- #page .hfeed .site -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src='/javascripts/prettify.js' type='text/javascript'></script>
+    
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-######-##']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+    
+    <script type='text/javascript'>
+      $(function () {
+        $("pre code").parent().each(function () {
+          if (!$(this).hasClass("prettyprint")) {
+            $(this).addClass("prettyprint");
+            a = true
+          }
+        });
+
+        prettyPrint();
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="last-modified" content="2014-02-02T23:21:26.1273517+00:00" />
+    <meta name="keywords" content="Dropbox,Git,Git,Source Control" />
+    <title>Snow Byte</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <link rel="canonical" href="http://www.philliphaydon.com/2010/03/git-plus-dropbox/" />
+</head>
+<body class="home blog">
+    <div id="page" class="hfeed site">
+        <header id="masthead" class="site-header" role="banner">
+            <hgroup>
+                <h1 class="site-title"><a href="/" title="Snow Byte" rel="home">Snow Byte</a>
+                <p><small>Minimal Sandra.Snow Theme.</small></p></h1>
+            </hgroup>
+            <nav role="navigation" class="site-navigation main-navigation">
+                <h1 class="assistive-text">Menu</h1>
+                <div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/" class="home"><i class="fa fa-home"></i></a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/category">Categories</a></li>
+                        <li><a href="/archive">Archive</a></li>
+                        <li><a href="/rss">RSS</a></li>
+                        <li><a href="/feed">Atom</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="main">
+            <div id="primary" class="site-content">
+                <div id="content" role="main">
+                  
+
+<div class="post">
+    <h1>Git plus dropbox</h1> 
+      <div class="meta">
+        <p class="posted">04 Mar 2010</p>
+        <ul class="categories">
+          <li><a href="/category/dropbox" title="Snow.Models.Category">Dropbox</a></li>
+          <li><a href="/category/git" title="Snow.Models.Category">Git</a></li>
+          <li><a href="/category/git" title="Snow.Models.Category">Git</a></li>
+          <li><a href="/category/source-control" title="Snow.Models.Category">Source Control</a></li>
+        </ul>
+      </div>
+
+      <!--div class="addthis_toolbox addthis_default_style" style="float:right;">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_tweet"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        <a class="addthis_button_linkedin_counter"></a>
+        <a class="addthis_counter addthis_pill_style"></a>
+      </div-->
+    </div>
+    
+    
+        
+    <p><a title="Link to earlier blog post." href="http://temporalcohesion.co.uk/2008/08/29/source-control-using-dropbox/" target="_self">Some time ago</a>, I wrote about using <a title="Link to dropbox.com" href="https://www.dropbox.com/" target="_blank">Dropbox </a>as a version control system. I now realise how naive� and short-sighted that thought was. At the time, it was my belief that a dropbox account could be suitable for maintaining version history, and after a fashion, it can be, because using the web client to view your files, you can see previous versions of� the files in your dropbox.</p>
+
+<p>However, there are problems with this approach. Consider that you've changed several files, but then you realise that the changes you have made are not good enough, or just don't work. With svn, or vss (<em>vomit</em>), you can undo-checkout to get the previous version back, with dropbox you can roll back to the previous version - one file at a time. There is no branching, no merging, no tagging. Nothing like a traditional SCM tool should have.</p>
+
+<p>Dropbox is after all, essentially just a folder that is backed up "to the cloud". If we use the right tool, we can take advantage of this properly.</p>
+
+<h1>Enter Git</h1>
+
+<p>What is <a title="Git SCM" href="http://git-scm.com/" target="_blank">Git</a>? Well, surely you must have at least heard of Git by now? If not, I refer you to the <a title="Wikipedia article about git" href="http://en.wikipedia.org/wiki/Git_(software)" target="_blank">wikipedia page</a> about Git. Ok? You're back?</p>
+
+<p>The key aspect of Git which we can take advantage of is essentially the very nature of Git itself. Every Git clone is a full-repository, containing the full commit  history and full revision tracking capability for the project, and it does not rely on network access nor a central server.</p>
+
+<p>Basically, the idea is that you initialise an empty, bare repository inside your dropbox folder, and then somewhere else on your filesystem, perhaps a development folder where you store all your projects, you clone the repo from dropbox, and do all your work on that clone. Then when you call 'git push origin master', your changes are pushed into the dropbox repo, ready to be synced up on other computers you use.</p>
+
+<blockquote>Note: This is not a substitue for having a proper hosted Git repository, such as a project on Github, or somewhere else. However, it useful if you are working on something you aren't ready to put into the public domain, or you haven't yet decided to purchase an account on a private repository provider.</blockquote>
+
+<h1>Setup</h1>
+
+<p>Setting it up is fairly simple, but, I am going to assume that you have Dropbox and a dropbox account, Git and (if you are on Windows) GitExtensions, correctly installed already.</p>
+
+<blockquote>Note: I have only tested this on Windows 7, but I wouldn't expect it to not work on any other system. As always YMMV.</blockquote>
+
+<p>First, create a folder in your dropbox folder to house your projects, e.g. C:UsersStuartDocumentsMy Dropboxprojects or just store it in the root of your Dropbox, it's upto you. Don't forget to include quotes around any path that has a space in, or else it won't work.</p>
+
+<p>[sourcecode language="bash"]</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects
+$ mkdir example</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects
+$ cd example</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropboxprojects/example
+$ mkdir .git</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects/example
+$ cd .git/</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects/example/example.git
+$ git init --bare
+Initialized empty Git repository in c:/Users/Stuart/Documents/My Dropbox/projects/example
+/example.git/</p>
+
+<p>[/sourcecode]</p>
+
+<p>Then, in your development folder clone that repo.</p>
+
+<p>[sourcecode language="bash"]
+Stuart@LAPTOP /c/development/examples
+$ git clone -v &quot;C:/Users/Stuart/Documents/My Dropbox/projects/example/.git&quot;
+Initialized empty Git repository in c:/development/examples/example/.git/</p>
+
+<p>Stuart@LAPTOP /c/development/examples
+$ cd example/</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ touch example.txt</p>
+
+<p>Stuart@STUART-LAPTOP /c/development/examples/example (master)
+$ git add example.txt</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ git commit -m &quot;Added example file to initial commit&quot;
+[master e9ac78d] Added example file to initial commit
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 example.txt</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ git push origin master
+Counting objects: 3, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 253 bytes, done.
+Total 2 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (2/2), done.
+To C:/Users/Stuart/Documents/My Dropbox/projects/example/.git
+ 1e38d4e..e9ac78d� master -&gt; master
+[/sourcecode]</p>
+
+<p>Dropbox will sync the files into the cloud. On your other computer, the git repo will sync, then you can clone it, and find that you have all your history for your project as you would expect.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.philliphaydon.com/2010/03/git-plus-dropbox/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = '*disqus id*';
+    var disqus_url = 'http://www.philliphaydon.com/2010/03/git-plus-dropbox/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-****"></script>
+
+</div>
+                </div>
+                <!-- #content -->
+            </div>
+            <!-- #primary .site-content -->
+        </div>
+        <!-- #main -->
+
+        <footer class="site-footer" role="contentinfo">
+            <div class="site-info">
+                Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.	
+            </div>
+            <!-- .site-info -->
+        </footer>
+        <!-- #colophon .site-footer -->
+    </div>
+    <!-- #page .hfeed .site -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src='/javascripts/prettify.js' type='text/javascript'></script>
+    
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-######-##']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+    
+    <script type='text/javascript'>
+      $(function () {
+        $("pre code").parent().each(function () {
+          if (!$(this).hasClass("prettyprint")) {
+            $(this).addClass("prettyprint");
+            a = true
+          }
+        });
+
+        prettyPrint();
+      });
+    </script>
+</body>
+</html>

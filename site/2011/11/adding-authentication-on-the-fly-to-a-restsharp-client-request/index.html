@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="last-modified" content="2014-02-02T23:21:26.1273517+00:00" />
+    <meta name="keywords" content="C#,Coding,github-api" />
+    <title>Snow Byte</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <link rel="canonical" href="http://www.philliphaydon.com/2011/11/adding-authentication-on-the-fly-to-a-restsharp-client-request/" />
+</head>
+<body class="home blog">
+    <div id="page" class="hfeed site">
+        <header id="masthead" class="site-header" role="banner">
+            <hgroup>
+                <h1 class="site-title"><a href="/" title="Snow Byte" rel="home">Snow Byte</a>
+                <p><small>Minimal Sandra.Snow Theme.</small></p></h1>
+            </hgroup>
+            <nav role="navigation" class="site-navigation main-navigation">
+                <h1 class="assistive-text">Menu</h1>
+                <div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/" class="home"><i class="fa fa-home"></i></a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/category">Categories</a></li>
+                        <li><a href="/archive">Archive</a></li>
+                        <li><a href="/rss">RSS</a></li>
+                        <li><a href="/feed">Atom</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="main">
+            <div id="primary" class="site-content">
+                <div id="content" role="main">
+                  
+
+<div class="post">
+    <h1>Adding authentication on the fly to a RestSharp client request</h1> 
+      <div class="meta">
+        <p class="posted">07 Nov 2011</p>
+        <ul class="categories">
+          <li><a href="/category/c" title="Snow.Models.Category">C#</a></li>
+          <li><a href="/category/coding" title="Snow.Models.Category">Coding</a></li>
+          <li><a href="/category/github-api" title="Snow.Models.Category">github-api</a></li>
+        </ul>
+      </div>
+
+      <!--div class="addthis_toolbox addthis_default_style" style="float:right;">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_tweet"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        <a class="addthis_button_linkedin_counter"></a>
+        <a class="addthis_counter addthis_pill_style"></a>
+      </div-->
+    </div>
+    
+    
+        
+    <h1>The Basics</h1>
+
+<p>The typical way that you'd make a request with RestSharp:</p>
+
+<ol>
+    <li>Create a RestRequest</li>
+    <li>Create a RestClient</li>
+    <li>Execute the request with the client</li>
+    <li>Do something with the response.</li>
+</ol>
+
+<p>It's at the point that you get the client object that you may wish to add authentication. For example with a REST API such as Githubs, certain methods behave differently if the request is authenticated or not, so being able to magically turn on authentication is desirable.</p>
+
+<p>To authenticate a request with RestSharp, it is a simple case of creating a RestRequest, RestClient and an IAuthenticator instance for the authenticating mechanism you want to use. For example:</p>
+
+<pre class="brush:csharp">var client = new RestClient
+             {
+                 BaseUrl ="https://api.github.com",
+                 Authenticator = new HttpBasicAuthenticator(username, password)
+             };</pre>
+
+<p>This is pretty straightforward and standard RestSharp usage. You may have a class to encapsulate this functionality, with a method which returns the RestClient instance, probably in a base class in order to inherit this common functionality in other classes.</p>
+
+<pre class="brush:csharp">public abstract class BaseApi
+{
+    RestClient GetRestClient()
+    {
+        ...
+    }
+}</pre>
+
+<h1>Options</h1>
+
+<p>There are several methods which we can use to add authentication dynamically to the RestClient instance, ranging from the trivial to the more involved.</p>
+
+<p>The trivial solution is to add the IAuthenticator as a parameter to the method, which is then assigned to the RestClient when it is created. Easy. Also fairly easy is just make it abstract or virtual and override it in an inheriting class, although this breaks SRP.</p>
+
+<p>Alternatively, we can implement the Decorator pattern, and introduce the authentication in a class which is solely responsible for handing it. I'm not going to go into this in too much detail, there is a wealth of information on implementing this pattern already available on the web. Using a Decorator is valid in a lot of situations, particularly when re-factoring someone else's mess, as you can adhere to the same interface and not risk breaking some important business function. In other cases, it is better to intercept.</p>
+
+<h1>Interception</h1>
+
+<p>A pattern which lends itself to this is called Proxy, and if you spend any time with Google and search terms like "c# proxy pattern" you'll quickly end up finding a lot of information about implementing it. You'll also find interesting stuff about Castle.DynamicProxy, and you may quickly realise this is an excellent way of adding the ability to dynamically intercept a method to add additional functionality on the fly. I've implemented an interceptor in the Github API library, with the core magic being:</p>
+
+<pre class="brush:csharp">public void Intercept(IInvocation invocation)
+{
+    invocation.Proceed(); // let the RestClient be instantiated as normal.
+    var restClient = (RestClient)invocation.ReturnValue;
+    restClient.Authenticator = _authenticator; // add the authenticator
+    invocation.ReturnValue = restClient;
+ }</pre>
+
+<p>I then wrap the interception up in a static class, which is a technique I <a href="http://geekswithblogs.net/BlackRabbitCoder/archive/2010/05/06/c-why-decorate-when-you-can-intercept.aspx">saw on another website</a>, which I then wrap in a extension method which with a little bit of generics hangs off API classes in a fluent manner.</p>
+
+<pre class="brush:csharp">var api = new UserApi(GitHubUrl).WithAuthentication(authenticator);</pre>
+
+<p>I feel like it is the best way to do this sort of thing, and I will certainly starting using more of it, where necessary, in all my projects.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.philliphaydon.com/2011/11/adding-authentication-on-the-fly-to-a-restsharp-client-request/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = '*disqus id*';
+    var disqus_url = 'http://www.philliphaydon.com/2011/11/adding-authentication-on-the-fly-to-a-restsharp-client-request/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-****"></script>
+
+</div>
+                </div>
+                <!-- #content -->
+            </div>
+            <!-- #primary .site-content -->
+        </div>
+        <!-- #main -->
+
+        <footer class="site-footer" role="contentinfo">
+            <div class="site-info">
+                Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.	
+            </div>
+            <!-- .site-info -->
+        </footer>
+        <!-- #colophon .site-footer -->
+    </div>
+    <!-- #page .hfeed .site -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src='/javascripts/prettify.js' type='text/javascript'></script>
+    
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-######-##']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+    
+    <script type='text/javascript'>
+      $(function () {
+        $("pre code").parent().each(function () {
+          if (!$(this).hasClass("prettyprint")) {
+            $(this).addClass("prettyprint");
+            a = true
+          }
+        });
+
+        prettyPrint();
+      });
+    </script>
+</body>
+</html>

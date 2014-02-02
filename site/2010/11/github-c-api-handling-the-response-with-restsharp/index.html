@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="last-modified" content="2014-02-02T23:21:26.1273517+00:00" />
+    <meta name="keywords" content="C#,Coding,RestSharp" />
+    <title>Snow Byte</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <link rel="canonical" href="http://www.philliphaydon.com/2010/11/github-c-api-handling-the-response-with-restsharp/" />
+</head>
+<body class="home blog">
+    <div id="page" class="hfeed site">
+        <header id="masthead" class="site-header" role="banner">
+            <hgroup>
+                <h1 class="site-title"><a href="/" title="Snow Byte" rel="home">Snow Byte</a>
+                <p><small>Minimal Sandra.Snow Theme.</small></p></h1>
+            </hgroup>
+            <nav role="navigation" class="site-navigation main-navigation">
+                <h1 class="assistive-text">Menu</h1>
+                <div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/" class="home"><i class="fa fa-home"></i></a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/category">Categories</a></li>
+                        <li><a href="/archive">Archive</a></li>
+                        <li><a href="/rss">RSS</a></li>
+                        <li><a href="/feed">Atom</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div id="main">
+            <div id="primary" class="site-content">
+                <div id="content" role="main">
+                  
+
+<div class="post">
+    <h1>Github C# API: Handling the response with RestSharp</h1> 
+      <div class="meta">
+        <p class="posted">01 Nov 2010</p>
+        <ul class="categories">
+          <li><a href="/category/c" title="Snow.Models.Category">C#</a></li>
+          <li><a href="/category/coding" title="Snow.Models.Category">Coding</a></li>
+          <li><a href="/category/restsharp" title="Snow.Models.Category">RestSharp</a></li>
+        </ul>
+      </div>
+
+      <!--div class="addthis_toolbox addthis_default_style" style="float:right;">
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        <a class="addthis_button_tweet"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        <a class="addthis_button_linkedin_counter"></a>
+        <a class="addthis_counter addthis_pill_style"></a>
+      </div-->
+    </div>
+    
+    
+        
+    <p>Once we make a request to Github.com with <a title="RestSharp.org" href="http://restsharp.org/" target="_blank">RestSharp</a>, we get a response, and RestSharp gives us a <a title="RestResponse class in RestSharp on github.com" href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestResponse.cs" target="_blank">RestResponse</a> object, with which we can do something with the content. The content will be in the format that we specified when we made the request, either JSON, XML or YAML.</p>
+
+<p>Oh crap, complicated string parsing...</p>
+
+<p>RestSharp to the rescue! We don't have to worry about parsing the response content, because RestSharp can do it for us.</p>
+
+<p>What we need to do, is model the response content into a POCO (Plain Old Clr Object):</p>
+
+<pre class="brush: csharp">public class User
+{
+    public virtual int Id { get; set; }
+    public virtual string Login { get; set; }
+    public virtual string Name { get; set;}
+
+    ...
+}</pre>
+
+<p>Note that in this <a title="User class in the csharp-github-api project" href="http://github.com/sgrassie/csharp-github-api/blob/master/csharp-github-api/Models/User.cs" target="_blank">User</a> class, I've made the properties virtual, this is not necessary for RestSharp to function correctly, it's more habit on my part from working with NHibernate; however it does mean you can reuse the same models with NHibernate (if you wanted to do something like store the response in a database, for example).</p>
+
+<p>Then we need to modify our client such that when we execute the request, we instruct RestSharp to construct an instance of the User object. Create the client in the usual way and also create the request in the usual way. The magic is in how the client executes the request:</p>
+
+<pre class="brush: csharp">var request = new RestRequest
+                  {
+                      Resource = string.Format("/user/show/{0}", username),
+                      RootElement = "user"
+                  };
+
+var response = client.Execute&lt;User&gt;(request);
+
+var user = response.Data;</pre>
+
+<p>As you can see, the Execute method has a generic overload. Internally, RestSharp detects that because we have used this overload, we want to deserialise the response content into an object of the given type, and it performs the deserialisation and constructs an instance of the object. The way that it does this is by looking at the Content-Type header in the response, and it uses the correct deserialiser depending upon the Content-Type. You can see more detail about this on <a href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestClient.cs" target="_blank">RestSharp's Github project pages</a>.</p>
+
+<p>It is really easy to work with the response from your REST request with RestSharp, you can access the raw string content of the response, or deserialise it into a POCO - it's up to you.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.philliphaydon.com/2010/11/github-c-api-handling-the-response-with-restsharp/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = '*disqus id*';
+    var disqus_url = 'http://www.philliphaydon.com/2010/11/github-c-api-handling-the-response-with-restsharp/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-****"></script>
+
+</div>
+                </div>
+                <!-- #content -->
+            </div>
+            <!-- #primary .site-content -->
+        </div>
+        <!-- #main -->
+
+        <footer class="site-footer" role="contentinfo">
+            <div class="site-info">
+                Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a>.	
+            </div>
+            <!-- .site-info -->
+        </footer>
+        <!-- #colophon .site-footer -->
+    </div>
+    <!-- #page .hfeed .site -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src='/javascripts/prettify.js' type='text/javascript'></script>
+    
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-######-##']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+    
+    <script type='text/javascript'>
+      $(function () {
+        $("pre code").parent().each(function () {
+          if (!$(this).hasClass("prettyprint")) {
+            $(this).addClass("prettyprint");
+            a = true
+          }
+        });
+
+        prettyPrint();
+      });
+    </script>
+</body>
+</html>
