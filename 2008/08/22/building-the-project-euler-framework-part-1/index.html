@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="Coding,Coding,Java,Java,Project Euler,Project Euler" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2008/08/22/building-the-project-euler-framework-part-1/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">Building the Project Euler framework, part 1</h1>
+    <div class="meta">
+	<p>COCKS 22 Aug 2008
+	
+       | <a href="/category/coding">Coding</a>
+       | <a href="/category/coding">Coding</a>
+       | <a href="/category/java">Java</a>
+       | <a href="/category/java">Java</a>
+       | <a href="/category/project-euler">Project Euler</a>
+       | <a href="/category/project-euler">Project Euler</a>
+    </div>
+
+    
+        
+    <p>As promised, here is the first part of the series of posts I hope to write demonstrating how I wrote my problem runner framework for <a title="Project Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>.</p>
+
+<p>Firstly, before you continue reading, I suggest that you research the <a title="The Command pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> pattern, Google will also provide you with some good sources in your research.</p>
+
+<p>Done? Ok then. It shouldn't matter what IDE you use, I am using Eclipse (ganymede), any IDE should do. If you don't know what an IDE is, then go and find out, and then come back.</p>
+
+<h2>Start Coding</h2>
+
+<p>In your IDE, and following the <a title="Java package naming conventions" href="http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html" target="_blank">Java package naming conventions</a>, create a package to hold the Project Euler code, for example: co.uk.temporalcohesion.euler.problems. Because we are going to need an interface, also create a package to hold those, as this can help keep things more organised, for example: co.uk.temporalcohesion.euler.interfaces</p>
+
+<p>Let's define that interface</p>
+
+<pre lang="java">public interface Problem {
+
+    /**
+     * Answer method. Returns the answer for the problem
+     * @return - the integer answer to the problem
+     */
+    String answer();
+
+    /**
+     * The problem number.
+     * @return - The number of the problem
+     */
+    int id();
+
+    /**
+     * How long does it take to work out the answer?
+     * @return - The time in seconds it takes to work out the answer to the problem
+     */
+    double time();
+}</pre>
+
+<p>Before we move on an implement that interface in a problem, let's write the basic problem runner itself. We'll need a way to register an instance of a problem, and a way to run the problem and get the answer.</p>
+
+<pre lang="java">public class Euler {
+    private List&lt;Problem&gt; problems = new ArrayList();
+
+    public Euler() {
+        problems.add(new One());
+    }
+
+    private void run() {
+        for (Problem prob : problems) {
+            System.out.println("Problem " + prob.id() + ": " + prob.answer());
+        }
+    }
+
+    public static void main(String[] args) {
+        new Euler().run();
+    }
+}</pre>
+
+<p>That's pretty much all you need for a basic problem runner. You just register an instance of each problem you write into the problems List object in the constructor, and run the program, and it iterates through each Problem in the List, and outputs the answer.</p>
+
+<p>I'm not going to give you the code to problem one, however it is pretty trivial if you know what the modulus operator is used for...</p>
+
+<p>As you can see, the problem runner itself is fairly basic, and does present some immediate areas of improvement, such as running a specific problem.</p>
+
+<p>I'll cover that next time.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2008/08/22/building-the-project-euler-framework-part-1/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2008/08/22/building-the-project-euler-framework-part-1/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

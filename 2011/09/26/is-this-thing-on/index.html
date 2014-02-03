@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="Uncategorized" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2011/09/26/is-this-thing-on/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">Is this thing on?</h1>
+    <div class="meta">
+	<p>COCKS 26 Sep 2011
+	
+       | <a href="/category/uncategorized">Uncategorized</a>
+    </div>
+
+    
+        
+    <p>Despite many months of not posting anything on this blog (OK, nearly a year) I am returning with another post about my on/off project to write a C# library to access the Github REST API. Much like my blogging schedule, which can arguably be said to be none-existent, my pet-project�s suffer from the same cruel lack of... habit.</p>
+
+<p>To recap this particular project, you may like to browse some of the earlier posts on it, wherein I grandly proclaim my intent to write a �Github API in C#�. Which I should really have finished by now. As you will have no doubt realised, I do suffer from a certain amount of laziness. That is a subject for another blog post. To my shame, I can tell you that the amount of Github�s REST API which I�m covering is minimal, limited to a subset of the available User related commands.</p>
+
+<p>Moving swiftly along, with no trace of irony.</p>
+
+<p>In the months since the start of this project, Github has release v3 of their REST API, which contains many updated and/or new methods to access the whole plethora of the functionality available on Github. Indeed, they have even gone as far as to release a desktop client for Mac�s, and for all I know are working on a Windows version, which would then render this effort of mine (because that�s what I�ve always intended) redundant.</p>
+
+<p>So, despite not blogging about it, and despite going months between commits, I have been working on the library. The RestSharp git sub-module is gone (I mean, who likes sub-modules anyway?) in favour of the NuGet package. The authentication has been reworked slightly (still no OAuth yet) and the API is a little more fluenty.</p>
+
+<p>Of course, it still doesn�t actually let you do very much, I mean even after a year, you still can�t perform all of the actions available to a user. This is terrible, and speaks volumes about me, as a person. Procrastination is my enemy.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2011/09/26/is-this-thing-on/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2011/09/26/is-this-thing-on/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

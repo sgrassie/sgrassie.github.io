@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="C#,Coding,github-api" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2011/10/31/github-api-handling-authentication/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">Github API: Handling authentication</h1>
+    <div class="meta">
+	<p>COCKS 31 Oct 2011
+	
+       | <a href="/category/c">C#</a>
+       | <a href="/category/coding">Coding</a>
+       | <a href="/category/github-api">github-api</a>
+    </div>
+
+    
+        
+    <p>With v3 of the Github REST API, calling a certain methods when unauthenticated will return a limited set of information, and when authenticated will return extra information. One of the things I wanted to do was to make it easy, in a fluent manner, to add authentication to a request. For example:</p>
+
+<pre class="brush:csharp">var a = new UserApi();
+var user = a.WithAuthentication(authenticationObject).GetUser("example");
+var b = new UserApi().WithAuthentication(authenticationObject);
+user = b.GetUser("example");</pre>
+
+<p>Thus making it possible to instantiate an API object without having to authenticate, then when authorization for an action is required, the authentication can be provided. When that actually happens is, I think , something that is an implementation detail best left to future consumers of the library. Assuming I get it finished.</p>
+
+<p>I got bogged down over the course of several months in trying to wrap my head around a clean way of implementing this. Initially I had a good inheritance from an Api base class to the UserApi class - this is sensible, the base Api class does after all contain methods which are going to be common to different classes, such as GistsApi, RepositoriesApi etc.</p>
+
+<p>Then things got a little screwy.</p>
+
+<p>At that point I had the following implemented:</p>
+
+<pre class="brush:csharp">var github = new Github(authenticator);
+var user = gitHub.User.GetUser("example");
+user.Authenticated.AddEmail("example@example.com");</pre>
+
+<p>Which doesn't seem all that bad. The User property on the Github object was an instance of UserApi. When the example User is fetched, the UserApi object was added an internal instance on the User object. Then the Authenticated property on the User object returned a new AuthenticatedUser, which acted as a wrapper to the internal UserApi instance where the actual AddEmail was hidden as internal.</p>
+
+<p>Needless to say, I knew something was wrong with that, and I spent far too long in coming up with a more elegant solution.</p>
+
+<p>In my second stab at things, I tried to implement Decorator to solve this problem, that is, decorate the UserApi with the additional functionality to add the authentication. The trouble is that the way I wanted to implement the pattern wouldn't have lent itself exceedingly well to having specific functionality for the different parts of the api.</p>
+
+<p>Then I thought to myself, wouldn't it be great if I could intercept the method in the base class which gets the RestClient and add the authentication to it on the fly. A little Googling taught me that this is idealised as the Proxy pattern, from which it was but a short leap to the <a title="The Castle Project" href="http://www.google.co.uk/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCUQFjAA&amp;url=http%3A%2F%2Fwww.castleproject.org%2F&amp;rct=j&amp;q=castle%20project&amp;ei=5hqHTu3bCKnH0QXsgPXvDw&amp;usg=AFQjCNEUSLcxGcsnLhC_LQOSuUFdNZLizw&amp;cad=rja" target="_blank">Castle project </a>and <a title="Castle DynamicProxy" href="http://www.castleproject.org/dynamicproxy/index.html" target="_blank">DynamicProxy</a>.</p>
+
+<p>&nbsp;</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2011/10/31/github-api-handling-authentication/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2011/10/31/github-api-handling-authentication/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

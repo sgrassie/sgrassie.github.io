@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="annoyance,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/page2/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+   <h1 class="title">Stupid design decisions with the Github API wrapper</h1>
+   <span class="meta">posted on 14 Nov 2011</span>
+            
+   
+   <p>Whilst writing some blog posts about the authentication which I've been implementing, I've come to the realization, almost as an after thought, that even though I've still not got a lot of the main Github API implemented, the way I've envisioned the API working, from a user point of view, is sort of a bit shit.</p>
+
+<pre class="brush:applescript">var userApi = new UserApi();
+var user = userApi.GetUser("example");</pre>
+
+<p>Pretty straightforward, right? What about the as yet unwritten GistApi?</p>
+
+<pre class="brush:csharp">var gistApi = new GistApi();
+var gist = gistApi.GetGist(...);</pre>
+
+<p>Again, pretty straightforward. But I see a pattern forming. What am I going to do when it comes to the RepositoryApi?</p>
+
+<pre class="brush:csharp">var reposApi = new RepositoryApi();
+var repo = reposApi.GetRepository(...);</pre>
+
+<p>Well, that is starting to look pretty fucking stupid. I've caught myself doing it with other methods as well. I simply cannot believe I've let myself be so stupid. At least there is not that much implemented where I'll have to refactor loads of shit.</p>
+
+   <p><a href="/2011/11/14/stupid-design-decisions-with-the-github-api-wrapper/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Adding authentication on the fly to a RestSharp client request</h1>
+   <span class="meta">posted on 07 Nov 2011</span>
+            
+   
+   <h1>The Basics</h1>
+
+<p>The typical way that you'd make a request with RestSharp:</p>
+
+<ol>
+    <li>Create a RestRequest</li>
+    <li>Create a RestClient</li>
+    <li>Execute the request with the client</li>
+    <li>Do something with the response.</li>
+</ol>
+
+<p>It's at the point that you get the client object that you may wish to add authentication. For example with a REST API such as Githubs, certain methods behave differently if the request is authenticated or not, so being able to magically turn on authentication is desirable.</p>
+
+<p>To authenticate a request with RestSharp, it is a simple case of creating a RestRequest, RestClient and an IAuthenticator instance for the authenticating mechanism you want to use. For example:</p>
+
+<pre class="brush:csharp">var client = new RestClient
+             {
+                 BaseUrl ="https://api.github.com",
+                 Authenticator = new HttpBasicAuthenticator(username, password)
+             };</pre>
+
+<p>This is pretty straightforward and standard RestSharp usage. You may have a class to encapsulate this functionality, with a method which returns the RestClient instance, probably in a base class in order to inherit this common functionality in other classes.</p>
+
+<pre class="brush:csharp">public abstract class BaseApi
+{
+    RestClient GetRestClient()
+    {
+        ...
+    }
+}</pre>
+
+<h1>Options</h1>
+
+<p>There are several methods which we can use to add authentication dynamically to the RestClient instance, ranging from the trivial to the more involved.</p>
+
+<p>The trivial solution is to add the IAuthenticator as a parameter to the method, which is then assigned to the RestClient when it is created. Easy. Also fairly easy is just make it abstract or virtual and override it in an inheriting class, although this breaks SRP.</p>
+
+<p>Alternatively, we can implement the Decorator pattern, and introduce the authentication in a class which is solely responsible for handing it. I'm not going to go into this in too much detail, there is a wealth of information on implementing this pattern already available on the web. Using a Decorator is valid in a lot of situations, particularly when re-factoring someone else's mess, as you can adhere to the same interface and not risk breaking some important business function. In other cases, it is better to intercept.</p>
+
+<h1>Interception</h1>
+
+<p>A pattern which lends itself to this is called Proxy, and if you spend any time with Google and search terms like "c# proxy pattern" you'll quickly end up finding a lot of information about implementing it. You'll also find interesting stuff about Castle.DynamicProxy, and you may quickly realise this is an excellent way of adding the ability to dynamically intercept a method to add additional functionality on the fly. I've implemented an interceptor in the Github API library, with the core magic being:</p>
+
+<pre class="brush:csharp">public void Intercept(IInvocation invocation)
+{
+    invocation.Proceed(); // let the RestClient be instantiated as normal.
+    var restClient = (RestClient)invocation.ReturnValue;
+    restClient.Authenticator = _authenticator; // add the authenticator
+    invocation.ReturnValue = restClient;
+ }</pre>
+
+<p>I then wrap the interception up in a static class, which is a technique I <a href="http://geekswithblogs.net/BlackRabbitCoder/archive/2010/05/06/c-why-decorate-when-you-can-intercept.aspx">saw on another website</a>, which I then wrap in a extension method which with a little bit of generics hangs off API classes in a fluent manner.</p>
+
+<pre class="brush:csharp">var api = new UserApi(GitHubUrl).WithAuthentication(authenticator);</pre>
+
+<p>I feel like it is the best way to do this sort of thing, and I will certainly starting using more of it, where necessary, in all my projects.</p>
+
+   <p><a href="/2011/11/07/adding-authentication-on-the-fly-to-a-restsharp-client-request/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Github API: Handling authentication</h1>
+   <span class="meta">posted on 31 Oct 2011</span>
+            
+   
+   <p>With v3 of the Github REST API, calling a certain methods when unauthenticated will return a limited set of information, and when authenticated will return extra information. One of the things I wanted to do was to make it easy, in a fluent manner, to add authentication to a request. For example:</p>
+
+<pre class="brush:csharp">var a = new UserApi();
+var user = a.WithAuthentication(authenticationObject).GetUser("example");
+var b = new UserApi().WithAuthentication(authenticationObject);
+user = b.GetUser("example");</pre>
+
+<p>Thus making it possible to instantiate an API object without having to authenticate, then when authorization for an action is required, the authentication can be provided. When that actually happens is, I think , something that is an implementation detail best left to future consumers of the library. Assuming I get it finished.</p>
+
+<p>I got bogged down over the course of several months in trying to wrap my head around a clean way of implementing this. Initially I had a good inheritance from an Api base class to the UserApi class - this is sensible, the base Api class does after all contain methods which are going to be common to different classes, such as GistsApi, RepositoriesApi etc.</p>
+
+<p>Then things got a little screwy.</p>
+
+<p>At that point I had the following implemented:</p>
+
+<pre class="brush:csharp">var github = new Github(authenticator);
+var user = gitHub.User.GetUser("example");
+user.Authenticated.AddEmail("example@example.com");</pre>
+
+<p>Which doesn't seem all that bad. The User property on the Github object was an instance of UserApi. When the example User is fetched, the UserApi object was added an internal instance on the User object. Then the Authenticated property on the User object returned a new AuthenticatedUser, which acted as a wrapper to the internal UserApi instance where the actual AddEmail was hidden as internal.</p>
+
+<p>Needless to say, I knew something was wrong with that, and I spent far too long in coming up with a more elegant solution.</p>
+
+<p>In my second stab at things, I tried to implement Decorator to solve this problem, that is, decorate the UserApi with the additional functionality to add the authentication. The trouble is that the way I wanted to implement the pattern wouldn't have lent itself exceedingly well to having specific functionality for the different parts of the api.</p>
+
+<p>Then I thought to myself, wouldn't it be great if I could intercept the method in the base class which gets the RestClient and add the authentication to it on the fly. A little Googling taught me that this is idealised as the Proxy pattern, from which it was but a short leap to the <a title="The Castle Project" href="http://www.google.co.uk/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCUQFjAA&amp;url=http%3A%2F%2Fwww.castleproject.org%2F&amp;rct=j&amp;q=castle%20project&amp;ei=5hqHTu3bCKnH0QXsgPXvDw&amp;usg=AFQjCNEUSLcxGcsnLhC_LQOSuUFdNZLizw&amp;cad=rja" target="_blank">Castle project </a>and <a title="Castle DynamicProxy" href="http://www.castleproject.org/dynamicproxy/index.html" target="_blank">DynamicProxy</a>.</p>
+
+<p>&nbsp;</p>
+
+   <p><a href="/2011/10/31/github-api-handling-authentication/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Is this thing on?</h1>
+   <span class="meta">posted on 26 Sep 2011</span>
+            
+   
+   <p>Despite many months of not posting anything on this blog (OK, nearly a year) I am returning with another post about my on/off project to write a C# library to access the Github REST API. Much like my blogging schedule, which can arguably be said to be none-existent, my pet-project�s suffer from the same cruel lack of... habit.</p>
+
+<p>To recap this particular project, you may like to browse some of the earlier posts on it, wherein I grandly proclaim my intent to write a �Github API in C#�. Which I should really have finished by now. As you will have no doubt realised, I do suffer from a certain amount of laziness. That is a subject for another blog post. To my shame, I can tell you that the amount of Github�s REST API which I�m covering is minimal, limited to a subset of the available User related commands.</p>
+
+<p>Moving swiftly along, with no trace of irony.</p>
+
+<p>In the months since the start of this project, Github has release v3 of their REST API, which contains many updated and/or new methods to access the whole plethora of the functionality available on Github. Indeed, they have even gone as far as to release a desktop client for Mac�s, and for all I know are working on a Windows version, which would then render this effort of mine (because that�s what I�ve always intended) redundant.</p>
+
+<p>So, despite not blogging about it, and despite going months between commits, I have been working on the library. The RestSharp git sub-module is gone (I mean, who likes sub-modules anyway?) in favour of the NuGet package. The authentication has been reworked slightly (still no OAuth yet) and the API is a little more fluenty.</p>
+
+<p>Of course, it still doesn�t actually let you do very much, I mean even after a year, you still can�t perform all of the actions available to a user. This is terrible, and speaks volumes about me, as a person. Procrastination is my enemy.</p>
+
+   <p><a href="/2011/09/26/is-this-thing-on/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Getting paid to do something you love doing is awesome!</h1>
+   <span class="meta">posted on 15 Nov 2010</span>
+            
+   
+   <p>A lot of people who work, don't like their job. It's a fact. If you were at a party and you asked people if they like the job they get paid to do, the response would be largely negative. That you are reading this, on this blog, indicates that you are probably a programmer. Then, on the assumption that you are in some capacity employed as a programmer, I can say to you that you are a lucky person.</p>
+
+<p>Why?</p>
+
+<p>It is simple, really: A large percentage of the programmers I have met,� have worked with or follow on Twitter absolutely love to write code, whether it is for a website, a desktop application of some kind or they are just monkeying around with something. They love it! I love doing it. A number of my friends love doing it. And the best thing?</p>
+
+<p>We get paid to do it!</p>
+
+<p>Don't get me wrong here, I know plenty of people who turn up at 9am and go home at 5pm and wouldn't even consider writing anything for themselves or doing any open source work. For them, it's like a factory job, albeit a (generally) much better paid one. Jeff Atwood (love him or loathe him) has a great post about these sorts of programmers titled <a title="There are Two Types of Programmers - codinghorror.com" href="http://www.codinghorror.com/blog/2007/11/the-two-types-of-programmers.html" target="_blank">"There are Two Types of Programmers"</a>. Even though these programmers might not code in their spare time, I'd still say that 99% still like their job.</p>
+
+<p>I'll place myself firmly in that 20% block of programmers though. I wouldn't say I was a rock star programmer, I'm certainly not bad, but I do always want to constantly improve myself and my ability. As the old saying, "Practice makes perfect". I definitely love my job. Maybe I could do without some of the meetings and the office politics which comes from working in a large company, but still, I love what I do.</p>
+
+<p>I get paid to do what I love doing; I consider myself lucky.</p>
+
+   <p><a href="/2010/11/15/getting-paid-to-do-something-you-love-doing-is-awesome/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Damn you empty catch block</h1>
+   <span class="meta">posted on 08 Nov 2010</span>
+            
+   
+   <p>In the code I help maintain in my day job, I see a lot of the following code:</p>
+
+<pre class="brush:csharp">
+try
+{
+/* code */
+}
+catch(Exception)
+{
+}
+</pre>
+
+<p>I see it in several different languages almost daily. It really frustrates me that my colleagues and predecessors did this. I stamp it out ruthlessly.</p>
+
+<p><a href="http://blogs.msdn.com/b/clrteam/archive/2009/02/19/why-catch-exception-empty-catch-is-bad.aspx">Here is a great post</a> on why empty catch blocks are bad. Here is a <a href="http://stackoverflow.com/questions/183589/c-windows-forms-best-practice-exception-handling" target="_blank">great question and series of answers</a> on StackOverflow about best practices for exception handling.</p>
+
+   <p><a href="/2010/11/08/damn-you-empty-catch-block/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Github C# API: Handling the response with RestSharp</h1>
+   <span class="meta">posted on 01 Nov 2010</span>
+            
+   
+   <p>Once we make a request to Github.com with <a title="RestSharp.org" href="http://restsharp.org/" target="_blank">RestSharp</a>, we get a response, and RestSharp gives us a <a title="RestResponse class in RestSharp on github.com" href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestResponse.cs" target="_blank">RestResponse</a> object, with which we can do something with the content. The content will be in the format that we specified when we made the request, either JSON, XML or YAML.</p>
+
+<p>Oh crap, complicated string parsing...</p>
+
+<p>RestSharp to the rescue! We don't have to worry about parsing the response content, because RestSharp can do it for us.</p>
+
+<p>What we need to do, is model the response content into a POCO (Plain Old Clr Object):</p>
+
+<pre class="brush: csharp">public class User
+{
+    public virtual int Id { get; set; }
+    public virtual string Login { get; set; }
+    public virtual string Name { get; set;}
+
+    ...
+}</pre>
+
+<p>Note that in this <a title="User class in the csharp-github-api project" href="http://github.com/sgrassie/csharp-github-api/blob/master/csharp-github-api/Models/User.cs" target="_blank">User</a> class, I've made the properties virtual, this is not necessary for RestSharp to function correctly, it's more habit on my part from working with NHibernate; however it does mean you can reuse the same models with NHibernate (if you wanted to do something like store the response in a database, for example).</p>
+
+<p>Then we need to modify our client such that when we execute the request, we instruct RestSharp to construct an instance of the User object. Create the client in the usual way and also create the request in the usual way. The magic is in how the client executes the request:</p>
+
+<pre class="brush: csharp">var request = new RestRequest
+                  {
+                      Resource = string.Format("/user/show/{0}", username),
+                      RootElement = "user"
+                  };
+
+var response = client.Execute&lt;User&gt;(request);
+
+var user = response.Data;</pre>
+
+<p>As you can see, the Execute method has a generic overload. Internally, RestSharp detects that because we have used this overload, we want to deserialise the response content into an object of the given type, and it performs the deserialisation and constructs an instance of the object. The way that it does this is by looking at the Content-Type header in the response, and it uses the correct deserialiser depending upon the Content-Type. You can see more detail about this on <a href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestClient.cs" target="_blank">RestSharp's Github project pages</a>.</p>
+
+<p>It is really easy to work with the response from your REST request with RestSharp, you can access the raw string content of the response, or deserialise it into a POCO - it's up to you.</p>
+
+   <p><a href="/2010/11/01/github-c-api-handling-the-response-with-restsharp/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Let's write an API library for Github</h1>
+   <span class="meta">posted on 25 Oct 2010</span>
+            
+   
+   <p>Let's write a C# API library for <a title="Github.com" href="http://www.github.com">github.com</a>.</p>
+
+<p>Github has a <a title="Representational State Transfer on Wikipedia" href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a> base API, the details of which are available at develop.github.com. Before continuing, I should point out that there is an <a title="GitHubSharp on github.com" href="http://github.com/erikzaadi/GithubSharp">existing C# library already available</a>, if you want to use that.</p>
+
+<p>We'll leverage John Sheehan's excellent <a title="johnsheehan's RestSharp on github.com" href="http://github.com/johnsheehan/RestSharp" target="_blank">RestSharp</a> library to do most of the heavy lifting.</p>
+
+<p>Before we can really do anything, the first task at hand is to learn how to work with RestSharp, and how we can make a request and receive a response. Fortunately, RestSharp makes it really easy, and there are excellent resources on the project's wiki page which explain how to do things. Let's see a quick example:</p>
+
+<pre class="brush: csharp">[Test]
+public void MakeBasicRequestToTwitterWithRestSharp()
+{
+    var client = new RestClient("http://api.twitter.com");
+    client.UserAgent = "TemporalCohesion.TwitterApi";
+
+    var request = new RestRequest();
+    request.Resource = "statuses/public_timeline.json";
+
+    var response = client.Execute(request);
+
+    if (response.StatusCode == HttpStatusCode.OK)
+    {
+        String content = response.Content;
+
+        Assert.That(content, Is.Not.Null);
+    }
+    else
+    {
+        Assert.Fail(response.StatusDescription);
+    }
+}</pre>
+
+<p>Here we are making an authenticated request to Twitter, asking for the public timeline in JSON format, but, the same code can easily be applied to github.com. We'll see more of that later. First we create the client object, and then create the request object - telling it what resource to actually request, and then we execute the request using the client, and then do something with the response. Pretty straightforward, huh?</p>
+
+<p>There is quite a lot that we can do with the Github API at this point, although you'll quickly see that to do anything really interesting (i.e. modifying your github account, or creating/forking repo's) requires you to be authenticated. Fortunately for us, Github uses HTTP Basic Authentication, and, RestSharp has a HttpBasicAuthenticator class, and if you put the two together, you can make an authenticated request to Github like this:</p>
+
+<pre class="brush: csharp">var client = new RestClient
+                 {
+                     BaseUrl = "https://github.com/api/v2/json",
+                     Authenticator = new HttpBasicAuthenticator("test", "test")
+                 };</pre>
+
+<p>After we set the authenticator, RestSharp takes care of making sure that the headers of the requests we make to Github's API contain the necessary authentication which identifies us to Github. You'll note that the BaseUrl here is set to https://github.com/..., so that we can take advantage of SSL. You can can access public data via normal http://, but if we are going to do anything that requires authentication, it will be best if we choose to use https://</p>
+
+<p>Github also provide us with an API key. This is a unique key which identifies us to Github, and give our requests a little bit more security. We can't set this key with RestSharp, as we need to modify the way the authorization header is generated when we make a request. What we can do though, is to implement our own <a title="RestSharp's IAuthenticator class" href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/Authenticators/IAuthenticator.cs" target="_blank">IAuthenticator</a> to do handle it for us. You can see <a title="GitHubAuthenticator in the csharp-github-api" href="http://github.com/sgrassie/csharp-github-api/blob/master/csharp-github-api/GitHubAuthenticator.cs" target="_blank">my implementation</a> up on Github. It's fairly straightforward - I still wanted to allow basic username:password authentication, as well as username/token: authentication for Github.com. Let's create a unit test to check everything is working OK.</p>
+
+<p>How do we know if we have made an authenticated request successfully? If you make a request to Github for a user, and you are authenticated as that user, then as well as the standard user response, there is some additional information included in the responses that only you, as the authenticated user, can see. And we can check for this information in the response:</p>
+
+<pre class="brush: csharp">[Test]
+public void MakeAuthenticatedRequest()
+{
+    var restRequest = new RestRequest
+            {
+                Resource = "/user/show/sgrassie"
+            };
+
+    var client = new RestClient
+                     {
+                         BaseUrl = "http://github.com/api/v2/json",
+                         Authenticator = new GitHubAuthenticator(_secretsHandler.Username, _secretsHandler.Password, true)
+                     };
+
+    var response = client.Execute(restRequest);
+
+    Assert.That(response.Content, Is.StringContaining("total_private_repo_count"));
+}</pre>
+
+<p>The unit test is pretty straightforward, I make a request object which will get my user account, I authenticate the request and then execute it. Then I can simply check that the response content contains "total<em>private</em>repo_count" - this would only be returned if the request was an authenticated request.</p>
+
+<p>One thing you might notice in the test is that in the GitHubAuthenticator constructor, I get my username and password/api token from the <em>_secretsHandler</em> object, an instance of a class I've written which will load my username, password and api key from an XML file. This is so that I don't have to put my Github.com password and API key into the project's Github repo, because that would be bad.</p>
+
+   <p><a href="/2010/10/25/lets-write-an-api-library-for-github/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Unit Testing Events</h1>
+   <span class="meta">posted on 21 Jul 2010</span>
+            
+   
+   <p>Recently I have had to unit test some events in an application I work on. I came up with a workable solution, but I didn�t really like the way it was working, and it just looked ugly. So I did a little digging on Google, and <a href="http://stackoverflow.com/questions/248989/unit-testing-that-an-event-is-raised-in-c">found this helpful question on StackOverflow</a>.</p>
+
+<p>Here is my take it. I�m putting it here so I can find easily find it again. Basically it�s the same, but I�m using a lambda to create my anonymous delegate:</p>
+
+<pre class="brush: csharp">[Test]
+public void UnitTestNodeChanged()
+{
+ var receivedEvents = new List&lt;XmlNodeChangedEventArgs&gt;();
+ var document = new XmlDocument();
+
+ document.NodeChanged += ((sender, e) =&gt; receivedEvents.Add(e));
+ document.Load("C:file.xml");
+
+ Assert.That(receivedEvents.Count, Is.EqualTo(1));
+}</pre>
+
+<p>Nice and short, and to the point. We can test the fact that the event was raised (or not); how many times the event was raised; and, we can test the event arguments.</p>
+
+<p>I like it. Some people may not, but it suits my purposes.</p>
+
+   <p><a href="/2010/07/21/unit-testing-events/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Well I certainly didn�t know that Word could do this</h1>
+   <span class="meta">posted on 31 Mar 2010</span>
+            
+   
+   <p><p>Whilst I was watching football I had this amazing idea that I was going to write a plugin for Word that would let you write blog posts and publish them onto your blog. I literally had no idea that Word would have this baked in by default.
+</p><p>Obviously I've had to test this out immediately.
+</p></p>
+
+   <p><a href="/2010/03/31/well-i-certainly-didnt-know-that-word-could-do-this/">Read more...</a></p>
+</div><!--/.post-->
+
+  <!-- Pagination links -->
+  <div id="post-pagination" class="pagination">
+
+   
+      <p class="previous">
+        <a href="/">Previous Page</a>
+      </p>
+
+
+    <p class="previous">
+      <a href="/page3">Next Page</a>
+    </p>
+
+  </div>
+
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="annoyance,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/page5/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+   <h1 class="title">linux adventures</h1>
+   <span class="meta">posted on 05 Aug 2007</span>
+            
+   
+   <p>I spent much of the weekend fucking around installing linux on my laptop. I like linux, it's free, and there's loads of cool software available. I tried:</p>
+
+<ul>
+    <li>Ubuntu 7.04</li>
+    <li>Fedora 7</li>
+    <li>opensuse 10.2</li>
+</ul>
+
+<p>The actual installations themselves went pretty painlessly, just pop the disk in, and boot from it, and click install. These modern installations are pretty cool, not like the good old days of installing redhat/slackware/debian from multiple floppy discs.</p>
+
+<p>The only problem I had was getting my 3Com 3crwe62092b wireless lan pcmcia card to work. What a pain in the fucking arse that was. Ubuntu Feistey Fawn 7.04 wouldn't even detect it, and Fedora 7 detected it, but it wouldn't work.</p>
+
+<p>Needless to say, I was getting frustrated at this point, and I downloaded opensuse 10.2, specifically a 44mb network install disk. And fuck me, it asked me for wlan details, and connected to my wireless network first time. Ace.</p>
+
+<p>But - and theres always a but - when it rebooted there was a problem. The wireless stopped working. I managed to get the rest of the installation completed using a wired connection. After some further googling, it turns out that the solution to my problem was to download the atmel-firmware, and copy the *.bin's to /lib/firmware. Rebooted and the wireless came up straightway. Hurrah!</p>
+
+<p>I suspect that armed with this new knowledge I should be able to install Ubuntu/Fedora and get the card to work on them, but I'm liking opensuse enough that I'm not sure I can be bothered to reinstall a different distribution again.</p>
+
+<p>This is also the reason that linux isn't ready for the desktop yet - the average person wouldn't spend time googling and recompiling kernels and installing different distributions just to get wireless working on their laptop. It should just work, with no effort. This is the advantage that windows has over linux, the driver support is significantly better.</p>
+
+<p>But it works for me, so fuck em.</p>
+
+   <p><a href="/2007/08/05/linux-adventures/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Limitations in Delphi</h1>
+   <span class="meta">posted on 23 Jul 2007</span>
+            
+   
+   <p>One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.</p>
+
+<p>I think C# is generally better, but that said I have it on good authority that templates are still much better in C++ than generics are in C#.</p>
+
+<p>Anyway, that's enough rambling. On to the solution.</p>
+
+<p>What you need to do in order to get around this limitation is cheat. Well, it's not really cheating. The tricks is to use a look up function that accepts a string, one that you are expecting, which you have in a string array. Then all you need do is return which element of the array has been matched, and use that in the case statement.</p>
+
+<pre lang="delphi">
+function TClassName.lookupFunction(lookup: string): integer;
+const
+  ARRAY = ['one', 'two', 'three', 'four', 'five'];
+var
+  i: integer;
+begin
+  for i := 0 to Length(ARRAY) do
+    if lookup = ARRAY[i] then
+    begin
+      Result := i;
+      break;
+    end
+end
+
+procedure TClassName.someProc(somestring: string);
+begin
+  case LookupFunction(somestring)
+  1 : //code that does stuff for 'one'
+  2 : //code that does stuff for 'two'
+  3 : //code that does stuff for 'three'
+  4 : //code that does stuff for 'four'
+  5 : //code that does stuff for 'five'
+end</pre>
+
+<p>See! That's how simple it is.</p>
+
+<p>Maybe in a future version of delphi borland/codegear will introduce native string support for case statements. I won't hold my breather though.</p>
+
+   <p><a href="/2007/07/23/limitations-in-delphi/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Hello world!</h1>
+   <span class="meta">posted on 20 Jul 2007</span>
+            
+   
+   <p>Welcome to my new website, and my new blog. I'd kind of outgrown the old site, which I've now turned into a kind of "here's my CV" sort of site. Although I am happy in my job.</p>
+
+<p>I'm going to attempt to write more often on here, about a lot of things. I'm still getting things just the way I like them - I've still got a few plugins for wordpress to download and install yet. If I get time I might even write my own theme, but considering there are so many already brilliant themes available I might just save myself the time and effort.</p>
+
+<p>Hell, that's why I'm using Wordpress and not writing my own blogging system.</p>
+
+<p>As an old friend of mine used to say: Onwards and Upwards!</p>
+
+   <p><a href="/2007/07/20/hello-world-2/">Read more...</a></p>
+</div><!--/.post-->
+
+  <!-- Pagination links -->
+  <div id="post-pagination" class="pagination">
+
+   
+      <p class="previous">
+        <a href="/page4">Previous Page</a>
+        </p>
+
+
+
+  </div>
+
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

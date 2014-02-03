@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="annoyance,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/page4/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+   <h1 class="title">Writing a generic plugin manager in C#</h1>
+   <span class="meta">posted on 25 May 2009</span>
+            
+   
+   <h4>Update:</h4>
+
+<p>I have written another post on this subject with some code examples  here: <a title="More on the generic plugin manager" href="http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/" target="_self">http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/</a></p>
+
+<h4>Update 2:</h4>
+
+<p>There is another follow on post here: <a href="http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/">http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/</a> where I talk about what I've learned.</p>
+
+<p>One of my current long term hobby project is a  map/world editor that I'm writing for Andy's (work in progress) game engine. It is still in a quite rudimentary stage, however, I have gotten an important aspect of the application into a fairly mature state already, and that is the plugin system.</p>
+
+<p>I don't want to get into too much detail over things that are available via some simple searches on google, so don't expect too much code. There are some good articles <a title="http://msdn.microsoft.com/en-us/library/ms972962.aspx" href="http://" target="_blank">here</a>, <a title="http://www.codeproject.com/KB/macros/PluginsManager.aspx?display=Print" href="http://" target="_blank">here </a>and <a title="http://www.codeproject.com/KB/cs/Plugin_Basics.aspx" href="http://" target="_blank">here</a>, which delve quite deeply into this, and how to develop a plugin framework in general. I developed my plugin framework based on the code in <a title="http://www.amazon.com/2008-NET-Platform-Fourth-Windows-Net/dp/1590598849" href="http://" target="_blank">this book</a>, which incidentally is a very good book.</p>
+
+<p>Also, in my own google searches on this subject, a lot of the articles I found are getting to be four years old, in a few instances even older. Not that this automatically makes them invalid as sources of information, it's just that they may not reflect best practices in modern C#. (Not that I am claiming to be a <a title="http://msmvps.com/blogs/jon_skeet/default.aspx" href="http://" target="_blank">Jon Skeet</a>-like C# guru). Also, quite a few of the ones I found make use of an XML configuration file to hold a reference to the plugins. I'm not a big fan of this type of thing, I much prefer convention over configuration.</p>
+
+<p><strong>Why Generic?</strong></p>
+
+<p>I've written a plugin system for the Editor because I want to provide a way to make it easily extendible in the future, without having to change the core application, to enable it to perform actions that are above and beyond it's core capabilities. Byond that basic requirement, there are a couple of other reasons to make it a generic plugin framework.</p>
+
+<p>Firstly, I've made it generic because I wanted to make a distinction between different types of plugins, such as a type of plugin for resources, and a type of plugin which adds functionality into the application (such as tools, UI widgets etc).</p>
+
+<p>Secondly, and perhaps most important (to me, anyway), is that I'll never need to write a C# plugin framework again, for any of my personal projects. I've had a go at writing a plugin framework before, a few times for none-work projects and once for a project at work, and I finally realised what my problem was - reinventing the wheel each time.</p>
+
+<p>The plugin framework I've written ensures that I don't have to worry about this the next time one of my pet projects needs a plugin system. The Editor will in fact have two types of plugins available, one to extend the types of data sources it can load in resources from, and another to provide additional functionality, like tools.</p>
+
+<p>I'm fairly pleased with the way that it has turned out, and it works quite well in practice.</p>
+
+   <p><a href="/2009/05/25/writing-a-generic-plugin-manager-in-c/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Building the Project Euler framework, part 3</h1>
+   <span class="meta">posted on 12 Sep 2008</span>
+            
+   
+   <p>In part 2, I showed you an improved, although still pretty basic problem runner framework for Project Euler. I did leave out some things though, and I'm going to try and explain them now.</p>
+
+<p>Firstly, I haven't really shown how I use the Problem interface. You can see it in part 1 of this series of posts. In Eclipse, you can create a new class in a package, which should bring up the "New Java Class" dialog. Give the class a name - for Project Euler problems I've chosen to name them "One", "Two", "Three" etc. You can then add an interface that the class is to implement, click 'Add', and type in Problem. You can also choose some methods to stub out, tick 'public static void main(String[] args)'. Click Ok, and you should get something like this:</p>
+
+<pre lang="java">package co.uk.temporalcohesion.euler.problems;
+
+import co.uk.temporalcohesion.euler.interfaces.Problem;
+
+public class One implements Problem {
+
+    public String answer() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public int id() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public double time() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+    }
+
+}</pre>
+
+<p>I can hear you asking why am I including then main(String[] args) function if we already have a class that is capable of running the problems (the main Euler class)? Well, what I do to create is to create a Euler object in the problems main method, and get it to run the problem, like this:</p>
+
+<pre lang="java">        /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        new Euler().run(1, true);
+    }</pre>
+
+<p>So the problem class is running itself using the Euler object, which knows how to find the problem, instantiate it and run it. I find doing things this way is easier when working on the problem, as you can simply run the problem as a java application, and it will output the result in a standard format we are expecting to to the console in Eclipse.</p>
+
+<p>Thinking about it, you might be wondering - what's the point of all this, it seems a little excessive for something that can be done fairly easily? Well - I've done it like this because the whole point of me doing the problems on Project Euler, is to practice problem solving and become more comfortable in my use of Java. So I think what I've done is pretty valid in that regard.</p>
+
+   <p><a href="/2008/09/12/building-the-project-euler-framework-part-3/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Building the Project Euler framework, part 2</h1>
+   <span class="meta">posted on 05 Sep 2008</span>
+            
+   
+   <p>In Part 1, I showed a basic problem runner framework for Project Euler, however there are a number of ways in which we can improve it. For example:</p>
+
+<ul>
+    <li>How can we run a specific problem?</li>
+    <li>How can we hide the answer, but still run the problem?</li>
+    <li>How can we avoid manually adding problems to the List of problems?</li>
+    <li>Not really to do with the framework, but how can we automate building everything?</li>
+</ul>
+
+<p>I'll demonstrate some ways that we can do all that, except for the 4th option, which is handled by Ant.</p>
+
+<h2>Improving the framework</h2>
+
+<p>The first thing that we can do is to add a utility function that handles showing the answers, this way we only have one place in the code that we need to update when we want to change how the answers are shown.</p>
+
+<pre lang="java">private void showAnswers(Problem problem){
+        System.out.println("Problem: " + problem.id() + ". Answer: "
+                + problem.answer() + ". Time: " + problem.time() + "s");</pre>
+
+<p>}</p>
+
+<p>To run a specific problem, we need to overload the <em>run()</em> function to access the problem we want, and show the answer.</p>
+
+<pre lang="java">public void run(int i) {
+        try{
+            Problem problem = (Problem) problems.get(i);/* problem list starts at 0 */
+
+            if (problem != null) {
+                showAnswers(problem);
+            }
+            else {
+                System.out.println("There doesn't appear to be an answer for problem " + i);
+            }
+
+        } catch (IndexOutOfBoundsException e){
+            System.err.println("There doesn't appear to be an answer for problem " + i);
+        }
+
+    }</pre>
+
+<p>As you can see, we get the specified problem out of the list, and use our new <em>showAnswers()</em> function to display the answer.� I've tried to include some good error checking - we might try to get a problem that doesn't exist.</p>
+
+<p>In order to prevent the answer from being shown, we can add a boolean parameter to the <em>run()</em> and <em>showAnswers()</em> functions.</p>
+
+<pre lang="java">private void showAnswers(Problem problem, boolean showAnswers){
+        if(showAnswers){
+            System.out.println("Problem: " + problem.id() + ". Answer: "
+                    + problem.answer() + ". Time: " + problem.time() + "s");
+            }
+            else {
+                problem.answer(); /* we still need to work out the answer */
+                System.out.println("Problem: " + problem.id() + ". Time: " + problem.time() + "s");
+            }
+    }
+
+public void run(boolean showAnswers) {
+        for (Problem problem : problems) {
+            if (problem != null) {
+                showAnswers(problem, showAnswers);
+            }
+        }
+    }</pre>
+
+<p>Dont't forget to change the overloaded <em>run(int i)</em> to <em>run(int i, boolean showAnswers)</em>. This way we can control exactly� whether to show the answers when we run all the problems, or to show the answer if we run a specific problem.</p>
+
+<p>One thing remains to do, and that is to correctly parse the command line arguments to control whether the answers are shown or not. We want to handle something like this:</p>
+
+<p>C:developmenteuler&gt;java -jar ProjectEuler.jar 42 -noanswer</p>
+
+<p>Where 42 is problem 42, and -noanswer clearly specifies not to show the answer. We'll also need to handle all combinations of this as well, such as:</p>
+
+<p>C:developmenteuler&gt;java -jar ProjectEuler.jar 42</p>
+
+<p>Which should show the answer. I'm not going to show my code for parsing the command line arguements, I'll leave that as an exercise for the reader, as I believe that it is adequately covered elsewhere on the internet, and in any number of Java books.</p>
+
+<p>The more astute among you will notice that I've not mentioned how we are going to avoid manually adding problems to the List of problems. I'll cover that next time.</p>
+
+   <p><a href="/2008/09/05/building-the-project-euler-framework-part-2/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Source control using Dropbox</h1>
+   <span class="meta">posted on 29 Aug 2008</span>
+            
+   
+   <p>Everyone developer should use some form of <a title="Wikipedia entry on source control" href="http://en.wikipedia.org/wiki/Source_control" target="_blank">source control</a>. It's like an unwritten law, if you don't use it, then you should - as long as it isn't <a title="Jeff Atwood on why you shouldn't use sourcesafe" href="http://www.codinghorror.com/blog/archives/000660.html" target="_blank">sourcesafe</a>.</p>
+
+<p>A few weeks ago, I recently managed to get hold of an invite to <a title="get dropbox" href="http://www.getdropbox.com/" target="_blank">Dropbox</a>, which describes itself as "Secure back up, sync and sharing made easy". I've been using it both as a basic form of source control, and because I always tend to forget my usb pendrive, as a portable storage device.</p>
+
+<p>The great thing about Dropbox is that you get 2gb of free storage. So far, I've sync'd a few photo's, some word documents and pdf's and the Java source for my Project Euler code, and according to the Dropbox client on my laptop, I've used 0.1% of 2gb. This is more than enough for me, and more than likely I'll use it for some more coding projects. I'd like to see how a Visual Studio project takes to being sync'd across different computers.</p>
+
+<p>With Dropbox, you get complete file history, so if you mistakenly remove some code that turns out to be pretty vital... you can get it back using the simple to use web interface. While you can share folders, and allow people to modify shared folders, I'm not too sure that it would work too well for collaborative software development. I think it would be far better to get a proper form of source control running on a server both parties have access to. There are plenty of proper source control providers out there with free options, and I am considering moving my code onto one of those, if I can find one that has a reasonable yearly subscription.</p>
+
+<p>For my current requirements, it suits me just fine. I realise that Dropbox is not intended to be a source control system, however... When the client is able to sync specific folders that you tell it to, it will be perfect.</p>
+
+   <p><a href="/2008/08/29/source-control-using-dropbox/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Building the Project Euler framework, part 1</h1>
+   <span class="meta">posted on 22 Aug 2008</span>
+            
+   
+   <p>As promised, here is the first part of the series of posts I hope to write demonstrating how I wrote my problem runner framework for <a title="Project Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>.</p>
+
+<p>Firstly, before you continue reading, I suggest that you research the <a title="The Command pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> pattern, Google will also provide you with some good sources in your research.</p>
+
+<p>Done? Ok then. It shouldn't matter what IDE you use, I am using Eclipse (ganymede), any IDE should do. If you don't know what an IDE is, then go and find out, and then come back.</p>
+
+<h2>Start Coding</h2>
+
+<p>In your IDE, and following the <a title="Java package naming conventions" href="http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html" target="_blank">Java package naming conventions</a>, create a package to hold the Project Euler code, for example: co.uk.temporalcohesion.euler.problems. Because we are going to need an interface, also create a package to hold those, as this can help keep things more organised, for example: co.uk.temporalcohesion.euler.interfaces</p>
+
+<p>Let's define that interface</p>
+
+<pre lang="java">public interface Problem {
+
+    /**
+     * Answer method. Returns the answer for the problem
+     * @return - the integer answer to the problem
+     */
+    String answer();
+
+    /**
+     * The problem number.
+     * @return - The number of the problem
+     */
+    int id();
+
+    /**
+     * How long does it take to work out the answer?
+     * @return - The time in seconds it takes to work out the answer to the problem
+     */
+    double time();
+}</pre>
+
+<p>Before we move on an implement that interface in a problem, let's write the basic problem runner itself. We'll need a way to register an instance of a problem, and a way to run the problem and get the answer.</p>
+
+<pre lang="java">public class Euler {
+    private List&lt;Problem&gt; problems = new ArrayList();
+
+    public Euler() {
+        problems.add(new One());
+    }
+
+    private void run() {
+        for (Problem prob : problems) {
+            System.out.println("Problem " + prob.id() + ": " + prob.answer());
+        }
+    }
+
+    public static void main(String[] args) {
+        new Euler().run();
+    }
+}</pre>
+
+<p>That's pretty much all you need for a basic problem runner. You just register an instance of each problem you write into the problems List object in the constructor, and run the program, and it iterates through each Problem in the List, and outputs the answer.</p>
+
+<p>I'm not going to give you the code to problem one, however it is pretty trivial if you know what the modulus operator is used for...</p>
+
+<p>As you can see, the problem runner itself is fairly basic, and does present some immediate areas of improvement, such as running a specific problem.</p>
+
+<p>I'll cover that next time.</p>
+
+   <p><a href="/2008/08/22/building-the-project-euler-framework-part-1/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">Project Euler problem runner framework in Java</h1>
+   <span class="meta">posted on 15 Aug 2008</span>
+            
+   
+   <p>Recently, I've been working on the problems on <a title="Projec Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>, and I've done the first 16 problems (in Java), although I will freely admit that I had help on two of the most difficult ones. I do intend on continuing to do the problems, and I am currently working on problem 17, however I paused to write the problem runner framework I'm going to talk about in this post.</p>
+
+<p>What I had started to do, was to write each solution in it's own Class, and have the main(String[] args) method output the answer. This was fine for the first few problems, and I could have continued to do it like that for all of the problems - however I wanted to be able to run all the problems at once, or a specific problem, and get the answer(s), or not show the answers but still get the timings.</p>
+
+<p>After chatting with one of the Senior Dev's at my job, he pointed out that what I wanted to do was basically the <a title="Command Pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> pattern. He sent me some example code, although once he'd said "Command pattern" I knew exactly what it was that I needed to do.</p>
+
+<p>Thus, my problem runner framework was born, and whilst fairly simple, it does employ some techniques that the beginning Java developer might not be aware of. So, what I am going to (try) to do over the next few weeks is write a series of posts that show how I wrote it, partly just to have some content on my blog (which I am really, really lazy at updating), secondly to see how good I am at explaining something like this, and thirdly - it might actually be useful to someone.</p>
+
+<p>The output of the problem runner framework looks like this:</p>
+
+<p>C:development&gt;java -jar euler.jar -noanswers
+Project Euler : Problem Runner - http://projecteuler.net/</p>
+
+<p>Problem: 1. Time: 0.0s
+Problem: 2. Time: 0.0s
+Problem: 3. Time: 0.347s
+Problem: 4. Time: 0.307s
+Problem: 5. Time: 63.803s
+Problem: 6. Time: 0.0s
+Problem: 7. Time: 0.335s
+Problem: 8. Time: 0.0020s
+Problem: 9. Time: 34.178s
+Problem: 10. Time: 0.369s
+Problem: 11. Time: 1.218275999017E9s
+Problem: 12. Time: 0.021s
+Problem: 13. Time: 0.0s
+Problem: 14. Time: 21.717s
+Problem: 15. Time: 0.0s
+Problem: 16. Time: 0.0010s</p>
+
+<p>As you can see, I have output a list of the problems, and the time taken to solve the problem, but I haven't shown the answer.</p>
+
+<p>Well, you didn't think I was going to tell you the answers... Did you?</p>
+
+<p>This also shows that I need to work on problem 5, 9 and 14 to try and optimise the solution to speed up performance, Project Euler says that problems "should" take under a minute to solve, however I'd still like to improve the code.</p>
+
+   <p><a href="/2008/08/15/project-euler-problem-runner-framework-in-java/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">New Year's Resolutions are so pass�</h1>
+   <span class="meta">posted on 07 Jan 2008</span>
+            
+   
+   <p>It's true, New Years resolutions are pass�. Every year, you look at what is wrong in your life and triumphantly decide that you are going to resolve these problems by issuing a bold and sweeping set of statements, or edicts.</p>
+
+<ul>
+    <li>Lose weight</li>
+    <li>Stop smoking</li>
+    <li>Get fit</li>
+</ul>
+
+<p>These are what you want to achieve, chasing that ever elusive dream of making your life better. Can you? Can a simple list of statements help you achieve these goals? I'm not so sure. For some people I'm sure that they don't even have to write them down, those super motivated people who seem to exude success.</p>
+
+<p>I used to do this, on scraps of easily lost paper, "Stuart's New Year's Resolutions!" it would say, with a list of two or three word ambition's for the year. Lost by February. For the last few years I haven't even bothered with writing them down, I'd just mouth off to anyone who would listen, "I'm gonna do this, and that, this year, you wait and see".</p>
+
+<p>Which funnily enough, didn't get me very far with achieving very much. That said, 2007 was a year I'll never forget, for a number of reasons (not all of which I want to go into here), and it has led me to believe even more than I did, that it is all well and good to strole through life without a care, thinking everything is fine and dandy. Because it is not. Doing that will get you stuck, trapped in a rut that you can't get out of, never having made anything of your life.</p>
+
+<p>Thankfully, I'm pretty certain that I'm not in a rut. Trust me, I've been there and I know what it is like.</p>
+
+<p>So what to do instead of making 'New Year's Resolutions'? It's simple: Set goals. "But", I hear you cry, "a goal IS a resolution?!" Which in this sense I suppose they are, however there is a crucial difference. A goal set's out what you want to do and how you are going to achieve it.</p>
+
+<p>The above list could be re-written like so:</p>
+
+<ul>
+    <li>Lose weight by eating healthily and exercising more to get fit.</li>
+    <li>Stop smoking by using patches and will power, giving up completely by Easter.</li>
+    <li>Get fit, by joining a gym, running and cycling and lose 2 stone by Easter</li>
+</ul>
+
+<p>These aren't my goals for this year... Ok, I don't smoke, but the other two count. I'm not revealing my other goals... yet. I have several though, and I intend to get stuck in and achieve them.</p>
+
+   <p><a href="/2008/01/07/new-years-resolutions-are-so-passe/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">more cake</h1>
+   <span class="meta">posted on 10 Oct 2007</span>
+            
+   
+   <p>Something I discovered fairly quickly when coding (cake)PHP in eclipse, is that, like code completion in Models, unless you do a little extra configuration, code completion in Views won't work.</p>
+
+<p>If however, you make a slight modification to the Views index.ctp, and create a HtmlHelper() yourself, then you get code completion on $html-&gt;, and access to all the methods, and the rendered view isn't affected at all.</p>
+
+<p>For example:</p>
+
+<pre lang="PHP">
+<?php
+if(false)
+
+{
+
+$html = new HtmlHelper();
+
+}
+
+?></pre>
+
+<p>I found the answer to this after posting on the <a href="http://groups.google.com/group/cake-php/browse_thread/thread/04b94b593714b394/9c71e02157bcaacd#9c71e02157bcaacd" target="_blank">CakePHP google group</a>, and getting a good answer from a user. Top Stuff</p>
+
+   <p><a href="/2007/10/10/more-cake/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">cakePHP with Eclipse</h1>
+   <span class="meta">posted on 07 Oct 2007</span>
+            
+   
+   <p><a href="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.png" title="cakePHP development in Eclipse"><img src="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.thumbnail.png" title="cakePHP development in Eclipse" alt="cakePHP development in Eclipse" align="left" height="223" hspace="20" width="295" /></a></p>
+
+<p>After chatting with one of my friends who is earning loads of cash doing php web development, I've decided that I'm going  relearn PHP, not because I want a change of career, I'm happy where I am, but because... I just want to.</p>
+
+<p>Because I've become a bit of a snob, used to having intellisense and and all the wonders that IDE's such as Visual Studio and Borland Delphi provide, I wanted to do my PHP development in a proper IDE. Since I've been doing a lot of Java at work - enter <a href="http://www.eclipse.org" title="The Eclipse IDE" target="_blank">Eclipse</a>, and the <a href="http://www.eclipse.org/pdt/" title="Eclipse PDT plugins" target="_blank">Eclipse PHP</a> plugins.</p>
+
+<p>As you can see in the screenshot above (which shows some code from the <a href="http://www.cakephp.org" title="A Nice Piece of Cake!">cakePHP</a> 15 minute blog tutorial), the plugins provide an awesome amount of functionality, such as:</p>
+
+<ul>
+    <li>Code folding</li>
+    <li>Intellisense/code completion</li>
+    <li>Syntax highlighting/colouring</li>
+    <li>API Documentation tool-tips</li>
+</ul>
+
+<p>All this functionality is pretty easy to set up, and there is a pretty good guide available in <a href="http://bakery.cakephp.org/articles/view/setting-up-eclipse-to-work-with-cake" target="_blank">The Bakery</a> that covers just about everything you need to know to get going. There was a little bit of configuration that I did that was slightly different to that guide:</p>
+
+<p>Firstly, I don't believe that you need to set up cakePHP as a project in order to get the code completion to work. If you expand your project, and right click on your project include paths, you should be on the PHP Include path dialog, in the projects properties. If you add an external folder, and browse to the cake core directory (for me: C:xampphtdocscake), and click ok, you should now have code completion and all the associated awesomeness in your project, with the added benefit that for any different projects in your workspace, you can set up different versions of cakePHP or (I haven't tried this though) a different framework such as <a href="http://www.symfony-project.com">Symfony</a>.</p>
+
+<p>Secondly, for code completion in Models, you just have to do something like this:</p>
+
+<pre lang="PHP">
+class PostsController extends AppController{var $name = 'Posts';
+
+/**
+
+* @var Post
+
+*/
+
+var $Post;
+
+...code
+
+}</pre>
+
+<p>Hope this is of use to somebody :)</p>
+
+   <p><a href="/2007/10/07/cakephp-with-eclipse/">Read more...</a></p>
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title">source control systems</h1>
+   <span class="meta">posted on 20 Aug 2007</span>
+            
+   
+   <p>The other day, I watched the Linus Torvalds <a href="http://www.youtube.com/watch?v=4XpnKHJAok8" title="Linus Torvald's tech talk on git" target="_blank">tech talk</a> at google, which he gave on source control systems. It was mostly (biased) about how great <a href="http://git.or.cz/" target="_blank">git</a> is, and how other source control systems, with a few exceptions, have mostly got it wrong. This all got me thinking about source control systems I have used.</p>
+
+<p>Now, I use Microsoft's <a href="http://msdn2.microsoft.com/en-us/vstudio/aa718670.aspx" target="_blank">Visual Sourcesafe</a> every day at work, and let me tell you: it's shit. The only (slightly) good thing about it, is the integration with VS.Net 2005, which is unsurprisingly very good. I know that I'm not really offering much of an argument as to exactly why VSS is a horrible pile of dog turd, but anyone whose ever used will understand.</p>
+
+<p>Anyway. I digress.</p>
+
+<p>I never really thought that the creator of Linux would be such an engaging and humorous speaker - aren't stereotypes fun - but he was. It kind of got me thinking about source control. I've used CVS and SVN before on a few open source projects I've contributed to, or just wanted to get the latest source for.</p>
+
+<p>I've mostly only ever used CVS or SVN, arguably the two most popular version control systems currently in use today. Better than VSS in every way, but still lacking quite a lot. For instance it's a well known fact that merges in CVS are a horrible nightmare, and that merges in SVN aren't much better. Thankfully I've never had to do them. And I know enough about VSS to know that merges are just generally avoided. Like you'd try to avoid an STI.</p>
+
+<p>So, over the weekend (you'll notice how much of my free time is "over the weekend") I decided to have a little play with with some distributed version control systems. Now, I'm not going to go on about what one of those is, nor how great they are, as you can use google for that. But suffice to say that they are fucking ace.</p>
+
+<p>I had to discount Git pretty much straight away - for various reasons (development being primary) I've installed Winxp back onto my laptop, and I'm playing with Windows Server 2003 R2 on my dev server, so I road tested Mercurial and Bazaar-ng. I spent a great deal of time researching the two systems, and ultimately decided to go with bazaar.  I've not really got down to much development with bazaar yet, but early results look promising.</p>
+
+<p>After about 10 minutes fannying around, I had Bazaar installed, and a shared repository set-up on my dev server, which I checked out and branched a few times on my laptop (3 branches: dev, testing and stable). With bazaar I can make as many dev branches as I like, for each crazy idea I have, and easily merge them upstream as they become awesomely realised ideas, or deleted and forgotten about like a red-headed step-child.</p>
+
+<p>This is all on my laptop, and I can easily push my working code onto my desktop if I want to code on there, or back onto my server for safe keeping, or publish it on a website. Or any combination of those. I'll post some more about Bazaar after I've been using it for a while.</p>
+
+   <p><a href="/2007/08/20/source-control-systems/">Read more...</a></p>
+</div><!--/.post-->
+
+  <!-- Pagination links -->
+  <div id="post-pagination" class="pagination">
+
+   
+      <p class="previous">
+        <a href="/page3">Previous Page</a>
+        </p>
+
+
+    <p class="previous">
+      <a href="/page5">Next Page</a>
+    </p>
+
+  </div>
+
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

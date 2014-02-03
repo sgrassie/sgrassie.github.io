@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="Coding,Coding,Java,Java,Project Euler,Project Euler" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2008/09/12/building-the-project-euler-framework-part-3/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">Building the Project Euler framework, part 3</h1>
+    <div class="meta">
+	<p>COCKS 12 Sep 2008
+	
+       | <a href="/category/coding">Coding</a>
+       | <a href="/category/coding">Coding</a>
+       | <a href="/category/java">Java</a>
+       | <a href="/category/java">Java</a>
+       | <a href="/category/project-euler">Project Euler</a>
+       | <a href="/category/project-euler">Project Euler</a>
+    </div>
+
+    
+        
+    <p>In part 2, I showed you an improved, although still pretty basic problem runner framework for Project Euler. I did leave out some things though, and I'm going to try and explain them now.</p>
+
+<p>Firstly, I haven't really shown how I use the Problem interface. You can see it in part 1 of this series of posts. In Eclipse, you can create a new class in a package, which should bring up the "New Java Class" dialog. Give the class a name - for Project Euler problems I've chosen to name them "One", "Two", "Three" etc. You can then add an interface that the class is to implement, click 'Add', and type in Problem. You can also choose some methods to stub out, tick 'public static void main(String[] args)'. Click Ok, and you should get something like this:</p>
+
+<pre lang="java">package co.uk.temporalcohesion.euler.problems;
+
+import co.uk.temporalcohesion.euler.interfaces.Problem;
+
+public class One implements Problem {
+
+    public String answer() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public int id() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public double time() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+    }
+
+}</pre>
+
+<p>I can hear you asking why am I including then main(String[] args) function if we already have a class that is capable of running the problems (the main Euler class)? Well, what I do to create is to create a Euler object in the problems main method, and get it to run the problem, like this:</p>
+
+<pre lang="java">        /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        new Euler().run(1, true);
+    }</pre>
+
+<p>So the problem class is running itself using the Euler object, which knows how to find the problem, instantiate it and run it. I find doing things this way is easier when working on the problem, as you can simply run the problem as a java application, and it will output the result in a standard format we are expecting to to the console in Eclipse.</p>
+
+<p>Thinking about it, you might be wondering - what's the point of all this, it seems a little excessive for something that can be done fairly easily? Well - I've done it like this because the whole point of me doing the problems on Project Euler, is to practice problem solving and become more comfortable in my use of Java. So I think what I've done is pretty valid in that regard.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2008/09/12/building-the-project-euler-framework-part-3/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2008/09/12/building-the-project-euler-framework-part-3/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

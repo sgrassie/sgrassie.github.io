@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="C#,Coding,log4net,Logging" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2009/07/25/adding-logging-to-an-application/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">Adding logging to an application</h1>
+    <div class="meta">
+	<p>COCKS 25 Jul 2009
+	
+       | <a href="/category/c">C#</a>
+       | <a href="/category/coding">Coding</a>
+       | <a href="/category/log4net">log4net</a>
+       | <a href="/category/logging">Logging</a>
+    </div>
+
+    
+        
+    <p>Nearly every application I have ever used has produced some sort of log output, usually to record details of exactly what the application was doing when an error was encountered. To be perfectly truthful, it is not something that I have ever really given very much consideration to in either my own or work applications, there have always been more pressing things to attend to, such as meeting (unrealistic) deadlines, or implementing some interesting new feature. I've used log4j before in a work application, mostly because someone else had already done all the configuration.</p>
+
+<p>However, the application that is currently occupying the main focus of my attention at work had (almost) no logging in it what-s0-ever, but given the nature of the application, it can be very difficult to debug exactly what is happening internally using breakpoints. Again, the nature of the application doesn't really lend itself well to showing MessageBox's all the over the place.</p>
+
+<pre lang="csharp">MessageBox.Show("Log message");
+
+// or..
+
+Console.WriteLine("Log message");</pre>
+
+<p>How many times have you done that, or the equivalent, in an application? If you are like me, then you'll have done it hundreds of times, probably in the same application. It's really quick and easy to do, and can be very useful. You just have to remember to take it out of the Release build. What a pain.</p>
+
+<p><strong>A better way</strong></p>
+
+<p>Using a proper logging library (as I have now discovered) allows you much greater freedom. Freedom to not have to (overly) worry about leaving in <em>Log.Debug("Some message")</em> all over the code. Freedom to be able to configure what is logged, where it is logged to and how it is displayed. Freedom to receive concrete data on how your application is behaving in the real world, which will enable you to find and fix bugs faster than you would have thought possible.</p>
+
+<p>There are a multitude of logging libraries available:</p>
+
+<ul>
+    <li>Write your own</li>
+    <li>System.Diagnostics.Trace and System.Diagnostics.Debug</li>
+    <li>The Logging Application block from the <a title="Microsoft Enterprise Library" href="http://www.codeplex.com/entlib" target="_self">Enterprise Library</a></li>
+    <li>Bitfactory.Logging from <a title="Bitfactory.Logging from theobjectguy" href="http://www.theobjectguy.com/dotnetlog/" target="_blank">http://www.theobjectguy.com/dotnetlog/</a></li>
+    <li><a title="NLog C# logging library" href="http://csharp-source.net/open-source/logging/nlog" target="_blank">NLog</a></li>
+    <li> Plus many more that you can find via google or on Stack Overflow.</li>
+</ul>
+
+<p>Now, while it would probably be an interesting exercise to write a small logging library, the world doesn't need another one, so I immediately discounted that option.</p>
+
+<p>I've used System.Diagnostics here and there, and an ex-colleague wrote a small logging library based around using Trace and Debug, but that is getting dangerously close to writing your own logging library, so again that's out.</p>
+
+<p>The Logging application block from the Enterprise Library just seems too weighty, and too much of a pain to configure (I can probably be proved wrong though), so I discounted that as well.</p>
+
+<p>The object guy's logging library seems pretty good, but the documentation and examples kind of suck, and it doesn't look like it's been updated in a while, so after playing with it a little bit (and not really liking it all that much to be perfectly honest), I discounted that as well, although it does seem to have a lot of fans on Stack Overflow.</p>
+
+<p>NLog has plenty of documentation, and seems pretty straightforward to use, and it too has a lot of fans on Stack Overflow, but again, it's not been updated in a while, so I discounted that too.</p>
+
+<p><strong>Log4Net to the rescue</strong></p>
+
+<p>Log4Net is part of the <a title="Apache Logging Services" href="http://logging.apache.org/" target="_self">Apache Logging Services</a> project, along with Log4j, and Log4Cxx. It is a C# port of Log4j, and works amazingly well. I am not going to write about how to set it up and configure it, as <a title="log4net info on beefycode.com" href="http://www.beefycode.com/category/log4net.aspx">others have done that already</a>, and the documentation is excellent.</p>
+
+<p>I've read here and there on some blogs, a few message boards and some email lists, that log4net is difficult and time consuming to set-up, and that it is hard to use. Which is nonsense, because after ten minutes (which included downloading the latest version) I had my first small test application up and running and outputting debug messages to the Output window in Visual Studio. Pretty swish indeed.� I did spend some time reading about the best ways to use log4net, and I still do, but I didn't find the initial set-up to be inordinately difficult at all.</p>
+
+<p>On the whole, I am impressed with it's ease of use, I'm now starting to use it in my own personal projects, and it is proving to be invaluable at work.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2009/07/25/adding-logging-to-an-application/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2009/07/25/adding-logging-to-an-application/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

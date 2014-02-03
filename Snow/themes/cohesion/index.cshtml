@@ -1,0 +1,48 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.ContentViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+@foreach(var post in Model.PostsPaged) {
+<div class="post">
+   <h1 class="title">@post.Title</h1>
+   <span class="meta">posted on @post.Date.ToString("dd MMM yyyy")</span>
+            
+   @Html.RenderSeries(post)
+   @Html.Raw(post.ContentExcerpt)
+   <p><a href="@post.Url">Read more...</a></p>
+</div><!--/.post-->
+}
+
+  <!-- Pagination links -->
+  <div id="post-pagination" class="pagination">
+
+   
+     @if (Model.HasPreviousPage) {
+      if (Model.PreviousPage == 1) {
+      <p class="previous">
+        <a href="/">Previous Page</a>
+      </p>
+      }
+      else {
+      <p class="previous">
+        <a href="/page@(Model.PreviousPage)">Previous Page</a>
+        </p>
+      }
+    }
+
+    @if (!Model.HasPreviousPage) {
+    
+      <!--<a href="/">Previous Page</a>-->
+    
+    }
+
+    @if (Model.HasNextPage) {
+    <p class="previous">
+      <a href="/page@(Model.NextPage)">Next Page</a>
+    </p>
+    }
+
+  </div>
+

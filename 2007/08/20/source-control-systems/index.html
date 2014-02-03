@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="Coding" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2007/08/20/source-control-systems/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">source control systems</h1>
+    <div class="meta">
+	<p>COCKS 20 Aug 2007
+	
+       | <a href="/category/coding">Coding</a>
+    </div>
+
+    
+        
+    <p>The other day, I watched the Linus Torvalds <a href="http://www.youtube.com/watch?v=4XpnKHJAok8" title="Linus Torvald's tech talk on git" target="_blank">tech talk</a> at google, which he gave on source control systems. It was mostly (biased) about how great <a href="http://git.or.cz/" target="_blank">git</a> is, and how other source control systems, with a few exceptions, have mostly got it wrong. This all got me thinking about source control systems I have used.</p>
+
+<p>Now, I use Microsoft's <a href="http://msdn2.microsoft.com/en-us/vstudio/aa718670.aspx" target="_blank">Visual Sourcesafe</a> every day at work, and let me tell you: it's shit. The only (slightly) good thing about it, is the integration with VS.Net 2005, which is unsurprisingly very good. I know that I'm not really offering much of an argument as to exactly why VSS is a horrible pile of dog turd, but anyone whose ever used will understand.</p>
+
+<p>Anyway. I digress.</p>
+
+<p>I never really thought that the creator of Linux would be such an engaging and humorous speaker - aren't stereotypes fun - but he was. It kind of got me thinking about source control. I've used CVS and SVN before on a few open source projects I've contributed to, or just wanted to get the latest source for.</p>
+
+<p>I've mostly only ever used CVS or SVN, arguably the two most popular version control systems currently in use today. Better than VSS in every way, but still lacking quite a lot. For instance it's a well known fact that merges in CVS are a horrible nightmare, and that merges in SVN aren't much better. Thankfully I've never had to do them. And I know enough about VSS to know that merges are just generally avoided. Like you'd try to avoid an STI.</p>
+
+<p>So, over the weekend (you'll notice how much of my free time is "over the weekend") I decided to have a little play with with some distributed version control systems. Now, I'm not going to go on about what one of those is, nor how great they are, as you can use google for that. But suffice to say that they are fucking ace.</p>
+
+<p>I had to discount Git pretty much straight away - for various reasons (development being primary) I've installed Winxp back onto my laptop, and I'm playing with Windows Server 2003 R2 on my dev server, so I road tested Mercurial and Bazaar-ng. I spent a great deal of time researching the two systems, and ultimately decided to go with bazaar.  I've not really got down to much development with bazaar yet, but early results look promising.</p>
+
+<p>After about 10 minutes fannying around, I had Bazaar installed, and a shared repository set-up on my dev server, which I checked out and branched a few times on my laptop (3 branches: dev, testing and stable). With bazaar I can make as many dev branches as I like, for each crazy idea I have, and easily merge them upstream as they become awesomely realised ideas, or deleted and forgotten about like a red-headed step-child.</p>
+
+<p>This is all on my laptop, and I can easily push my working code onto my desktop if I want to code on there, or back onto my server for safe keeping, or publish it on a website. Or any combination of those. I'll post some more about Bazaar after I've been using it for a while.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2007/08/20/source-control-systems/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2007/08/20/source-control-systems/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,22 @@
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.PostViewModel>
+@using System.Collections.Generic
+@{
+  Layout = "default.cshtml";
+}
+
+<div class="post">
+    <h1 class="title">@Model.Title</h1>
+    <div class="meta">
+	<p>COCKS @Model.PostDate.ToString("dd MMM yyyy")
+	
+      @foreach (var category in Model.Categories) {
+       @:| <a href="/category/@category.Url">@category.Name</a>
+      }
+    </div>
+
+    @Html.RenderSeries()
+        
+    @Html.Raw(Model.PostContent)
+
+    @Html.RenderDisqusComments("temporalcohesion")
+</div><!--/.post-->

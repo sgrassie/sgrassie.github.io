@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie (stugrassie)">
+    <meta http-equiv="last-modified" content="2014-02-03T23:39:01.1803586+00:00" />
+    <meta name="keywords" content="delphi" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2007/07/23/limitations-in-delphi/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="archives">Archives</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">Limitations in Delphi</h1>
+    <div class="meta">
+	<p>COCKS 23 Jul 2007
+	
+       | <a href="/category/delphi">delphi</a>
+    </div>
+
+    
+        
+    <p>One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.</p>
+
+<p>I think C# is generally better, but that said I have it on good authority that templates are still much better in C++ than generics are in C#.</p>
+
+<p>Anyway, that's enough rambling. On to the solution.</p>
+
+<p>What you need to do in order to get around this limitation is cheat. Well, it's not really cheating. The tricks is to use a look up function that accepts a string, one that you are expecting, which you have in a string array. Then all you need do is return which element of the array has been matched, and use that in the case statement.</p>
+
+<pre lang="delphi">
+function TClassName.lookupFunction(lookup: string): integer;
+const
+  ARRAY = ['one', 'two', 'three', 'four', 'five'];
+var
+  i: integer;
+begin
+  for i := 0 to Length(ARRAY) do
+    if lookup = ARRAY[i] then
+    begin
+      Result := i;
+      break;
+    end
+end
+
+procedure TClassName.someProc(somestring: string);
+begin
+  case LookupFunction(somestring)
+  1 : //code that does stuff for 'one'
+  2 : //code that does stuff for 'two'
+  3 : //code that does stuff for 'three'
+  4 : //code that does stuff for 'four'
+  5 : //code that does stuff for 'five'
+end</pre>
+
+<p>See! That's how simple it is.</p>
+
+<p>Maybe in a future version of delphi borland/codegear will introduce native string support for case statements. I won't hold my breather though.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2007/07/23/limitations-in-delphi/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2007/07/23/limitations-in-delphi/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014</p>
+	    <p>Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
