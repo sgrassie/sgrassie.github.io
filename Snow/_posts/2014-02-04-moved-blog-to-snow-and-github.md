@@ -21,3 +21,12 @@ configure Ruby on all the machines I use (or might use).
 
 Sandra.Snow is written in C#, and uses Nancyfx to process the markdown into static html, exactly like Jekyll. I'm
 not sure about the name myself, but there you go.
+
+
+    public class Test()
+    {
+	public Test()
+	{
+	}
+
+    }

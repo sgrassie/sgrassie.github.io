@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie (stugrassie)">
-    <meta http-equiv="last-modified" content="2014-02-04T07:21:16.2178701+00:00" />
+    <meta http-equiv="last-modified" content="2014-02-06T00:08:52.3860934+00:00" />
     <meta name="keywords" content="Uncategorized" />
     <title>temporalcohesion.co.uk</title>
 
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
 
     <!-- Custom styles for this template -->
-    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+    <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -38,14 +38,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="/">temporalcohesion.co.uk</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="contact">Contact</a></li>
-            <li><a href="archives">Archives</a></li>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/archive">Archives</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -68,40 +68,41 @@
 
 <p>All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.</p>
 
-<pre class="lang:c# decode:true crayon-selected" title="StructureMapDependencyResolver ">    public class StructureMapDependencyResolver : IMutableDependencyResolver
+<pre><code>public class StructureMapDependencyResolver : IMutableDependencyResolver
+{
+    public StructureMapDependencyResolver()
     {
-        public StructureMapDependencyResolver()
-        {
-            ObjectFactory.Initialize(init =&gt; init.Scan(scan =&gt;
-                          {
-                              scan.TheCallingAssembly();
-                              scan.LookForRegistries();
-                              scan.WithDefaultConventions();
-                          }));
+        ObjectFactory.Initialize(init =&amp;gt; init.Scan(scan =&amp;gt;
+                      {
+                          scan.TheCallingAssembly();
+                          scan.LookForRegistries();
+                          scan.WithDefaultConventions();
+                      }));
 
-        }
+    }
 
-        public void Dispose()
-        {
-        }
+    public void Dispose()
+    {
+    }
 
-        public object GetService(Type serviceType, string contract = null)
-        {
-            return string.IsNullOrEmpty(contract)
-                       ? ObjectFactory.GetInstance(serviceType)
-                       : ObjectFactory.GetNamedInstance(serviceType, contract);
-        }
+    public object GetService(Type serviceType, string contract = null)
+    {
+        return string.IsNullOrEmpty(contract)
+                   ? ObjectFactory.GetInstance(serviceType)
+                   : ObjectFactory.GetNamedInstance(serviceType, contract);
+    }
 
-        public IEnumerable&lt;object&gt; GetServices(Type serviceType, string contract = null)
-        {
-            return ObjectFactory.GetAllInstances(serviceType).Cast&lt;object&gt;();
-        }
+    public IEnumerable&amp;lt;object&amp;gt; GetServices(Type serviceType, string contract = null)
+    {
+        return ObjectFactory.GetAllInstances(serviceType).Cast&amp;lt;object&amp;gt;();
+    }
 
-        public void Register(Func&lt;object&gt; factory, Type serviceType, string contract = null)
-        {
-            ObjectFactory.Configure(x =&gt; x.For(serviceType).Use(factory()));
-        }
-    }</pre>
+    public void Register(Func&amp;lt;object&amp;gt; factory, Type serviceType, string contract = null)
+    {
+        ObjectFactory.Configure(x =&amp;gt; x.For(serviceType).Use(factory()));
+    }
+}
+</code></pre>
 
 <p>Then, make ReactiveUI use it.</p>
 
@@ -152,6 +153,37 @@ RxApp.DependencyResolver = resolver;</pre>
     ================================================== -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-9870754-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+    <script src="/javascripts/prettify.js"></script>
+    <script type='text/javascript'>
+      $(function () {
+        $("pre code").parent().each(function () {
+          if (!$(this).hasClass("prettyprint")) {
+            $(this).addClass("prettyprint");
+            a = true
+          }
+        });
+
+        prettyPrint();
+      });
+    </script>
+
+    <script src="/javascripts/cohesion.js"></script>
 </body>
 </html>

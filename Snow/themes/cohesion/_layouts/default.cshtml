@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
 
     <!-- Custom styles for this template -->
-    <link href="./stylesheets/custom-styles.css" rel="stylesheet">
+    <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -42,14 +42,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="/">temporalcohesion.co.uk</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="contact">Contact</a></li>
-            <li><a href="archives">Archives</a></li>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/archive">Archives</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -69,6 +69,23 @@
     ================================================== -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    
+
+    @Html.RenderGoogleAnalytics("UA-9870754-1")
+
+    <script src="/javascripts/prettify.js"></script>
+    <script type='text/javascript'>
+      $(function () {
+        $("pre code").parent().each(function () {
+          if (!$(this).hasClass("prettyprint")) {
+            $(this).addClass("prettyprint");
+            a = true
+          }
+        });
+
+        prettyPrint();
+      });
+    </script>
+
+    <script src="/javascripts/cohesion.js"></script>
 </body>
 </html>

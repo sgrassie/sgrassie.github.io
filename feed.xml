@@ -48,40 +48,41 @@
 
 &lt;p&gt;All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.&lt;/p&gt;
 
-&lt;pre class="lang:c# decode:true crayon-selected" title="StructureMapDependencyResolver "&gt;    public class StructureMapDependencyResolver : IMutableDependencyResolver
+&lt;pre&gt;&lt;code&gt;public class StructureMapDependencyResolver : IMutableDependencyResolver
+{
+    public StructureMapDependencyResolver()
     {
-        public StructureMapDependencyResolver()
-        {
-            ObjectFactory.Initialize(init =&amp;gt; init.Scan(scan =&amp;gt;
-                          {
-                              scan.TheCallingAssembly();
-                              scan.LookForRegistries();
-                              scan.WithDefaultConventions();
-                          }));
+        ObjectFactory.Initialize(init =&amp;amp;gt; init.Scan(scan =&amp;amp;gt;
+                      {
+                          scan.TheCallingAssembly();
+                          scan.LookForRegistries();
+                          scan.WithDefaultConventions();
+                      }));
 
-        }
+    }
 
-        public void Dispose()
-        {
-        }
+    public void Dispose()
+    {
+    }
 
-        public object GetService(Type serviceType, string contract = null)
-        {
-            return string.IsNullOrEmpty(contract)
-                       ? ObjectFactory.GetInstance(serviceType)
-                       : ObjectFactory.GetNamedInstance(serviceType, contract);
-        }
+    public object GetService(Type serviceType, string contract = null)
+    {
+        return string.IsNullOrEmpty(contract)
+                   ? ObjectFactory.GetInstance(serviceType)
+                   : ObjectFactory.GetNamedInstance(serviceType, contract);
+    }
 
-        public IEnumerable&amp;lt;object&amp;gt; GetServices(Type serviceType, string contract = null)
-        {
-            return ObjectFactory.GetAllInstances(serviceType).Cast&amp;lt;object&amp;gt;();
-        }
+    public IEnumerable&amp;amp;lt;object&amp;amp;gt; GetServices(Type serviceType, string contract = null)
+    {
+        return ObjectFactory.GetAllInstances(serviceType).Cast&amp;amp;lt;object&amp;amp;gt;();
+    }
 
-        public void Register(Func&amp;lt;object&amp;gt; factory, Type serviceType, string contract = null)
-        {
-            ObjectFactory.Configure(x =&amp;gt; x.For(serviceType).Use(factory()));
-        }
-    }&lt;/pre&gt;
+    public void Register(Func&amp;amp;lt;object&amp;amp;gt; factory, Type serviceType, string contract = null)
+    {
+        ObjectFactory.Configure(x =&amp;amp;gt; x.For(serviceType).Use(factory()));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Then, make ReactiveUI use it.&lt;/p&gt;
 
@@ -94,40 +95,41 @@ RxApp.DependencyResolver = resolver;&lt;/pre&gt;
 
 &lt;p&gt;All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.&lt;/p&gt;
 
-&lt;pre class="lang:c# decode:true crayon-selected" title="StructureMapDependencyResolver "&gt;    public class StructureMapDependencyResolver : IMutableDependencyResolver
+&lt;pre&gt;&lt;code&gt;public class StructureMapDependencyResolver : IMutableDependencyResolver
+{
+    public StructureMapDependencyResolver()
     {
-        public StructureMapDependencyResolver()
-        {
-            ObjectFactory.Initialize(init =&amp;gt; init.Scan(scan =&amp;gt;
-                          {
-                              scan.TheCallingAssembly();
-                              scan.LookForRegistries();
-                              scan.WithDefaultConventions();
-                          }));
+        ObjectFactory.Initialize(init =&amp;amp;gt; init.Scan(scan =&amp;amp;gt;
+                      {
+                          scan.TheCallingAssembly();
+                          scan.LookForRegistries();
+                          scan.WithDefaultConventions();
+                      }));
 
-        }
+    }
 
-        public void Dispose()
-        {
-        }
+    public void Dispose()
+    {
+    }
 
-        public object GetService(Type serviceType, string contract = null)
-        {
-            return string.IsNullOrEmpty(contract)
-                       ? ObjectFactory.GetInstance(serviceType)
-                       : ObjectFactory.GetNamedInstance(serviceType, contract);
-        }
+    public object GetService(Type serviceType, string contract = null)
+    {
+        return string.IsNullOrEmpty(contract)
+                   ? ObjectFactory.GetInstance(serviceType)
+                   : ObjectFactory.GetNamedInstance(serviceType, contract);
+    }
 
-        public IEnumerable&amp;lt;object&amp;gt; GetServices(Type serviceType, string contract = null)
-        {
-            return ObjectFactory.GetAllInstances(serviceType).Cast&amp;lt;object&amp;gt;();
-        }
+    public IEnumerable&amp;amp;lt;object&amp;amp;gt; GetServices(Type serviceType, string contract = null)
+    {
+        return ObjectFactory.GetAllInstances(serviceType).Cast&amp;amp;lt;object&amp;amp;gt;();
+    }
 
-        public void Register(Func&amp;lt;object&amp;gt; factory, Type serviceType, string contract = null)
-        {
-            ObjectFactory.Configure(x =&amp;gt; x.For(serviceType).Use(factory()));
-        }
-    }&lt;/pre&gt;
+    public void Register(Func&amp;amp;lt;object&amp;amp;gt; factory, Type serviceType, string contract = null)
+    {
+        ObjectFactory.Configure(x =&amp;amp;gt; x.For(serviceType).Use(factory()));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Then, make ReactiveUI use it.&lt;/p&gt;
 

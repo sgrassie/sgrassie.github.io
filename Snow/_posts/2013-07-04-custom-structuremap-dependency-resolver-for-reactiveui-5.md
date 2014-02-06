@@ -8,7 +8,8 @@ metadescription: custom-structuremap-dependency-resolver-for-reactiveui-5
 <a title="ReactiveUI" href="http://reactiveui.net" target="_blank">ReactiveUI</a> 5 has just been released (although I've been playing with the -pre-release alpha for a while), and one of the shiny new things it brings is a simplified Service Location model. This is fine in the most part, for most applications. But, when you have some complicated dependencies between objects (ignoring the fact you might be heading towards a constructor over-injection anti-pattern), you may feel you need to use a full IoC container, like Structuremap, to do the heavy work.
 
 All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.
-<pre class="lang:c# decode:true crayon-selected" title="StructureMapDependencyResolver ">    public class StructureMapDependencyResolver : IMutableDependencyResolver
+
+    public class StructureMapDependencyResolver : IMutableDependencyResolver
     {
         public StructureMapDependencyResolver()
         {
@@ -41,7 +42,8 @@ All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}
         {
             ObjectFactory.Configure(x =&gt; x.For(serviceType).Use(factory()));
         }
-    }</pre>
+    }
+
 Then, make ReactiveUI use it.
 <pre class="lang:c# decode:true ">var resolver = new StructureMapDependencyResolver();
 RxApp.InitializeCustomResolver((o, type) =&gt; resolver.Register(() =&gt; o, type));

@@ -1,6 +1,16 @@
+html,
 body {
-  padding-top: 50px;
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
+
+body {
+  padding-top: 70px;
+}
+
+footer {
+  padding: 30px 0;
+}
+
 .clearnavigation {
   padding: 40px 15px;
   text-align: center;
