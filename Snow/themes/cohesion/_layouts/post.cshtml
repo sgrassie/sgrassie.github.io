@@ -8,10 +8,6 @@
     <h1 class="title">@Model.Title</h1>
     <div class="meta">
 	<p>@Model.PostDate.ToString("dd MMM yyyy")
-	
-      @foreach (var category in Model.Categories) {
-       @:| <a href="/category/@category.Url">@category.Name</a>
-      }
     </div>
 
     @Html.RenderSeries()

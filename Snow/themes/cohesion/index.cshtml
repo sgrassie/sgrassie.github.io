@@ -7,11 +7,22 @@
 @foreach(var post in Model.PostsPaged) {
 <div class="post">
    <h1 class="title"><a href="@post.Url">@post.Title</a></h1>
-   <span class="meta">posted on @post.Date.ToString("dd MMM yyyy")</span>
+   <div class="meta">@post.Date.ToString("dddddd, dd MMM, yyyy")
+   </div>
             
    @Html.RenderSeries(post)
-   @Html.Raw(post.ContentExcerpt)
-   <p><a href="@post.Url">Read more...</a></p>
+   
+   @{
+    if(!string.IsNullOrEmpty(post.ContentExcerpt))
+    {
+     @Html.Raw(post.ContentExcerpt);
+    }
+    else
+    {
+     @Html.Raw(post.Content);
+     @:<p><a href="@post.Url">Read more...</a></p>
+    }
+   } 
 </div><!--/.post-->
 }
 

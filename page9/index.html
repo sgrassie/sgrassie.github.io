@@ -8,7 +8,7 @@
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie (stugrassie)">
     <meta http-equiv="last-modified" content="2014-02-07T23:36:03.6038879+00:00" />
-    <meta name="keywords" content="delphi" />
+    <meta name="keywords" content="annoyance,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -26,7 +26,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2007/07/23/limitations-in-delphi/" />
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/page9/" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -55,14 +55,43 @@
 	
 
 <div class="post">
-    <h1 class="title">Limitations in Delphi</h1>
-    <div class="meta">
-	<p>23 Jul 2007
-    </div>
+   <h1 class="title"><a href="/2007/08/05/linux-adventures/">linux adventures</a></h1>
+   <div class="meta">Sunday, 05 Aug, 2007
+   </div>
+            
+   
+   
+<p>I spent much of the weekend fucking around installing linux on my laptop. I like linux, it's free, and there's loads of cool software available. I tried:</p>
 
-    
-        
-    <p>One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.</p>
+<ul>
+    <li>Ubuntu 7.04</li>
+    <li>Fedora 7</li>
+    <li>opensuse 10.2</li>
+</ul>
+
+<p>The actual installations themselves went pretty painlessly, just pop the disk in, and boot from it, and click install. These modern installations are pretty cool, not like the good old days of installing redhat/slackware/debian from multiple floppy discs.</p>
+
+<p>The only problem I had was getting my 3Com 3crwe62092b wireless lan pcmcia card to work. What a pain in the fucking arse that was. Ubuntu Feistey Fawn 7.04 wouldn't even detect it, and Fedora 7 detected it, but it wouldn't work.</p>
+
+<p>Needless to say, I was getting frustrated at this point, and I downloaded opensuse 10.2, specifically a 44mb network install disk. And fuck me, it asked me for wlan details, and connected to my wireless network first time. Ace.</p>
+
+<p>But - and theres always a but - when it rebooted there was a problem. The wireless stopped working. I managed to get the rest of the installation completed using a wired connection. After some further googling, it turns out that the solution to my problem was to download the atmel-firmware, and copy the *.bin's to /lib/firmware. Rebooted and the wireless came up straightway. Hurrah!</p>
+
+<p>I suspect that armed with this new knowledge I should be able to install Ubuntu/Fedora and get the card to work on them, but I'm liking opensuse enough that I'm not sure I can be bothered to reinstall a different distribution again.</p>
+
+<p>This is also the reason that linux isn't ready for the desktop yet - the average person wouldn't spend time googling and recompiling kernels and installing different distributions just to get wireless working on their laptop. It should just work, with no effort. This is the advantage that windows has over linux, the driver support is significantly better.</p>
+
+<p>But it works for me, so fuck em.</p>
+ 
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title"><a href="/2007/07/23/limitations-in-delphi/">Limitations in Delphi</a></h1>
+   <div class="meta">Monday, 23 Jul, 2007
+   </div>
+            
+   
+   
+<p>One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.</p>
 
 <p>I think C# is generally better, but that said I have it on good authority that templates are still much better in C++ than generics are in C#.</p>
 
@@ -98,35 +127,37 @@ end</pre>
 <p>See! That's how simple it is.</p>
 
 <p>Maybe in a future version of delphi borland/codegear will introduce native string support for case statements. I won't hold my breather though.</p>
-
-
-    <div id="disqus_thread"></div>
-<script>
-    var reset_disqus = function(){
-        DISQUS.reset({
-            reload: true,
-            config: function () {
-                //this.page.identifier = '';
-                this.page.url = 'http://www.temporalcohesion.co.uk/2007/07/23/limitations-in-delphi/';
-                //this.page.title = '';
-            }
-        });
-    };
-
-    var disqus_shortname = 'temporalcohesion';
-    var disqus_url = 'http://www.temporalcohesion.co.uk/2007/07/23/limitations-in-delphi/';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-
-    window.addEventListener('orientationchange', reset_disqus);
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+ 
 </div><!--/.post-->
+<div class="post">
+   <h1 class="title"><a href="/2007/07/20/hello-world-2/">Hello world!</a></h1>
+   <div class="meta">Friday, 20 Jul, 2007
+   </div>
+            
+   
+   
+<p>Welcome to my new website, and my new blog. I'd kind of outgrown the old site, which I've now turned into a kind of "here's my CV" sort of site. Although I am happy in my job.</p>
+
+<p>I'm going to attempt to write more often on here, about a lot of things. I'm still getting things just the way I like them - I've still got a few plugins for wordpress to download and install yet. If I get time I might even write my own theme, but considering there are so many already brilliant themes available I might just save myself the time and effort.</p>
+
+<p>Hell, that's why I'm using Wordpress and not writing my own blogging system.</p>
+
+<p>As an old friend of mine used to say: Onwards and Upwards!</p>
+ 
+</div><!--/.post-->
+
+  <!-- Pagination links -->
+  <div id="post-pagination" class="pagination">
+
+   
+      <p class="previous">
+        <a href="/page8">Previous Page</a>
+        </p>
+
+
+
+  </div>
+
 
         
         <hr />

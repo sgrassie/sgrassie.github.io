@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie (stugrassie)">
-    <meta http-equiv="last-modified" content="2014-02-06T00:08:52.3860934+00:00" />
+    <meta http-equiv="last-modified" content="2014-02-07T23:36:03.6038879+00:00" />
     <meta name="keywords" content="annoyance,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
@@ -55,92 +55,296 @@
 	
 
 <div class="post">
-   <h1 class="title">linux adventures</h1>
-   <span class="meta">posted on 05 Aug 2007</span>
+   <h1 class="title"><a href="/2010/03/23/revisting-the-project-euler-problem-runner/">Revisting the Project Euler problem runner</a></h1>
+   <div class="meta">Tuesday, 23 Mar, 2010
+   </div>
             
    
-   <p>I spent much of the weekend fucking around installing linux on my laptop. I like linux, it's free, and there's loads of cool software available. I tried:</p>
+   
+<p>I'm sure that you must have heard about <a title="Project Euler website" href="http://projecteuler.net/" target="_blank">Project Euler</a>, which "is a series of challenging mathematical/computer programming problems that  will require more than just mathematical insights to solve". I have blogged about tackling the Project Euler problems <a href="http://temporalcohesion.co.uk/2008/08/22/building-the-project-euler-framework-part-1/">before</a>, and at the time, I developed a simple program to try to automate running the problems.</p>
+
+<p>That was about 18 months ago, I've learned a lot since then and I think that it is high time to take a look back at the code and see if I can spot if there is any room for improvement.</p>
+
+<h2>The current project</h2>
+
+<p>[caption id="attachment_191" align="alignleft" width="240" caption="Current structure"]<a href="http://temporalcohesion.co.uk/wp-content/uploads/2010/03/eulerprojectold.png"><img class="size-medium wp-image-191 " title="eulerprojectold" src="http://temporalcohesion.co.uk/wp-content/uploads/2010/03/eulerprojectold-300x241.png" alt="The current structure of the project" width="240" height="193" /></a>[/caption]</p>
+
+<p>Let's have a look at how I structured the project when I set it up. The first thing that you will notice, is that I messed up the package names. It should be "uk.co", and not "co.uk", according to the <a title="Java Language specification on sun.com" href="http://java.sun.com/docs/books/jls/third_edition/html/packages.html#7.7" target="_blank">Java language specification</a>. A minor point, and not really a big deal, we can easily sort it out.</p>
+
+<p>Something else I did, was lump everything together into the same project and package - the runner program, the utils (e.g. helper classes that you write as you progress through problems), resources and the problems themselves.</p>
+
+<p>I don't think that this was necessarily a bad idea at the time, I don't think that it is inherintly a bad idea now, it's logical for everything to share the same package. Or should I say, it <em>was </em>logical for everything to share the same package.</p>
+
+<p>I am going to put the code for the problem runner onto Github, but I don't want to share the answers to the problems. To answer your question, I think that it goes against the point of Project Euler, that of having a set of problems that the inquisitive person can solve with some math and programming. I have also found that the problems also help in getting comfortable with the syntax of a new programming language - after all the solutions to the problems remain the same, however the implementation is subtley different depending on the language being used.</p>
+
+<h2>Re-Design</h2>
+
+<p>Examining the current code and design, we can immediately identify some changes which we are going to make� I'm going to seperate the uk.co.temporalcohesion.euler package into three packages, which are more distinct from each other, but still keep them all in the same project. Why? Well, it is obvious that there are three tasks which we have to manage:</p>
+
+<ol>
+    <li>Running problems.</li>
+    <li>Provide an API to run the problems.</li>
+    <li>Store the problems somewhere</li>
+</ol>
+
+<p>To shed some light on my thinking here, lets examine these in more detail. This will also identify areas of possible improvement in the design.</p>
+
+<ol>
+<li><p>I want someway of consistenly running a problem (or group of problems) to test the solution(s) to (a) Project Euler problem(s). This is basically our console runner application, which doesn't have to know exactly how this happens, it recieves input, and returns output - how that output is generated is irrelevant to it.</p></li>
+<li><p>I want an easy to use API which I can leverage to easily implement the solution to a Project Euler problem, so that I don't have to worry about re-writing all the input/output code over and over again. I also want to be able to share this API, without sharing the answers to the problems themselves.</p></li>
+<li><p>I need to have somewhere I can put the answers to the problems, and associated helper classes (Prime number generators, etc) which I can easly backup, and easily run the problems from.</p></li>
+</ol>
+
+<p>These are sounding a bit like user stories, and I suppose they are. They can be formalised as so:</p>
+
+<blockquote>
+<p style="text-align: left;">As a Problem Solver, I want to run the solution, or group of solutions, to a Project Euler problem.</p>
+<p style="text-align: left;">As a problem solver, I want to concentrate implementing the solution to a euler problem, not on implementing input/output for the problem.</p>
+<p style="text-align: left;">As a problem solver, I want a place to develop and store the problems, from which I can run the problems to test the solution.</p>
+</blockquote>
+
+<p style="text-align: left;">Fairly concise and simple requirements, which we will revisit later. We still have to examine the code in a little more detail so that we can identify exactly what it is we are going to refactor.</p>
+
+<h2 style="text-align: left;">Code review</h2>
+
+<p>The main class to examine is Euler, in Euler.java.� The first to say without even looking at the code, is that the name is fairly awful. Then when we examine the code in more detail, we can see the name is even worse. The class has the main entry point for the program, as well as all the code to actually run the problems. This class is doing everything, there is definately no Seperation of Concerns. It is responsible for accepting user input, loading and running the problems and displaying the output. Wow.</p>
+
+<p>The class is designed around the <a title="Command Patter on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command Pattern</a>, and it has worked quite well. Looking at it now, a further two patterns could be used, namely <a title="Strategy patter on Wikipedia" href="http://en.wikipedia.org/wiki/Strategy_pattern" target="_blank">Strategy </a>and <a title="Template method pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Template_method_pattern" target="_blank">Template method</a>.I'm still in two minds about refactoring the design pattern in use, but that discussion can be put off for the time being, as I have other things to concern me.</p>
+
+<p>There are 144 SLoC, not a massive amount, but when you consider the above and what the class should be doing, then it is clearly a bit weighty. There are 7 functions in total, not counting the constructor, not a massive count, but as the SLoC count indicates, some of those functions are a bit long. The worst offender is the following method.</p>
+
+<pre class="lang:java decode:1 " >
+
+private void loadClasses() {
+ InputStream fis = null;
+
+ Properties p = new Properties();
+
+ try {
+ fis = ClassLoader
+ .getSystemResourceAsStream(&amp;quot;co/uk/temporalcohesion/euler/resources/problems.properties&amp;quot;);
+ p.load(fis);
+
+ Enumeration&amp;lt;?&amp;gt; e = p.propertyNames();
+ while (e.hasMoreElements()) {
+ String key = (String) e.nextElement();
+ String value = (String) p.getProperty(key);
+
+ Object o = Class.forName(value).newInstance();
+ if( ( o != null) &amp;amp;&amp;amp; (o instanceof Problem)){
+ Problem problem = (Problem)o;
+ problems.put(Integer.parseInt(key), problem);
+ }
+ }
+ }
+
+ catch (FileNotFoundException e) {
+ e.printStackTrace();
+ } catch (IOException e) {
+ e.printStackTrace();
+ } catch (ClassNotFoundException e) {
+ e.printStackTrace();
+ } catch (InstantiationException e) {
+ e.printStackTrace();
+ } catch (IllegalAccessException e) {
+ e.printStackTrace();
+ } catch (ClassCastException e) {
+
+ }
+ finally {
+ try {
+ fis.close();
+ } catch (IOException e) {
+ e.printStackTrace();
+ }
+ }
+ }
+
+</pre>
+
+<p>Wow, that's a lot of code for something which is relatively straightforward. It's not exactly easy to read, and it violoates the Single Responsibility Principle: by loading in and enumerating over a properties file, instantiating new instances of problem classes, and handling all the exceptions which can be thrown. There will definately be some room for improvement there.</p>
+
+<p>Getting back to the main <em>Euler </em>class as a whole, there is an even worse problem...</p>
+
+<p>There are no unit tests!</p>
+
+<p>This is a disastrous situation, because it means I cannot refactor the class with any confidence. The me of 18 months ago has a lot to answer for. I've got a bit of work to do. Check back next time to see how I've progressed things.</p>
+
+<p style="text-align: left;"></p>
+ 
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title"><a href="/2010/03/17/even-more-on-the-generic-plugin-manager/">Even more on the generic plugin manager</a></h1>
+   <div class="meta">Wednesday, 17 Mar, 2010
+   </div>
+            
+   
+   
+<p>I've <a title="Writing a generic plugin manager in C# @ Temporal Cohesion" href="http://temporalcohesion.co.uk/2009/05/25/writing-a-generic-plugin-manager-in-c/" target="_self">written </a><a title="More on the generic plugin manager" href="http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/" target="_self">previously</a> about writing your own generic plugin manager/framework.</p>
+
+<p>I believe that this is a worthwhile exercise for the beginning programmer, because it firstly teaches you a lot about reflection, and secondly teaches you the advantages that proper use of interfaces can bring to your code. Thirdly it can also teach you to think about how your API might be used by someone else when they write a plugin for your program. In short I think it's a great exercise.</p>
+
+<p>While writing and using my own plugin framework has been a great learning experience for me, I've found that I have outgrown it's usefulness to me. What made me see this was when I started to think about and begin implementing a way for me to use the framework as a <a title="Dependency Injection on Wikipedia" href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">IoC/Dependency Injection</a> tool. This led me off on some Googling and I found <a title="Funq DI container on Codeplex" href="http://funq.codeplex.com/" target="_blank">Funq</a>, and the the <a href="http://www.clariusconsulting.net/blogs/kzu/archive/2009/02/02/116399.aspx" target="_blank">associated screencasts by Cazzulino</a>.</p>
+
+<p>This got me to thinking about <a title="Don't Repeat Yourself on Wikipedia" href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself" target="_blank">DRY</a>. Don't Repeat Yourself can just as easily mean Don't Repeat Work Other People Have Already Done (If You Don't Have To), but DRWOPHADIYDHT doesn't sound/look nice as an acronym. Perhaps a better way to express that sentiment is "lazyDRY", or "The re-use of prexisting libraries and code can save you a lot of time, and which effort you can put into your application at a higher level."</p>
+
+<p>Or in other words, it is foolish to ignore the work that other people have done, unless you have a compelling reason to do so. If you really want to write your own IoC/DI container, then great, knock yourself out. No one is going to stop you.</p>
+
+<p>I'm lazy though. Nanos gigantium humeris insidentes.</p>
+
+<p>Depending on the blogs in your feed reader, or who you follow on Twitter, or just in general googling, you will probably come across references to the same group of IoC/DI containers. Chiefly:</p>
 
 <ul>
-    <li>Ubuntu 7.04</li>
-    <li>Fedora 7</li>
-    <li>opensuse 10.2</li>
+    <li><a title="StructureMap on Github" href="http://structuremap.github.com/structuremap/index.html" target="_blank">StructureMap</a></li>
+    <li><a title="Castle Windsor" href="http://www.castleproject.org/" target="_blank">Castle Windsor</a></li>
+    <li><a title="AutoFac on Google code" href="http://code.google.com/p/autofac/" target="_blank">AutoFac</a></li>
+    <li><a title="Ninject" href="http://ninject.org/" target="_blank">Ninject</a></li>
+    <li><a href="http://www.codeplex.com/MEF/" target="_blank">MEF</a></li>
+    <li><a href="http://msdn.com/unity">Unity</a></li>
+    <li><a href="http://www.springframework.net/">Spring.net</a></li>
 </ul>
 
-<p>The actual installations themselves went pretty painlessly, just pop the disk in, and boot from it, and click install. These modern installations are pretty cool, not like the good old days of installing redhat/slackware/debian from multiple floppy discs.</p>
+<p>There are others, but it would seem hardly anyone uses them. Of those above, I have so far only used StructureMap and Ninject, and have really liked using both of them. I will try out the others at some point, but so far I've liked what I've seen in StructureMap and Ninject, I honestly don't think that any of the others will have anything better to offer me. Besides which, StructureMap has a built in method of using it as a plugin framework. Win.</p>
 
-<p>The only problem I had was getting my 3Com 3crwe62092b wireless lan pcmcia card to work. What a pain in the fucking arse that was. Ubuntu Feistey Fawn 7.04 wouldn't even detect it, and Fedora 7 detected it, but it wouldn't work.</p>
+<h2>In Conclusion</h2>
 
-<p>Needless to say, I was getting frustrated at this point, and I downloaded opensuse 10.2, specifically a 44mb network install disk. And fuck me, it asked me for wlan details, and connected to my wireless network first time. Ace.</p>
-
-<p>But - and theres always a but - when it rebooted there was a problem. The wireless stopped working. I managed to get the rest of the installation completed using a wired connection. After some further googling, it turns out that the solution to my problem was to download the atmel-firmware, and copy the *.bin's to /lib/firmware. Rebooted and the wireless came up straightway. Hurrah!</p>
-
-<p>I suspect that armed with this new knowledge I should be able to install Ubuntu/Fedora and get the card to work on them, but I'm liking opensuse enough that I'm not sure I can be bothered to reinstall a different distribution again.</p>
-
-<p>This is also the reason that linux isn't ready for the desktop yet - the average person wouldn't spend time googling and recompiling kernels and installing different distributions just to get wireless working on their laptop. It should just work, with no effort. This is the advantage that windows has over linux, the driver support is significantly better.</p>
-
-<p>But it works for me, so fuck em.</p>
-
-   <p><a href="/2007/08/05/linux-adventures/">Read more...</a></p>
+<p>What can I draw from all this? I don't think that I wasted any of my time or effort in writing my own plugin framework. It was a worthwhile exercise which taught me a lot of things, and I urge you to do the same.</p>
+ 
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title">Limitations in Delphi</h1>
-   <span class="meta">posted on 23 Jul 2007</span>
+   <h1 class="title"><a href="/2010/03/07/you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple/">You don't have to kneel at the altar of the cult of Apple</a></h1>
+   <div class="meta">Sunday, 07 Mar, 2010
+   </div>
             
    
-   <p>One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.</p>
+   
+<h1>Unless you've been living under a rock</h1>
 
-<p>I think C# is generally better, but that said I have it on good authority that templates are still much better in C++ than generics are in C#.</p>
+<p>You will have seen, heard and read the buzz about the Apple <a title="ipad on Apple.com" href="http://www.apple.com/ipad/" target="_blank">iPad</a>. What it is, what it does and why you should buy it. This post is not about all that - it's covered in excruciating detail elsewhere on your favourite tech site. Ever since the iPad was just a rumour, and since it was officially announced, we have been arguing about it at work. Whose going to buy one? Who is an idiot for wanting to buy one? Who is an idiot for not wanting to buy one?</p>
 
-<p>Anyway, that's enough rambling. On to the solution.</p>
+<blockquote>Note: I should mention that I do happen to own an iPhone (via an O2 two year(!) contract), and I think it is probably the best mobile phone I've ever owned, however, I will take some convincing to enter into another two year contract again. But I digress. I have a couple of old iPods, nothing else: I am not a <a title="Fanboy on wikipedia" href="http://en.wikipedia.org/wiki/Fan_%28person%29" target="_blank">fanboy</a>.</blockquote>
 
-<p>What you need to do in order to get around this limitation is cheat. Well, it's not really cheating. The tricks is to use a look up function that accepts a string, one that you are expecting, which you have in a string array. Then all you need do is return which element of the array has been matched, and use that in the case statement.</p>
+<p>The niche that the iPad and devices like it fill is undoubtedly there, or else these products would not be developed. The key thing here is "...and devices like it...". There isn't just the iPad to consider.� This is the fantastic thing about our society: we have a huge freedom of choice in our purchasing decisions. We are free to evaluate, consider and weigh all the pros and cons of a particular product before we make the commitment to purchase.</p>
 
-<pre lang="delphi">
-function TClassName.lookupFunction(lookup: string): integer;
-const
-  ARRAY = ['one', 'two', 'three', 'four', 'five'];
-var
-  i: integer;
-begin
-  for i := 0 to Length(ARRAY) do
-    if lookup = ARRAY[i] then
-    begin
-      Result := i;
-      break;
-    end
-end
+<h1>Unless you are an Apple fanboy</h1>
 
-procedure TClassName.someProc(somestring: string);
-begin
-  case LookupFunction(somestring)
-  1 : //code that does stuff for 'one'
-  2 : //code that does stuff for 'two'
-  3 : //code that does stuff for 'three'
-  4 : //code that does stuff for 'four'
-  5 : //code that does stuff for 'five'
-end</pre>
+<p>In which case, you have already sub-concisiously made the decision to purchase anything with an Apple logo on. Are you an Apple fan boy? You have a Mac of some discription. You bought (and probably still have) a first-gen iPod. You bought an iTouch the day it was release. You were the first in your office to get an iPhone. You were the first to upgrade to an iPhone 3G. You were the first to upgrade to an iPhone 3GS. You hammer F5 on your favourite liveblog of an Apple event. You wouldn't even consider buying a laptop from Asus, Acer or Dell (or whoever) which as powerful and costs half the price of something which has a fucking Apple logo on it.</p>
 
-<p>See! That's how simple it is.</p>
+<p>Fanboy. Acolyte. Get out. You have already made your choice. You cannot win an arguement with someone who fanatically believes they are right.</p>
 
-<p>Maybe in a future version of delphi borland/codegear will introduce native string support for case statements. I won't hold my breather though.</p>
+<h1>Open minded? Continue from here</h1>
 
-   <p><a href="/2007/07/23/limitations-in-delphi/">Read more...</a></p>
+<p>For those who are prepared to broaden our horizons, there is a bewildering array of choice just around the corner. Rather than rehash other people's hard work from around the interweb, and because I'm lazy, I refer you to this article on About.com: <a href="http://portables.about.com/od/otherdevices/tp/Slate_tablet_roundup.htm" target="_blank">http://portables.about.com/od/otherdevices/tp/Slate<em>tablet</em>roundup.htm</a>, which offers a succinct highlight of varous slate tablet computers. <a href="http://www.engadget.com/2010/03/05/microsofts-courier-digital-journal-exclusive-pictures-and-de/" target="_blank">Engadget also has some details</a> of Microsofts offering, the 'Courier', which looks promising.</p>
+
+<h1>In Conclusion</h1>
+
+<p>You do not have to kneel at the alter of the cult of Apple. You have a choice. Use it wisely.</p>
+ 
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title">Hello world!</h1>
-   <span class="meta">posted on 20 Jul 2007</span>
+   <h1 class="title"><a href="/2010/03/04/git-plus-dropbox/">Git plus dropbox</a></h1>
+   <div class="meta">Thursday, 04 Mar, 2010
+   </div>
             
    
-   <p>Welcome to my new website, and my new blog. I'd kind of outgrown the old site, which I've now turned into a kind of "here's my CV" sort of site. Although I am happy in my job.</p>
+   
+<p><a title="Link to earlier blog post." href="http://temporalcohesion.co.uk/2008/08/29/source-control-using-dropbox/" target="_self">Some time ago</a>, I wrote about using <a title="Link to dropbox.com" href="https://www.dropbox.com/" target="_blank">Dropbox </a>as a version control system. I now realise how naive� and short-sighted that thought was. At the time, it was my belief that a dropbox account could be suitable for maintaining version history, and after a fashion, it can be, because using the web client to view your files, you can see previous versions of� the files in your dropbox.</p>
 
-<p>I'm going to attempt to write more often on here, about a lot of things. I'm still getting things just the way I like them - I've still got a few plugins for wordpress to download and install yet. If I get time I might even write my own theme, but considering there are so many already brilliant themes available I might just save myself the time and effort.</p>
+<p>However, there are problems with this approach. Consider that you've changed several files, but then you realise that the changes you have made are not good enough, or just don't work. With svn, or vss (<em>vomit</em>), you can undo-checkout to get the previous version back, with dropbox you can roll back to the previous version - one file at a time. There is no branching, no merging, no tagging. Nothing like a traditional SCM tool should have.</p>
 
-<p>Hell, that's why I'm using Wordpress and not writing my own blogging system.</p>
+<p>Dropbox is after all, essentially just a folder that is backed up "to the cloud". If we use the right tool, we can take advantage of this properly.</p>
 
-<p>As an old friend of mine used to say: Onwards and Upwards!</p>
+<h1>Enter Git</h1>
 
-   <p><a href="/2007/07/20/hello-world-2/">Read more...</a></p>
+<p>What is <a title="Git SCM" href="http://git-scm.com/" target="_blank">Git</a>? Well, surely you must have at least heard of Git by now? If not, I refer you to the <a title="Wikipedia article about git" href="http://en.wikipedia.org/wiki/Git_(software)" target="_blank">wikipedia page</a> about Git. Ok? You're back?</p>
+
+<p>The key aspect of Git which we can take advantage of is essentially the very nature of Git itself. Every Git clone is a full-repository, containing the full commit  history and full revision tracking capability for the project, and it does not rely on network access nor a central server.</p>
+
+<p>Basically, the idea is that you initialise an empty, bare repository inside your dropbox folder, and then somewhere else on your filesystem, perhaps a development folder where you store all your projects, you clone the repo from dropbox, and do all your work on that clone. Then when you call 'git push origin master', your changes are pushed into the dropbox repo, ready to be synced up on other computers you use.</p>
+
+<blockquote>Note: This is not a substitue for having a proper hosted Git repository, such as a project on Github, or somewhere else. However, it useful if you are working on something you aren't ready to put into the public domain, or you haven't yet decided to purchase an account on a private repository provider.</blockquote>
+
+<h1>Setup</h1>
+
+<p>Setting it up is fairly simple, but, I am going to assume that you have Dropbox and a dropbox account, Git and (if you are on Windows) GitExtensions, correctly installed already.</p>
+
+<blockquote>Note: I have only tested this on Windows 7, but I wouldn't expect it to not work on any other system. As always YMMV.</blockquote>
+
+<p>First, create a folder in your dropbox folder to house your projects, e.g. C:UsersStuartDocumentsMy Dropboxprojects or just store it in the root of your Dropbox, it's upto you. Don't forget to include quotes around any path that has a space in, or else it won't work.</p>
+
+<p>[sourcecode language="bash"]</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects
+$ mkdir example</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects
+$ cd example</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropboxprojects/example
+$ mkdir .git</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects/example
+$ cd .git/</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects/example/example.git
+$ git init --bare
+Initialized empty Git repository in c:/Users/Stuart/Documents/My Dropbox/projects/example
+/example.git/</p>
+
+<p>[/sourcecode]</p>
+
+<p>Then, in your development folder clone that repo.</p>
+
+<p>[sourcecode language="bash"]
+Stuart@LAPTOP /c/development/examples
+$ git clone -v &quot;C:/Users/Stuart/Documents/My Dropbox/projects/example/.git&quot;
+Initialized empty Git repository in c:/development/examples/example/.git/</p>
+
+<p>Stuart@LAPTOP /c/development/examples
+$ cd example/</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ touch example.txt</p>
+
+<p>Stuart@STUART-LAPTOP /c/development/examples/example (master)
+$ git add example.txt</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ git commit -m &quot;Added example file to initial commit&quot;
+[master e9ac78d] Added example file to initial commit
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 example.txt</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ git push origin master
+Counting objects: 3, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 253 bytes, done.
+Total 2 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (2/2), done.
+To C:/Users/Stuart/Documents/My Dropbox/projects/example/.git
+ 1e38d4e..e9ac78d� master -&gt; master
+[/sourcecode]</p>
+
+<p>Dropbox will sync the files into the cloud. On your other computer, the git repo will sync, then you can clone it, and find that you have all your history for your project as you would expect.</p>
+ 
+</div><!--/.post-->
+<div class="post">
+   <h1 class="title"><a href="/2010/02/17/i-won-a-free-typemock-t-shirt-via-twitter/">I won a free Typemock t-shirt via Twitter!</a></h1>
+   <div class="meta">Wednesday, 17 Feb, 2010
+   </div>
+            
+   
+   
+<p>Recently I <a title="twitter.com/RoyOsherove" href="http://twitter.com/RoyOsherove/status/8633903086" target="_blank">re-tweeted something</a> from Roy Osherove, and as a consequence, I received a nice t-shirt today all the way from Israel! As a bonus, also visible is my copy of <a title="The Art of Unit Testing on Amazon.co.uk" href="http://www.amazon.co.uk/gp/product/1933988274?ie=UTF8&amp;tag=tempocohes-21&amp;linkCode=as2&amp;camp=1634&amp;creative=6738&amp;creativeASIN=1933988274">The Art of Unit Testing</a>, by Mr  Osherove.</p>
+
+<p style="text-align: center;">
+
+[caption id="attachment_151" align="aligncenter" width="300" caption="The t-shirt I won, and my copyof The Art of Unit Testing"]<a href="http://temporalcohesion.co.uk/wp-content/uploads/2010/02/tshirt_book.jpg"><img class="size-medium wp-image-151 " title="tshirt_book" src="http://temporalcohesion.co.uk/wp-content/uploads/2010/02/tshirt_book-300x225.jpg" alt="&quot;Legalize Unit Testing&quot; t-shirt" width="300" height="225" /></a>[/caption]
+
+</p>
+ 
 </div><!--/.post-->
 
   <!-- Pagination links -->
@@ -152,6 +356,9 @@ end</pre>
         </p>
 
 
+    <p class="previous">
+      <a href="/page6">Next Page</a>
+    </p>
 
   </div>
 
