@@ -1,6 +1,6 @@
 ---
 title: Moved blog to snow and github
-published: draft
+published: 08/02/2014
 layout: post
 category: blog, nancy, sandra.snow
 metadescription: Moved blog to snow and github
@@ -13,20 +13,13 @@ hosting provider. But the times they are a changing, and I'm no longer prepared 
 ## Enter snow
 Github provide a way of hosting a website, for free, it's called Github Pages. Using a tool called Jekyll, it is
 possible to take a series of Markdown files and generate a static html website from them. The only drawback to Jekyll
-is that that it's written in Ruby, it can be a pain to configure on Windows, and I'm primarily a windows kind of guy.
+is that that it's written in Ruby, it can be a pain to configure on Windows, and I'm primarily a windows kind of guy. 
 
 It's also true that the vast majority of guides/tutorials out there for running a blog with Jekyll assume that you'll
 be doing it on either a Mac or a Linux machine. I work entirely on Windows, and there is no way I'm going to try to
 configure Ruby on all the machines I use (or might use).
 
-Sandra.Snow is written in C#, and uses Nancyfx to process the markdown into static html, exactly like Jekyll. I'm
+[Sandra.Snow](https://github.com/Sandra/Sandra.Snow) is written in C#, and uses [Nancyfx](https://github.com/nancyFx/Nancy) to process the markdown into static html, exactly like Jekyll. I'm
 not sure about the name myself, but there you go.
 
-
-    public class Test()
-    {
-	public Test()
-	{
-	}
-
-    }
+Over the next few posts I'll go over how I switched my blog from a hosted Wordpress to a staticly generated site using Snow.
