@@ -9,6 +9,7 @@ metadescription: custom-structuremap-dependency-resolver-for-reactiveui-5
 
 All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.
 
+<pre><code>
     public class StructureMapDependencyResolver : IMutableDependencyResolver
     {
         public StructureMapDependencyResolver()
@@ -43,9 +44,12 @@ All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}
             ObjectFactory.Configure(x =&gt; x.For(serviceType).Use(factory()));
         }
     }
+</code></pre>
 
 Then, make ReactiveUI use it.
-<pre class="lang:c# decode:true ">var resolver = new StructureMapDependencyResolver();
+<pre><code>
+var resolver = new StructureMapDependencyResolver();
 RxApp.InitializeCustomResolver((o, type) =&gt; resolver.Register(() =&gt; o, type));
-RxApp.DependencyResolver = resolver;</pre>
+RxApp.DependencyResolver = resolver;
+</code></pre>
 The second line there is very important: ReactiveUi uses the DependecyResolver internally, so if you use your own, you need to initialise it with the default ReactiveUi types, or else The Bad Things™ will happen.

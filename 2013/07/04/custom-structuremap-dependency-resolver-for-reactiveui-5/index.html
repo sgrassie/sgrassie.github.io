@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie (stugrassie)">
-    <meta http-equiv="last-modified" content="2014-02-08T07:15:40.9330575+00:00" />
+    <meta http-equiv="last-modified" content="2014-02-08T23:10:19.2168503+00:00" />
     <meta name="keywords" content="Uncategorized" />
     <title>temporalcohesion.co.uk</title>
 
@@ -66,47 +66,50 @@
 
 <p>All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.</p>
 
-<pre><code>public class StructureMapDependencyResolver : IMutableDependencyResolver
-{
-    public StructureMapDependencyResolver()
+<pre><code>
+    public class StructureMapDependencyResolver : IMutableDependencyResolver
     {
-        ObjectFactory.Initialize(init =&amp;gt; init.Scan(scan =&amp;gt;
-                      {
-                          scan.TheCallingAssembly();
-                          scan.LookForRegistries();
-                          scan.WithDefaultConventions();
-                      }));
+        public StructureMapDependencyResolver()
+        {
+            ObjectFactory.Initialize(init =&gt; init.Scan(scan =&gt;
+                          {
+                              scan.TheCallingAssembly();
+                              scan.LookForRegistries();
+                              scan.WithDefaultConventions();
+                          }));
 
-    }
+        }
 
-    public void Dispose()
-    {
-    }
+        public void Dispose()
+        {
+        }
 
-    public object GetService(Type serviceType, string contract = null)
-    {
-        return string.IsNullOrEmpty(contract)
-                   ? ObjectFactory.GetInstance(serviceType)
-                   : ObjectFactory.GetNamedInstance(serviceType, contract);
-    }
+        public object GetService(Type serviceType, string contract = null)
+        {
+            return string.IsNullOrEmpty(contract)
+                       ? ObjectFactory.GetInstance(serviceType)
+                       : ObjectFactory.GetNamedInstance(serviceType, contract);
+        }
 
-    public IEnumerable&amp;lt;object&amp;gt; GetServices(Type serviceType, string contract = null)
-    {
-        return ObjectFactory.GetAllInstances(serviceType).Cast&amp;lt;object&amp;gt;();
-    }
+        public IEnumerable&lt;object&gt; GetServices(Type serviceType, string contract = null)
+        {
+            return ObjectFactory.GetAllInstances(serviceType).Cast&lt;object&gt;();
+        }
 
-    public void Register(Func&amp;lt;object&amp;gt; factory, Type serviceType, string contract = null)
-    {
-        ObjectFactory.Configure(x =&amp;gt; x.For(serviceType).Use(factory()));
+        public void Register(Func&lt;object&gt; factory, Type serviceType, string contract = null)
+        {
+            ObjectFactory.Configure(x =&gt; x.For(serviceType).Use(factory()));
+        }
     }
-}
 </code></pre>
 
 <p>Then, make ReactiveUI use it.</p>
 
-<pre class="lang:c# decode:true ">var resolver = new StructureMapDependencyResolver();
+<pre><code>
+var resolver = new StructureMapDependencyResolver();
 RxApp.InitializeCustomResolver((o, type) =&gt; resolver.Register(() =&gt; o, type));
-RxApp.DependencyResolver = resolver;</pre>
+RxApp.DependencyResolver = resolver;
+</code></pre>
 
 <p>The second line there is very important: ReactiveUi uses the DependecyResolver internally, so if you use your own, you need to initialise it with the default ReactiveUi types, or else The Bad Things� will happen.</p>
 
@@ -181,6 +184,7 @@ _gaq.push(['_trackPageview']);
         prettyPrint();
       });
     </script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
 
     <script src="/javascripts/cohesion.js"></script>
 </body>
