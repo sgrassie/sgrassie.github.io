@@ -8,7 +8,7 @@
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie (stugrassie)">
     <meta http-equiv="last-modified" content="2014-02-10T23:25:09.2073637+00:00" />
-    <meta name="keywords" content="Uncategorized" />
+    <meta name="keywords" content="blog,sandra.snow" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -26,7 +26,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2012/11/03/virtualbox-development-environment/" />
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/drafts/2014/02/11/how-i-moved-my-blog-from-wordpress-to-snow/" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -55,18 +55,37 @@
 	
 
 <div class="post">
-    <h1 class="title">VirtualBox Development Environment</h1>
+    <h1 class="title">How I moved my blog from wordpress to snow, part one</h1>
     <div class="meta">
-	<p>03 Nov 2012
+	<p>11 Feb 2014
     </div>
 
-    
+    <ul class="snow-series"><li>How I moved my blog from wordpress to snow, part one</li><li>How I moved my blog from wordpress to snow, part two</li><li>How I moved my blog from wordpress to snow, part three</li></ul>
         
-    <p>In the past when doing web development, I would usually use something like <a title="WAMP Server" href="http://www.wampserver.com" target="_blank">WAMP</a> to get me a development environment to work locally. However these days with the proliferation of web development technologies, there are just too many tools to have running on your machine. I work in Windows, and having PHP, Ruby, Django, Node, Grails and whatever else all on my system path starts getting a little unwieldy.</p>
+    <p>Wherein I show you how I moved my blog from Wordpress, to a statically generated html hosted on github. I will assume that you have a wordpress blog, hosted on either Wordpress.com or your own hosting. If you don't have a wordpress based blog, then that's ok, most of this will still apply.</p>
 
-<p>Enter virtualisation to the rescue. With VirtualBox and a Linux distro you can build yourself a self contained development environment with all your favourite tools. With a little work, you can customise it just how you like, including getting Git running.</p>
+<p>We can identify a pretty broad set of tasks straightaway:</p>
 
-<p>&nbsp;</p>
+<ol>
+<li>Export posts from wordpress into markdown.</li>
+<li>Configure Sandra.Snow to publish our markdown.</li>
+<li>Make it look nice.</li>
+<li>Setup github to publish our new site.</li>
+<li>Update our DNS settings.</li>
+</ol>
+
+<h2>Liberating content from Wordpress</h2>
+
+<p><img src="../../../../../images/wordpress-export.png" alt="Export wordpress content" class="pull-left" style="padding: 5px;">
+Jekyll has some tooling that enables auto-exporting of your blog and its contents into markdown for you, but as it is still (relativly) early days for Sandra.Snow, there is no such tooling for us to leverage.</p>
+
+<p>Wordpress makes it fairly easy to export your blog posts, pages, comments and some other meta-information, packaging everything up into a single XML file, that depending on the number of blog post and other content you have, can be fairly large.</p>
+
+<p>When you click export, you'll be able to download the XML file containing your content. Now we just have to pull out what we want.</p>
+
+<h2>wp2md</h2>
+
+<p>I looked around for something that would do the conversion of my wordpress content into markdown, but I couldn't find one that I liked, or that worked exactly the way that I wanted it to. So naturally, <a href="https://github.com/sgrassie/wp2md.net">I wrote my own</a>.</p>
 
 
     <div id="disqus_thread"></div>
@@ -76,14 +95,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.temporalcohesion.co.uk/2012/11/03/virtualbox-development-environment/';
+                this.page.url = 'http://www.temporalcohesion.co.uk/drafts/2014/02/11/how-i-moved-my-blog-from-wordpress-to-snow/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'temporalcohesion';
-    var disqus_url = 'http://www.temporalcohesion.co.uk/2012/11/03/virtualbox-development-environment/';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/drafts/2014/02/11/how-i-moved-my-blog-from-wordpress-to-snow/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -110,21 +129,7 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript">
-var _gaq = _gaq || [];
-
-_gaq.push(['_setAccount', 'UA-9870754-1']);
-_gaq.push(['_trackPageview']);
-        
-(function () {
-    var ga = document.createElement('script');
-    ga.type = 'text/javascript';
-    ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(ga, s);
-})();
-</script>
+    
 
     <script src="/javascripts/prettify.js"></script>
     <script type='text/javascript'>
