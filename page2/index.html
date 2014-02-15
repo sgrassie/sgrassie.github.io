@@ -6,9 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
-    <meta name="author" content="Stuart Grassie (stugrassie)">
-    <meta http-equiv="last-modified" content="2014-02-10T23:25:09.2073637+00:00" />
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="author" content="Stuart Grassie">
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -54,6 +53,66 @@
     <div class="container">
 	
 
+<div class="post">
+   <h1 class="title"><a href="/2013/07/04/custom-structuremap-dependency-resolver-for-reactiveui-5/">Custom Structuremap Dependency Resolver for ReactiveUI 5</a></h1>
+   <div class="meta">Thursday, 04 Jul, 2013
+   </div>
+            
+   
+   
+<p><a title="ReactiveUI" href="http://reactiveui.net" target="_blank">ReactiveUI</a> 5 has just been released (although I've been playing with the -pre-release alpha for a while), and one of the shiny new things it brings is a simplified Service Location model. This is fine in the most part, for most applications. But, when you have some complicated dependencies between objects (ignoring the fact you might be heading towards a constructor over-injection anti-pattern), you may feel you need to use a full IoC container, like Structuremap, to do the heavy work.</p>
+
+<p>All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.</p>
+
+<pre><code>
+    public class StructureMapDependencyResolver : IMutableDependencyResolver
+    {
+        public StructureMapDependencyResolver()
+        {
+            ObjectFactory.Initialize(init =&gt; init.Scan(scan =&gt;
+                          {
+                              scan.TheCallingAssembly();
+                              scan.LookForRegistries();
+                              scan.WithDefaultConventions();
+                          }));
+
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public object GetService(Type serviceType, string contract = null)
+        {
+            return string.IsNullOrEmpty(contract)
+                       ? ObjectFactory.GetInstance(serviceType)
+                       : ObjectFactory.GetNamedInstance(serviceType, contract);
+        }
+
+        public IEnumerable&lt;object&gt; GetServices(Type serviceType, string contract = null)
+        {
+            return ObjectFactory.GetAllInstances(serviceType).Cast&lt;object&gt;();
+        }
+
+        public void Register(Func&lt;object&gt; factory, Type serviceType, string contract = null)
+        {
+            ObjectFactory.Configure(x =&gt; x.For(serviceType).Use(factory()));
+        }
+    }
+</code></pre>
+
+<p>Then, make ReactiveUI use it.</p>
+
+<pre><code>
+var resolver = new StructureMapDependencyResolver();
+RxApp.InitializeCustomResolver((o, type) =&gt; resolver.Register(() =&gt; o, type));
+RxApp.DependencyResolver = resolver;
+</code></pre>
+
+<p>The second line there is very important: ReactiveUi uses the DependecyResolver internally, so if you use your own, you need to initialise it with the default ReactiveUi types, or else The Bad Things� will happen.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
    <h1 class="title"><a href="/2013/06/21/temp/">temp</a></h1>
    <div class="meta">Friday, 21 Jun, 2013
@@ -111,39 +170,6 @@
 <p>By default, Vim is a very productive editor. It does have a learning curve, but I don't think it is a steep one. You should be able to get up to speed and become productive fairly quickly. Basic navigation and inserting/removing text is quite simple to get to grips with.</p>
 
 <p>Once you have some basic mastery, if you are like me you will quickly want to learn how to customise Vim in order to make it even more useful.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-   <h1 class="title"><a href="/2012/08/27/why-do-i-procrastinate/">Why do I procrastinate?</a></h1>
-   <div class="meta">Monday, 27 Aug, 2012
-   </div>
-            
-   
-   
-<blockquote>Never put off until tomorrow what you can do the day after tomorrow. - Mark Twain</blockquote>
-
-<p>Procrastination is defined as: <em>�The action of delaying or postponing something.�</em>� It is something with which I am unfortunately very familiar with. I have suffered from it, or been guilty of it, for as long as I can remember.</p>
-
-<p>Why?</p>
-
-<p>Facebook, twitter, read a book, IM a friend, see what films are on the movie channels, do housework, go for a walk, play a video game, re-check email, call my fianc�e, write some code, mindlessly read RSS feeds for the latest up-to-the-second news about the latest iPhone rumours even though I no longer own an iPhone. In short, do anything but that which I have set out to do, which is write a blog post about procrastination.</p>
-
-<p>Case in point on how much I procrastinate about certain things: This blog post. It's been almost a year since I last edited it and saved it as a draft.</p>
-
-<p>[caption id="attachment_326" align="aligncenter" width="452"]<a href="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png"><img class="size-full wp-image-326" title="lastedited" src="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png" alt="Last Edited" width="452" height="53" /></a> I am lazy[/caption]</p>
-
-<p>I�m not going to even attempt to write about curing procrastination because I obviously haven't found something which works for me. There are also a myriad of websites and books available on this subject, and it is painfully obvious that I am not the one to be giving advice on how to beat it. I will instead attempt to explore why it is that I do it.</p>
-
-<p>So why do I procrastinate? An easy question to ask, a harder one to answer. Avoiding thinking about the answer to this question by looking through hits on Google leads me to this blog post at Lifehack.org, on <a href="http://www.lifehack.org/articles/productivity/overcome-procrastination-once-and-for-all.html">overcoming productivity</a>. It contains a number of basic reasons why people procrastinate, and I can identify with all of them, although some more than others. That it is a basic list implies that there are more complex reasons why people procrastinate.</p>
-
-<p>After reflecting on this question for some time, I think that I can confidently say that when I embark on a new project, the initial excitement and enthusiasm for it carry me through, but once that wears off, my interest in it starts to wane. In the case of a coding project, the problem domain is what interests me, the technical challenge of designing and implementing a solution to the problem; once that problem is solved, the interest wanes, and the finer details fail to get polished.</p>
-
-<p>This is in itself fairly interesting, because as a programmer, I do tend to be a little OCD over certain things. Obviously this doesn�t extend to finishing projects. Take for example the Github API library I�ve been �working� on for far too long. Obsessing over tiny implementation details of the best way to handle authentication and access to methods on the API which require authorization has been my primary method of procrastination on this particular project. Now that I�ve pretty much resolved that particular issue, the detail of actually fleshing out all the methods for the API �seems like a boring chore.</p>
-
-<p>This also extends to blogging, clearly evidenced by this blog itself with the almost year long hiatus between updates. Then there is another blog, on a wholly unrelated subject, which I started about 4 years ago and haven�t updated in three-and-a-half. I�ll get the blogging bug, write a few posts, get bored with it, and stop.</p>
-
-<p>I really do need to put a stop to this, as it is becoming a big problem for me, as well as making me look like an idiot. Maybe this whole cathartic post might help me in some small way.</p>
  
    <hr />
 </div><!--/.post-->

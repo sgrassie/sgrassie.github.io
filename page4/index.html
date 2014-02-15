@@ -6,9 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
-    <meta name="author" content="Stuart Grassie (stugrassie)">
-    <meta http-equiv="last-modified" content="2014-02-10T23:25:09.2073637+00:00" />
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="author" content="Stuart Grassie">
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -54,6 +53,27 @@
     <div class="container">
 	
 
+<div class="post">
+   <h1 class="title"><a href="/2011/09/26/is-this-thing-on/">Is this thing on?</a></h1>
+   <div class="meta">Monday, 26 Sep, 2011
+   </div>
+            
+   
+   
+<p>Despite many months of not posting anything on this blog (OK, nearly a year) I am returning with another post about my on/off project to write a C# library to access the Github REST API. Much like my blogging schedule, which can arguably be said to be none-existent, my pet-project�s suffer from the same cruel lack of... habit.</p>
+
+<p>To recap this particular project, you may like to browse some of the earlier posts on it, wherein I grandly proclaim my intent to write a �Github API in C#�. Which I should really have finished by now. As you will have no doubt realised, I do suffer from a certain amount of laziness. That is a subject for another blog post. To my shame, I can tell you that the amount of Github�s REST API which I�m covering is minimal, limited to a subset of the available User related commands.</p>
+
+<p>Moving swiftly along, with no trace of irony.</p>
+
+<p>In the months since the start of this project, Github has release v3 of their REST API, which contains many updated and/or new methods to access the whole plethora of the functionality available on Github. Indeed, they have even gone as far as to release a desktop client for Mac�s, and for all I know are working on a Windows version, which would then render this effort of mine (because that�s what I�ve always intended) redundant.</p>
+
+<p>So, despite not blogging about it, and despite going months between commits, I have been working on the library. The RestSharp git sub-module is gone (I mean, who likes sub-modules anyway?) in favour of the NuGet package. The authentication has been reworked slightly (still no OAuth yet) and the API is a little more fluenty.</p>
+
+<p>Of course, it still doesn�t actually let you do very much, I mean even after a year, you still can�t perform all of the actions available to a user. This is terrible, and speaks volumes about me, as a person. Procrastination is my enemy.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
    <h1 class="title"><a href="/2010/11/15/getting-paid-to-do-something-you-love-doing-is-awesome/">Getting paid to do something you love doing is awesome!</a></h1>
    <div class="meta">Monday, 15 Nov, 2010
@@ -222,35 +242,6 @@ public void MakeAuthenticatedRequest()
 <p>The unit test is pretty straightforward, I make a request object which will get my user account, I authenticate the request and then execute it. Then I can simply check that the response content contains "total<em>private</em>repo_count" - this would only be returned if the request was an authenticated request.</p>
 
 <p>One thing you might notice in the test is that in the GitHubAuthenticator constructor, I get my username and password/api token from the <em>_secretsHandler</em> object, an instance of a class I've written which will load my username, password and api key from an XML file. This is so that I don't have to put my Github.com password and API key into the project's Github repo, because that would be bad.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-   <h1 class="title"><a href="/2010/07/21/unit-testing-events/">Unit Testing Events</a></h1>
-   <div class="meta">Wednesday, 21 Jul, 2010
-   </div>
-            
-   
-   
-<p>Recently I have had to unit test some events in an application I work on. I came up with a workable solution, but I didn�t really like the way it was working, and it just looked ugly. So I did a little digging on Google, and <a href="http://stackoverflow.com/questions/248989/unit-testing-that-an-event-is-raised-in-c">found this helpful question on StackOverflow</a>.</p>
-
-<p>Here is my take it. I�m putting it here so I can find easily find it again. Basically it�s the same, but I�m using a lambda to create my anonymous delegate:</p>
-
-<pre class="brush: csharp">[Test]
-public void UnitTestNodeChanged()
-{
- var receivedEvents = new List&lt;XmlNodeChangedEventArgs&gt;();
- var document = new XmlDocument();
-
- document.NodeChanged += ((sender, e) =&gt; receivedEvents.Add(e));
- document.Load("C:file.xml");
-
- Assert.That(receivedEvents.Count, Is.EqualTo(1));
-}</pre>
-
-<p>Nice and short, and to the point. We can test the fact that the event was raised (or not); how many times the event was raised; and, we can test the event arguments.</p>
-
-<p>I like it. Some people may not, but it suits my purposes.</p>
  
    <hr />
 </div><!--/.post-->

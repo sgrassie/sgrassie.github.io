@@ -1,4 +1,112 @@
-<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>temporalcohesion.co.uk</title><link>http://www.temporalcohesion.co.uk/feed.xml</link><description>temporalcohesion.co.uk</description><item><guid isPermaLink="true">http://www.temporalcohesion.co.uk/2014/02/08/moved-blog-to-snow-and-github/</guid><link>http://www.temporalcohesion.co.uk/2014/02/08/moved-blog-to-snow-and-github/</link><title>Moved blog to snow and github</title><description>&lt;h1&gt;No longed bound to wordpress&lt;/h1&gt;
+<rss xmlns:a10="http://www.w3.org/2005/Atom" version="2.0"><channel><title>temporalcohesion.co.uk</title><link>http://www.temporalcohesion.co.uk/feed.xml</link><description>temporalcohesion.co.uk</description><item><guid isPermaLink="true">http://www.temporalcohesion.co.uk/2014/02/15/updating-git-submodules/</guid><link>http://www.temporalcohesion.co.uk/2014/02/15/updating-git-submodules/</link><title>Updating git submodules</title><description>&lt;p&gt;I'm writing this up mostly for my own benefit so that I don't have to go searching for it again in future.&lt;/p&gt;
+
+&lt;p&gt;When you have a git repository which has a few submodules (.e.g. a vim dotfiles repo), you may find that you'll notice one day that they all point to ancient commits in their parent repositories. Consequently, you want to update them, to get the new shiny things.&lt;/p&gt;
+
+&lt;p&gt;To do so is fairly straightforward (from your parent repository):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule update --recursive --remote
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This tells git that you want to update the submodules to the latest commit on the submodules remote tracking branch (&lt;code&gt;--remote&lt;/code&gt;) and to do it recursively (&lt;code&gt;--recursive&lt;/code&gt;) on all of the submodules (and their submodules if any).&lt;/p&gt;
+
+&lt;p&gt;Then if you check the &lt;code&gt;git status&lt;/code&gt; you should see something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+M:\vimfiles [master +0 ~9 -0]&gt; git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add &lt;file&gt;..." to update what will be committed)
+#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+#
+#       modified:   bundle/ctrlp (new commits)
+#       modified:   bundle/delimitmate (new commits)
+#       modified:   bundle/nerdtree (new commits)
+#       modified:   bundle/tagbar (new commits)
+#       modified:   bundle/vim-jade (new commits)
+#       modified:   bundle/vim-javascript.git (new commits)
+#       modified:   bundle/vim-pathogen (new commits)
+#       modified:   bundle/vim-powerline (new commits)
+#       modified:   bundle/vim-ps1 (new commits)
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may find this confusing, as you have just updated all the submodules to the latest commit. Why are are there new commits? If you do a &lt;code&gt;diff&lt;/code&gt; on one of them, you'll see something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+M:\vimfiles [master +0 ~9 -0]&gt; git diff bundle/ctrlp
+diff --git a/bundle/ctrlp b/bundle/ctrlp
+index be5842a..b5d3fe6 160000
+--- a/bundle/ctrlp
++++ b/bundle/ctrlp
+@@ -1 +1 @@
+-Subproject commit be5842a376f16c16c5dc4cc1879d7168a074f7de
++Subproject commit b5d3fe66a58a13d2ff8b6391f4387608496a030f
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Which makes sense, because you have asked git to update the submodule(s) to the latest commit, so it is therefore unsuprising that your repo now knows that its submodules have changed. You need to tell your repository to actually use the latest commit of the submodules, and then commit everything:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+git submodule update
+git commit -am "Updated submodules to latest"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hope that helps someone.&lt;/p&gt;
+</description><pubDate>Sat, 15 Feb 2014 00:00:00 Z</pubDate><a10:updated>2014-02-15T00:00:00Z</a10:updated><a10:content type="text">&lt;p&gt;I'm writing this up mostly for my own benefit so that I don't have to go searching for it again in future.&lt;/p&gt;
+
+&lt;p&gt;When you have a git repository which has a few submodules (.e.g. a vim dotfiles repo), you may find that you'll notice one day that they all point to ancient commits in their parent repositories. Consequently, you want to update them, to get the new shiny things.&lt;/p&gt;
+
+&lt;p&gt;To do so is fairly straightforward (from your parent repository):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git submodule update --recursive --remote
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This tells git that you want to update the submodules to the latest commit on the submodules remote tracking branch (&lt;code&gt;--remote&lt;/code&gt;) and to do it recursively (&lt;code&gt;--recursive&lt;/code&gt;) on all of the submodules (and their submodules if any).&lt;/p&gt;
+
+&lt;p&gt;Then if you check the &lt;code&gt;git status&lt;/code&gt; you should see something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+M:\vimfiles [master +0 ~9 -0]&gt; git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add &lt;file&gt;..." to update what will be committed)
+#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+#
+#       modified:   bundle/ctrlp (new commits)
+#       modified:   bundle/delimitmate (new commits)
+#       modified:   bundle/nerdtree (new commits)
+#       modified:   bundle/tagbar (new commits)
+#       modified:   bundle/vim-jade (new commits)
+#       modified:   bundle/vim-javascript.git (new commits)
+#       modified:   bundle/vim-pathogen (new commits)
+#       modified:   bundle/vim-powerline (new commits)
+#       modified:   bundle/vim-ps1 (new commits)
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may find this confusing, as you have just updated all the submodules to the latest commit. Why are are there new commits? If you do a &lt;code&gt;diff&lt;/code&gt; on one of them, you'll see something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+M:\vimfiles [master +0 ~9 -0]&gt; git diff bundle/ctrlp
+diff --git a/bundle/ctrlp b/bundle/ctrlp
+index be5842a..b5d3fe6 160000
+--- a/bundle/ctrlp
++++ b/bundle/ctrlp
+@@ -1 +1 @@
+-Subproject commit be5842a376f16c16c5dc4cc1879d7168a074f7de
++Subproject commit b5d3fe66a58a13d2ff8b6391f4387608496a030f
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Which makes sense, because you have asked git to update the submodule(s) to the latest commit, so it is therefore unsuprising that your repo now knows that its submodules have changed. You need to tell your repository to actually use the latest commit of the submodules, and then commit everything:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;
+git submodule update
+git commit -am "Updated submodules to latest"
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hope that helps someone.&lt;/p&gt;
+</a10:content></item><item><guid isPermaLink="true">http://www.temporalcohesion.co.uk/2014/02/08/moved-blog-to-snow-and-github/</guid><link>http://www.temporalcohesion.co.uk/2014/02/08/moved-blog-to-snow-and-github/</link><title>Moved blog to snow and github</title><description>&lt;h1&gt;No longed bound to wordpress&lt;/h1&gt;
 
 &lt;p&gt;For most of the time I've been blogging, I've used Wordpress. It's very good software, but kind of requires
 somewhere to host it. Either on your own custom hosting, or wordpress.com. For a long time, I paid for my own
@@ -224,50 +332,4 @@ RxApp.DependencyResolver = resolver;
 &lt;p&gt;By default, Vim is a very productive editor. It does have a learning curve, but I don't think it is a steep one. You should be able to get up to speed and become productive fairly quickly. Basic navigation and inserting/removing text is quite simple to get to grips with.&lt;/p&gt;
 
 &lt;p&gt;Once you have some basic mastery, if you are like me you will quickly want to learn how to customise Vim in order to make it even more useful.&lt;/p&gt;
-</a10:content></item><item><guid isPermaLink="true">http://www.temporalcohesion.co.uk/2012/08/27/why-do-i-procrastinate/</guid><link>http://www.temporalcohesion.co.uk/2012/08/27/why-do-i-procrastinate/</link><title>Why do I procrastinate?</title><description>&lt;blockquote&gt;Never put off until tomorrow what you can do the day after tomorrow. - Mark Twain&lt;/blockquote&gt;
-
-&lt;p&gt;Procrastination is defined as: &lt;em&gt;�The action of delaying or postponing something.�&lt;/em&gt;� It is something with which I am unfortunately very familiar with. I have suffered from it, or been guilty of it, for as long as I can remember.&lt;/p&gt;
-
-&lt;p&gt;Why?&lt;/p&gt;
-
-&lt;p&gt;Facebook, twitter, read a book, IM a friend, see what films are on the movie channels, do housework, go for a walk, play a video game, re-check email, call my fianc�e, write some code, mindlessly read RSS feeds for the latest up-to-the-second news about the latest iPhone rumours even though I no longer own an iPhone. In short, do anything but that which I have set out to do, which is write a blog post about procrastination.&lt;/p&gt;
-
-&lt;p&gt;Case in point on how much I procrastinate about certain things: This blog post. It's been almost a year since I last edited it and saved it as a draft.&lt;/p&gt;
-
-&lt;p&gt;[caption id="attachment_326" align="aligncenter" width="452"]&lt;a href="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png"&gt;&lt;img class="size-full wp-image-326" title="lastedited" src="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png" alt="Last Edited" width="452" height="53" /&gt;&lt;/a&gt; I am lazy[/caption]&lt;/p&gt;
-
-&lt;p&gt;I�m not going to even attempt to write about curing procrastination because I obviously haven't found something which works for me. There are also a myriad of websites and books available on this subject, and it is painfully obvious that I am not the one to be giving advice on how to beat it. I will instead attempt to explore why it is that I do it.&lt;/p&gt;
-
-&lt;p&gt;So why do I procrastinate? An easy question to ask, a harder one to answer. Avoiding thinking about the answer to this question by looking through hits on Google leads me to this blog post at Lifehack.org, on &lt;a href="http://www.lifehack.org/articles/productivity/overcome-procrastination-once-and-for-all.html"&gt;overcoming productivity&lt;/a&gt;. It contains a number of basic reasons why people procrastinate, and I can identify with all of them, although some more than others. That it is a basic list implies that there are more complex reasons why people procrastinate.&lt;/p&gt;
-
-&lt;p&gt;After reflecting on this question for some time, I think that I can confidently say that when I embark on a new project, the initial excitement and enthusiasm for it carry me through, but once that wears off, my interest in it starts to wane. In the case of a coding project, the problem domain is what interests me, the technical challenge of designing and implementing a solution to the problem; once that problem is solved, the interest wanes, and the finer details fail to get polished.&lt;/p&gt;
-
-&lt;p&gt;This is in itself fairly interesting, because as a programmer, I do tend to be a little OCD over certain things. Obviously this doesn�t extend to finishing projects. Take for example the Github API library I�ve been �working� on for far too long. Obsessing over tiny implementation details of the best way to handle authentication and access to methods on the API which require authorization has been my primary method of procrastination on this particular project. Now that I�ve pretty much resolved that particular issue, the detail of actually fleshing out all the methods for the API �seems like a boring chore.&lt;/p&gt;
-
-&lt;p&gt;This also extends to blogging, clearly evidenced by this blog itself with the almost year long hiatus between updates. Then there is another blog, on a wholly unrelated subject, which I started about 4 years ago and haven�t updated in three-and-a-half. I�ll get the blogging bug, write a few posts, get bored with it, and stop.&lt;/p&gt;
-
-&lt;p&gt;I really do need to put a stop to this, as it is becoming a big problem for me, as well as making me look like an idiot. Maybe this whole cathartic post might help me in some small way.&lt;/p&gt;
-</description><pubDate>Sun, 26 Aug 2012 23:00:00 Z</pubDate><a10:updated>2012-08-26T23:00:00Z</a10:updated><a10:content type="text">&lt;blockquote&gt;Never put off until tomorrow what you can do the day after tomorrow. - Mark Twain&lt;/blockquote&gt;
-
-&lt;p&gt;Procrastination is defined as: &lt;em&gt;�The action of delaying or postponing something.�&lt;/em&gt;� It is something with which I am unfortunately very familiar with. I have suffered from it, or been guilty of it, for as long as I can remember.&lt;/p&gt;
-
-&lt;p&gt;Why?&lt;/p&gt;
-
-&lt;p&gt;Facebook, twitter, read a book, IM a friend, see what films are on the movie channels, do housework, go for a walk, play a video game, re-check email, call my fianc�e, write some code, mindlessly read RSS feeds for the latest up-to-the-second news about the latest iPhone rumours even though I no longer own an iPhone. In short, do anything but that which I have set out to do, which is write a blog post about procrastination.&lt;/p&gt;
-
-&lt;p&gt;Case in point on how much I procrastinate about certain things: This blog post. It's been almost a year since I last edited it and saved it as a draft.&lt;/p&gt;
-
-&lt;p&gt;[caption id="attachment_326" align="aligncenter" width="452"]&lt;a href="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png"&gt;&lt;img class="size-full wp-image-326" title="lastedited" src="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png" alt="Last Edited" width="452" height="53" /&gt;&lt;/a&gt; I am lazy[/caption]&lt;/p&gt;
-
-&lt;p&gt;I�m not going to even attempt to write about curing procrastination because I obviously haven't found something which works for me. There are also a myriad of websites and books available on this subject, and it is painfully obvious that I am not the one to be giving advice on how to beat it. I will instead attempt to explore why it is that I do it.&lt;/p&gt;
-
-&lt;p&gt;So why do I procrastinate? An easy question to ask, a harder one to answer. Avoiding thinking about the answer to this question by looking through hits on Google leads me to this blog post at Lifehack.org, on &lt;a href="http://www.lifehack.org/articles/productivity/overcome-procrastination-once-and-for-all.html"&gt;overcoming productivity&lt;/a&gt;. It contains a number of basic reasons why people procrastinate, and I can identify with all of them, although some more than others. That it is a basic list implies that there are more complex reasons why people procrastinate.&lt;/p&gt;
-
-&lt;p&gt;After reflecting on this question for some time, I think that I can confidently say that when I embark on a new project, the initial excitement and enthusiasm for it carry me through, but once that wears off, my interest in it starts to wane. In the case of a coding project, the problem domain is what interests me, the technical challenge of designing and implementing a solution to the problem; once that problem is solved, the interest wanes, and the finer details fail to get polished.&lt;/p&gt;
-
-&lt;p&gt;This is in itself fairly interesting, because as a programmer, I do tend to be a little OCD over certain things. Obviously this doesn�t extend to finishing projects. Take for example the Github API library I�ve been �working� on for far too long. Obsessing over tiny implementation details of the best way to handle authentication and access to methods on the API which require authorization has been my primary method of procrastination on this particular project. Now that I�ve pretty much resolved that particular issue, the detail of actually fleshing out all the methods for the API �seems like a boring chore.&lt;/p&gt;
-
-&lt;p&gt;This also extends to blogging, clearly evidenced by this blog itself with the almost year long hiatus between updates. Then there is another blog, on a wholly unrelated subject, which I started about 4 years ago and haven�t updated in three-and-a-half. I�ll get the blogging bug, write a few posts, get bored with it, and stop.&lt;/p&gt;
-
-&lt;p&gt;I really do need to put a stop to this, as it is becoming a big problem for me, as well as making me look like an idiot. Maybe this whole cathartic post might help me in some small way.&lt;/p&gt;
 </a10:content></item></channel></rss>

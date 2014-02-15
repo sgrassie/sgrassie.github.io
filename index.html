@@ -6,9 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
-    <meta name="author" content="Stuart Grassie (stugrassie)">
-    <meta http-equiv="last-modified" content="2014-02-10T23:25:09.2073637+00:00" />
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="author" content="Stuart Grassie">
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -54,6 +53,70 @@
     <div class="container">
 	
 
+<div class="post">
+   <h1 class="title"><a href="/2014/02/15/updating-git-submodules/">Updating git submodules</a></h1>
+   <div class="meta">Saturday, 15 Feb, 2014
+   </div>
+            
+   
+   
+<p>I'm writing this up mostly for my own benefit so that I don't have to go searching for it again in future.</p>
+
+<p>When you have a git repository which has a few submodules (.e.g. a vim dotfiles repo), you may find that you'll notice one day that they all point to ancient commits in their parent repositories. Consequently, you want to update them, to get the new shiny things.</p>
+
+<p>To do so is fairly straightforward (from your parent repository):</p>
+
+<pre><code>git submodule update --recursive --remote
+</code></pre>
+
+<p>This tells git that you want to update the submodules to the latest commit on the submodules remote tracking branch (<code>--remote</code>) and to do it recursively (<code>--recursive</code>) on all of the submodules (and their submodules if any).</p>
+
+<p>Then if you check the <code>git status</code> you should see something like this:</p>
+
+<pre><code>
+M:\vimfiles [master +0 ~9 -0]> git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#       modified:   bundle/ctrlp (new commits)
+#       modified:   bundle/delimitmate (new commits)
+#       modified:   bundle/nerdtree (new commits)
+#       modified:   bundle/tagbar (new commits)
+#       modified:   bundle/vim-jade (new commits)
+#       modified:   bundle/vim-javascript.git (new commits)
+#       modified:   bundle/vim-pathogen (new commits)
+#       modified:   bundle/vim-powerline (new commits)
+#       modified:   bundle/vim-ps1 (new commits)
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+</code></pre>
+
+<p>You may find this confusing, as you have just updated all the submodules to the latest commit. Why are are there new commits? If you do a <code>diff</code> on one of them, you'll see something like this:</p>
+
+<pre><code>
+M:\vimfiles [master +0 ~9 -0]> git diff bundle/ctrlp
+diff --git a/bundle/ctrlp b/bundle/ctrlp
+index be5842a..b5d3fe6 160000
+--- a/bundle/ctrlp
++++ b/bundle/ctrlp
+@@ -1 +1 @@
+-Subproject commit be5842a376f16c16c5dc4cc1879d7168a074f7de
++Subproject commit b5d3fe66a58a13d2ff8b6391f4387608496a030f
+</code></pre>
+
+<p>Which makes sense, because you have asked git to update the submodule(s) to the latest commit, so it is therefore unsuprising that your repo now knows that its submodules have changed. You need to tell your repository to actually use the latest commit of the submodules, and then commit everything:</p>
+
+<pre><code>
+git submodule update
+git commit -am "Updated submodules to latest"
+</code></pre>
+
+<p>Hope that helps someone.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
    <h1 class="title"><a href="/2014/02/08/moved-blog-to-snow-and-github/">Moved blog to snow and github</a></h1>
    <div class="meta">Saturday, 08 Feb, 2014
@@ -134,66 +197,6 @@ not sure about the name myself, but there you go.</p>
 <p>Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.</p>
 
 <p>I will not work on it anymore.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-   <h1 class="title"><a href="/2013/07/04/custom-structuremap-dependency-resolver-for-reactiveui-5/">Custom Structuremap Dependency Resolver for ReactiveUI 5</a></h1>
-   <div class="meta">Thursday, 04 Jul, 2013
-   </div>
-            
-   
-   
-<p><a title="ReactiveUI" href="http://reactiveui.net" target="_blank">ReactiveUI</a> 5 has just been released (although I've been playing with the -pre-release alpha for a while), and one of the shiny new things it brings is a simplified Service Location model. This is fine in the most part, for most applications. But, when you have some complicated dependencies between objects (ignoring the fact you might be heading towards a constructor over-injection anti-pattern), you may feel you need to use a full IoC container, like Structuremap, to do the heavy work.</p>
-
-<p>All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.</p>
-
-<pre><code>
-    public class StructureMapDependencyResolver : IMutableDependencyResolver
-    {
-        public StructureMapDependencyResolver()
-        {
-            ObjectFactory.Initialize(init =&gt; init.Scan(scan =&gt;
-                          {
-                              scan.TheCallingAssembly();
-                              scan.LookForRegistries();
-                              scan.WithDefaultConventions();
-                          }));
-
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public object GetService(Type serviceType, string contract = null)
-        {
-            return string.IsNullOrEmpty(contract)
-                       ? ObjectFactory.GetInstance(serviceType)
-                       : ObjectFactory.GetNamedInstance(serviceType, contract);
-        }
-
-        public IEnumerable&lt;object&gt; GetServices(Type serviceType, string contract = null)
-        {
-            return ObjectFactory.GetAllInstances(serviceType).Cast&lt;object&gt;();
-        }
-
-        public void Register(Func&lt;object&gt; factory, Type serviceType, string contract = null)
-        {
-            ObjectFactory.Configure(x =&gt; x.For(serviceType).Use(factory()));
-        }
-    }
-</code></pre>
-
-<p>Then, make ReactiveUI use it.</p>
-
-<pre><code>
-var resolver = new StructureMapDependencyResolver();
-RxApp.InitializeCustomResolver((o, type) =&gt; resolver.Register(() =&gt; o, type));
-RxApp.DependencyResolver = resolver;
-</code></pre>
-
-<p>The second line there is very important: ReactiveUi uses the DependecyResolver internally, so if you use your own, you need to initialise it with the default ReactiveUi types, or else The Bad Things� will happen.</p>
  
    <hr />
 </div><!--/.post-->
