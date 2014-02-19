@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -49,7 +49,7 @@
 	  <ul class="nav navbar-nav navbar-right">
 		  <li><a href="http://twitter.com/stugrassie"><img src="/images/twitter.png"></a></li>
 		  <li><a href="http://facebook.com/sgrassie"><img src="/images/facebook.png"></a></li>
-		  <li><a href="http://linkedin.com/sgrassie"><img src="/images/linkedin.png"></a></li>
+		  <li><a href="http://uk.linkedin.com/in/sgrassie/"><img src="/images/linkedin.png"></a></li>
 	  </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -59,8 +59,87 @@
 	
 
 <div class="post">
-   <h1 class="title"><a href="/2010/07/21/unit-testing-events/">Unit Testing Events</a></h1>
-   <div class="meta">Wednesday, 21 Jul, 2010
+	<h1 class="title"><a href="/2010/10/25/lets-write-an-api-library-for-github/">Let's write an API library for Github</a> <small>Monday, 25 Oct, 2010</small></h1>
+   <div class="meta">
+   </div>
+            
+   
+   
+<p>Let's write a C# API library for <a title="Github.com" href="http://www.github.com">github.com</a>.</p>
+
+<p>Github has a <a title="Representational State Transfer on Wikipedia" href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a> base API, the details of which are available at develop.github.com. Before continuing, I should point out that there is an <a title="GitHubSharp on github.com" href="http://github.com/erikzaadi/GithubSharp">existing C# library already available</a>, if you want to use that.</p>
+
+<p>We'll leverage John Sheehan's excellent <a title="johnsheehan's RestSharp on github.com" href="http://github.com/johnsheehan/RestSharp" target="_blank">RestSharp</a> library to do most of the heavy lifting.</p>
+
+<p>Before we can really do anything, the first task at hand is to learn how to work with RestSharp, and how we can make a request and receive a response. Fortunately, RestSharp makes it really easy, and there are excellent resources on the project's wiki page which explain how to do things. Let's see a quick example:</p>
+
+<pre class="brush: csharp">[Test]
+public void MakeBasicRequestToTwitterWithRestSharp()
+{
+    var client = new RestClient("http://api.twitter.com");
+    client.UserAgent = "TemporalCohesion.TwitterApi";
+
+    var request = new RestRequest();
+    request.Resource = "statuses/public_timeline.json";
+
+    var response = client.Execute(request);
+
+    if (response.StatusCode == HttpStatusCode.OK)
+    {
+        String content = response.Content;
+
+        Assert.That(content, Is.Not.Null);
+    }
+    else
+    {
+        Assert.Fail(response.StatusDescription);
+    }
+}</pre>
+
+<p>Here we are making an authenticated request to Twitter, asking for the public timeline in JSON format, but, the same code can easily be applied to github.com. We'll see more of that later. First we create the client object, and then create the request object - telling it what resource to actually request, and then we execute the request using the client, and then do something with the response. Pretty straightforward, huh?</p>
+
+<p>There is quite a lot that we can do with the Github API at this point, although you'll quickly see that to do anything really interesting (i.e. modifying your github account, or creating/forking repo's) requires you to be authenticated. Fortunately for us, Github uses HTTP Basic Authentication, and, RestSharp has a HttpBasicAuthenticator class, and if you put the two together, you can make an authenticated request to Github like this:</p>
+
+<pre class="brush: csharp">var client = new RestClient
+                 {
+                     BaseUrl = "https://github.com/api/v2/json",
+                     Authenticator = new HttpBasicAuthenticator("test", "test")
+                 };</pre>
+
+<p>After we set the authenticator, RestSharp takes care of making sure that the headers of the requests we make to Github's API contain the necessary authentication which identifies us to Github. You'll note that the BaseUrl here is set to https://github.com/..., so that we can take advantage of SSL. You can can access public data via normal http://, but if we are going to do anything that requires authentication, it will be best if we choose to use https://</p>
+
+<p>Github also provide us with an API key. This is a unique key which identifies us to Github, and give our requests a little bit more security. We can't set this key with RestSharp, as we need to modify the way the authorization header is generated when we make a request. What we can do though, is to implement our own <a title="RestSharp's IAuthenticator class" href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/Authenticators/IAuthenticator.cs" target="_blank">IAuthenticator</a> to do handle it for us. You can see <a title="GitHubAuthenticator in the csharp-github-api" href="http://github.com/sgrassie/csharp-github-api/blob/master/csharp-github-api/GitHubAuthenticator.cs" target="_blank">my implementation</a> up on Github. It's fairly straightforward - I still wanted to allow basic username:password authentication, as well as username/token: authentication for Github.com. Let's create a unit test to check everything is working OK.</p>
+
+<p>How do we know if we have made an authenticated request successfully? If you make a request to Github for a user, and you are authenticated as that user, then as well as the standard user response, there is some additional information included in the responses that only you, as the authenticated user, can see. And we can check for this information in the response:</p>
+
+<pre class="brush: csharp">[Test]
+public void MakeAuthenticatedRequest()
+{
+    var restRequest = new RestRequest
+            {
+                Resource = "/user/show/sgrassie"
+            };
+
+    var client = new RestClient
+                     {
+                         BaseUrl = "http://github.com/api/v2/json",
+                         Authenticator = new GitHubAuthenticator(_secretsHandler.Username, _secretsHandler.Password, true)
+                     };
+
+    var response = client.Execute(restRequest);
+
+    Assert.That(response.Content, Is.StringContaining("total_private_repo_count"));
+}</pre>
+
+<p>The unit test is pretty straightforward, I make a request object which will get my user account, I authenticate the request and then execute it. Then I can simply check that the response content contains "total<em>private</em>repo_count" - this would only be returned if the request was an authenticated request.</p>
+
+<p>One thing you might notice in the test is that in the GitHubAuthenticator constructor, I get my username and password/api token from the <em>_secretsHandler</em> object, an instance of a class I've written which will load my username, password and api key from an XML file. This is so that I don't have to put my Github.com password and API key into the project's Github repo, because that would be bad.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title"><a href="/2010/07/21/unit-testing-events/">Unit Testing Events</a> <small>Wednesday, 21 Jul, 2010</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -88,8 +167,8 @@ public void UnitTestNodeChanged()
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2010/03/31/well-i-certainly-didnt-know-that-word-could-do-this/">Well I certainly didn�t know that Word could do this</a></h1>
-   <div class="meta">Wednesday, 31 Mar, 2010
+	<h1 class="title"><a href="/2010/03/31/well-i-certainly-didnt-know-that-word-could-do-this/">Well I certainly didn�t know that Word could do this</a> <small>Wednesday, 31 Mar, 2010</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -101,8 +180,8 @@ public void UnitTestNodeChanged()
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2010/03/23/revisting-the-project-euler-problem-runner/">Revisting the Project Euler problem runner</a></h1>
-   <div class="meta">Tuesday, 23 Mar, 2010
+	<h1 class="title"><a href="/2010/03/23/revisting-the-project-euler-problem-runner/">Revisting the Project Euler problem runner</a> <small>Tuesday, 23 Mar, 2010</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -221,8 +300,8 @@ private void loadClasses() {
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2010/03/17/even-more-on-the-generic-plugin-manager/">Even more on the generic plugin manager</a></h1>
-   <div class="meta">Wednesday, 17 Mar, 2010
+	<h1 class="title"><a href="/2010/03/17/even-more-on-the-generic-plugin-manager/">Even more on the generic plugin manager</a> <small>Wednesday, 17 Mar, 2010</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -256,37 +335,6 @@ private void loadClasses() {
 <h2>In Conclusion</h2>
 
 <p>What can I draw from all this? I don't think that I wasted any of my time or effort in writing my own plugin framework. It was a worthwhile exercise which taught me a lot of things, and I urge you to do the same.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-   <h1 class="title"><a href="/2010/03/07/you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple/">You don't have to kneel at the altar of the cult of Apple</a></h1>
-   <div class="meta">Sunday, 07 Mar, 2010
-   </div>
-            
-   
-   
-<h1>Unless you've been living under a rock</h1>
-
-<p>You will have seen, heard and read the buzz about the Apple <a title="ipad on Apple.com" href="http://www.apple.com/ipad/" target="_blank">iPad</a>. What it is, what it does and why you should buy it. This post is not about all that - it's covered in excruciating detail elsewhere on your favourite tech site. Ever since the iPad was just a rumour, and since it was officially announced, we have been arguing about it at work. Whose going to buy one? Who is an idiot for wanting to buy one? Who is an idiot for not wanting to buy one?</p>
-
-<blockquote>Note: I should mention that I do happen to own an iPhone (via an O2 two year(!) contract), and I think it is probably the best mobile phone I've ever owned, however, I will take some convincing to enter into another two year contract again. But I digress. I have a couple of old iPods, nothing else: I am not a <a title="Fanboy on wikipedia" href="http://en.wikipedia.org/wiki/Fan_%28person%29" target="_blank">fanboy</a>.</blockquote>
-
-<p>The niche that the iPad and devices like it fill is undoubtedly there, or else these products would not be developed. The key thing here is "...and devices like it...". There isn't just the iPad to consider.� This is the fantastic thing about our society: we have a huge freedom of choice in our purchasing decisions. We are free to evaluate, consider and weigh all the pros and cons of a particular product before we make the commitment to purchase.</p>
-
-<h1>Unless you are an Apple fanboy</h1>
-
-<p>In which case, you have already sub-concisiously made the decision to purchase anything with an Apple logo on. Are you an Apple fan boy? You have a Mac of some discription. You bought (and probably still have) a first-gen iPod. You bought an iTouch the day it was release. You were the first in your office to get an iPhone. You were the first to upgrade to an iPhone 3G. You were the first to upgrade to an iPhone 3GS. You hammer F5 on your favourite liveblog of an Apple event. You wouldn't even consider buying a laptop from Asus, Acer or Dell (or whoever) which as powerful and costs half the price of something which has a fucking Apple logo on it.</p>
-
-<p>Fanboy. Acolyte. Get out. You have already made your choice. You cannot win an arguement with someone who fanatically believes they are right.</p>
-
-<h1>Open minded? Continue from here</h1>
-
-<p>For those who are prepared to broaden our horizons, there is a bewildering array of choice just around the corner. Rather than rehash other people's hard work from around the interweb, and because I'm lazy, I refer you to this article on About.com: <a href="http://portables.about.com/od/otherdevices/tp/Slate_tablet_roundup.htm" target="_blank">http://portables.about.com/od/otherdevices/tp/Slate<em>tablet</em>roundup.htm</a>, which offers a succinct highlight of varous slate tablet computers. <a href="http://www.engadget.com/2010/03/05/microsofts-courier-digital-journal-exclusive-pictures-and-de/" target="_blank">Engadget also has some details</a> of Microsofts offering, the 'Courier', which looks promising.</p>
-
-<h1>In Conclusion</h1>
-
-<p>You do not have to kneel at the alter of the cult of Apple. You have a choice. Use it wisely.</p>
  
    <hr />
 </div><!--/.post-->

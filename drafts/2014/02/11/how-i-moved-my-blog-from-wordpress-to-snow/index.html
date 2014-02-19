@@ -49,7 +49,7 @@
 	  <ul class="nav navbar-nav navbar-right">
 		  <li><a href="http://twitter.com/stugrassie"><img src="/images/twitter.png"></a></li>
 		  <li><a href="http://facebook.com/sgrassie"><img src="/images/facebook.png"></a></li>
-		  <li><a href="http://linkedin.com/sgrassie"><img src="/images/linkedin.png"></a></li>
+		  <li><a href="http://uk.linkedin.com/in/sgrassie/"><img src="/images/linkedin.png"></a></li>
 	  </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -59,10 +59,7 @@
 	
 
 <div class="post">
-    <h1 class="title">How I moved my blog from wordpress to snow, part one</h1>
-    <div class="meta">
-	<p>11 Feb 2014
-    </div>
+    <h1 class="title">How I moved my blog from wordpress to snow, part one <small>Tuesday, 11, Feb 2014</small></h1>
 
     <ul class="snow-series"><li>How I moved my blog from wordpress to snow, part one</li><li>How I moved my blog from wordpress to snow, part two</li><li>How I moved my blog from wordpress to snow, part three</li></ul>
         
@@ -90,6 +87,30 @@ Jekyll has some tooling that enables auto-exporting of your blog and its content
 <h2>wp2md</h2>
 
 <p>I looked around for something that would do the conversion of my wordpress content into markdown, but I couldn't find one that I liked, or that worked exactly the way that I wanted it to. So naturally, <a href="https://github.com/sgrassie/wp2md.net">I wrote my own</a>.</p>
+
+<p>The export file format isn't documented anywhere that I could find online, there were a few bits and pieces here and there on blogs and on some forums, but, honestly, it's just an xml file, it's not all that difficult. The only thing that may trip you up is the number of xml namespaces it uses, although if like me you've had a job maintaining software which manages complex xml, then it's no big deal.</p>
+
+<p>I found it has a root <code>&lt;rss&gt;</code> element, followed by <code>&lt;channel&gt;</code> and then <code>&lt;item&gt;</code> where an item is a post, comment or even a page. An item is then broken down into further child elements which include things like the title of the post (or page, or comment), the url, publication date, actual content of the post, and various other pieces of meta data about the post. For example:</p>
+
+<pre><code>
+<item>
+                <title>Definitely given up on my github-csharp-api project</title>
+        <link>http://temporalcohesion.co.uk/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/</link>
+        <pubDate>Thu, 07 Nov 2013 21:08:19 +0000</pubDate>
+        <dc:creator><![CDATA[stuart]]></dc:creator>
+        <guid isPermaLink="false">http://temporalcohesion.co.uk/?p=394</guid>
+        <description></description>
+        <content:encoded><![CDATA[Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.
+
+
+
+I will not work on it anymore.]]></content:encoded>
+        <excerpt:encoded><![CDATA[]]></excerpt:encoded>
+        <wp:post_id>394</wp:post_id>
+        <wp:post_date>2013-11-07 21:08:19</wp:post_date>
+        <wp:post_date_gmt>2013-11-07 21:08:19</wp:post_date_gmt>
+        ......
+</code></pre>
 
 
     <div id="disqus_thread"></div>

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="snow" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -25,7 +25,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/category/php/" />
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2014/02/19/extending-sandra-snow/" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -58,19 +58,45 @@
     <div class="container">
 	
 
-  <header>
-  <div class="head-inner">
-    <h1><a href="/category/">Categories</a> - PHP</h1>
-  </div>
-  </header>
+<div class="post">
+    <h1 class="title">Extending Sandra.Snow <small>Wednesday, 19, Feb 2014</small></h1>
 
-  <ul class="category-list fancy-container orange">
-      <li>
-        <a href="/2007/10/07/cakephp-with-eclipse/" title="cakePHP with Eclipse">cakePHP with Eclipse</a> 
-        <small>(07 Oct 2007)</small>
-      </li>
-  </ul>
-  
+    
+        
+    <p>After switching my blog over to use <a href="https://github.com/Sandra/Sandra.Snow">Sandra.Snow</a>, I noticed that in at least one feed aggregator that my blog shows up in, it wasn't displaying correct. The escaped html in the feed generator from the markdown by Snow wasn't getting rendered in the aggregator correctly. After a little digging it was apparant to me that the <code>RssResponse</code> in Snow was not correctly setting it's content type.</p>
+
+<p>I could have left it there, or submitted a small patch to fix the issue (I still will), but I noticed that the feed it generates isn't a pure atom feed, so I basically copied the relevant classes (changing 'rss' to 'atom') in the class names, and did a little configuration, and swapped over the feed to use atom.</p>
+
+<p>Even though I know that the atom feed validates, this post is in part a test to see what happens...</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2014/02/19/extending-sandra-snow/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2014/02/19/extending-sandra-snow/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
 
         
         <hr />

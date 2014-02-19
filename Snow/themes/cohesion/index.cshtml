@@ -6,8 +6,8 @@
 
 @foreach(var post in Model.PostsPaged) {
 <div class="post">
-   <h1 class="title"><a href="@post.Url">@post.Title</a></h1>
-   <div class="meta">@post.Date.ToString("dddddd, dd MMM, yyyy")
+	<h1 class="title"><a href="@post.Url">@post.Title</a> <small>@post.Date.ToString("dddddd, dd MMM, yyyy")</small></h1>
+   <div class="meta">
    </div>
             
    @Html.RenderSeries(post)

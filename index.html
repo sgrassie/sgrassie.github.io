@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -49,7 +49,7 @@
 	  <ul class="nav navbar-nav navbar-right">
 		  <li><a href="http://twitter.com/stugrassie"><img src="/images/twitter.png"></a></li>
 		  <li><a href="http://facebook.com/sgrassie"><img src="/images/facebook.png"></a></li>
-		  <li><a href="http://linkedin.com/sgrassie"><img src="/images/linkedin.png"></a></li>
+		  <li><a href="http://uk.linkedin.com/in/sgrassie/"><img src="/images/linkedin.png"></a></li>
 	  </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -59,8 +59,23 @@
 	
 
 <div class="post">
-   <h1 class="title"><a href="/2014/02/15/updating-git-submodules/">Updating git submodules</a></h1>
-   <div class="meta">Saturday, 15 Feb, 2014
+	<h1 class="title"><a href="/2014/02/19/extending-sandra-snow/">Extending Sandra.Snow</a> <small>Wednesday, 19 Feb, 2014</small></h1>
+   <div class="meta">
+   </div>
+            
+   
+   
+<p>After switching my blog over to use <a href="https://github.com/Sandra/Sandra.Snow">Sandra.Snow</a>, I noticed that in at least one feed aggregator that my blog shows up in, it wasn't displaying correct. The escaped html in the feed generator from the markdown by Snow wasn't getting rendered in the aggregator correctly. After a little digging it was apparant to me that the <code>RssResponse</code> in Snow was not correctly setting it's content type.</p>
+
+<p>I could have left it there, or submitted a small patch to fix the issue (I still will), but I noticed that the feed it generates isn't a pure atom feed, so I basically copied the relevant classes (changing 'rss' to 'atom') in the class names, and did a little configuration, and swapped over the feed to use atom.</p>
+
+<p>Even though I know that the atom feed validates, this post is in part a test to see what happens...</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title"><a href="/2014/02/15/updating-git-submodules/">Updating git submodules</a> <small>Saturday, 15 Feb, 2014</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -123,8 +138,8 @@ git commit -am "Updated submodules to latest"
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2014/02/08/moved-blog-to-snow-and-github/">Moved blog to snow and github</a></h1>
-   <div class="meta">Saturday, 08 Feb, 2014
+	<h1 class="title"><a href="/2014/02/08/moved-blog-to-snow-and-github/">Moved blog to snow and github</a> <small>Saturday, 08 Feb, 2014</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -153,8 +168,8 @@ not sure about the name myself, but there you go.</p>
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2013/11/17/learning-reactiveui-for-fun-and-profit-hello-world/">Learning ReactiveUI for fun and profit: Hello, World!</a></h1>
-   <div class="meta">Sunday, 17 Nov, 2013
+	<h1 class="title"><a href="/2013/11/17/learning-reactiveui-for-fun-and-profit-hello-world/">Learning ReactiveUI for fun and profit: Hello, World!</a> <small>Sunday, 17 Nov, 2013</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -174,8 +189,8 @@ not sure about the name myself, but there you go.</p>
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2013/11/16/learning-reactiveui-for-fun-and-profit/">Learning ReactiveUI for fun and profit</a></h1>
-   <div class="meta">Saturday, 16 Nov, 2013
+	<h1 class="title"><a href="/2013/11/16/learning-reactiveui-for-fun-and-profit/">Learning ReactiveUI for fun and profit</a> <small>Saturday, 16 Nov, 2013</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -189,19 +204,6 @@ not sure about the name myself, but there you go.</p>
 <p>So I thought I'd give it a try myself.</p>
 
 <p>I'm going to try and blog my way through my learning experience, on a step-by-step basis. I'm going to make mistakes, some of my code will be awful, my WPF UI design is guaranteed to make you vomit, and I might not even use RxUI in the way that you are supposed to. But hopefully any mistakes I make will go towards the learning aspect of this endeavour.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-   <h1 class="title"><a href="/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/">Definitely given up on my github-csharp-api project</a></h1>
-   <div class="meta">Thursday, 07 Nov, 2013
-   </div>
-            
-   
-   
-<p>Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.</p>
-
-<p>I will not work on it anymore.</p>
  
    <hr />
 </div><!--/.post-->

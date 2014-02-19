@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -49,7 +49,7 @@
 	  <ul class="nav navbar-nav navbar-right">
 		  <li><a href="http://twitter.com/stugrassie"><img src="/images/twitter.png"></a></li>
 		  <li><a href="http://facebook.com/sgrassie"><img src="/images/facebook.png"></a></li>
-		  <li><a href="http://linkedin.com/sgrassie"><img src="/images/linkedin.png"></a></li>
+		  <li><a href="http://uk.linkedin.com/in/sgrassie/"><img src="/images/linkedin.png"></a></li>
 	  </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -59,8 +59,29 @@
 	
 
 <div class="post">
-   <h1 class="title"><a href="/2012/08/27/why-do-i-procrastinate/">Why do I procrastinate?</a></h1>
-   <div class="meta">Monday, 27 Aug, 2012
+	<h1 class="title"><a href="/2012/10/29/notes-on-vim/">Notes on Vim</a> <small>Monday, 29 Oct, 2012</small></h1>
+   <div class="meta">
+   </div>
+            
+   
+   
+<p>Usually the default text editor I installed after re-installing Windows was Notepad++, however, I have recently become a <a title="VIM.org" href="http://www.vim.org/" target="_blank">Vim</a> convert.</p>
+
+<p>I'm sure everyone has heard of Vim, but for those who don't know:</p>
+
+<blockquote>Vim is a highly configurable text editor built to enable efficient text editing. It is an improved version of the vi editor distributed with most UNIX systems.</blockquote>
+
+<p>I started to use Vim primarily as an affect of using Git as my preferred VCS, as msysgit ships with a version of vim and is configured to use as the default editor when you <em>git commit</em>, or do various other things. The more I used it the more I started to like it, so I installed it.</p>
+
+<p>By default, Vim is a very productive editor. It does have a learning curve, but I don't think it is a steep one. You should be able to get up to speed and become productive fairly quickly. Basic navigation and inserting/removing text is quite simple to get to grips with.</p>
+
+<p>Once you have some basic mastery, if you are like me you will quickly want to learn how to customise Vim in order to make it even more useful.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title"><a href="/2012/08/27/why-do-i-procrastinate/">Why do I procrastinate?</a> <small>Monday, 27 Aug, 2012</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -92,8 +113,8 @@
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2011/12/12/probably-giving-up-my-csharp-github-api/">Probably giving up my CSharp Github API</a></h1>
-   <div class="meta">Monday, 12 Dec, 2011
+	<h1 class="title"><a href="/2011/12/12/probably-giving-up-my-csharp-github-api/">Probably giving up my CSharp Github API</a> <small>Monday, 12 Dec, 2011</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -103,8 +124,8 @@
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2011/11/14/stupid-design-decisions-with-the-github-api-wrapper/">Stupid design decisions with the Github API wrapper</a></h1>
-   <div class="meta">Monday, 14 Nov, 2011
+	<h1 class="title"><a href="/2011/11/14/stupid-design-decisions-with-the-github-api-wrapper/">Stupid design decisions with the Github API wrapper</a> <small>Monday, 14 Nov, 2011</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -129,8 +150,8 @@ var repo = reposApi.GetRepository(...);</pre>
    <hr />
 </div><!--/.post-->
 <div class="post">
-   <h1 class="title"><a href="/2011/11/07/adding-authentication-on-the-fly-to-a-restsharp-client-request/">Adding authentication on the fly to a RestSharp client request</a></h1>
-   <div class="meta">Monday, 07 Nov, 2011
+	<h1 class="title"><a href="/2011/11/07/adding-authentication-on-the-fly-to-a-restsharp-client-request/">Adding authentication on the fly to a RestSharp client request</a> <small>Monday, 07 Nov, 2011</small></h1>
+   <div class="meta">
    </div>
             
    
@@ -191,44 +212,6 @@ var repo = reposApi.GetRepository(...);</pre>
 <pre class="brush:csharp">var api = new UserApi(GitHubUrl).WithAuthentication(authenticator);</pre>
 
 <p>I feel like it is the best way to do this sort of thing, and I will certainly starting using more of it, where necessary, in all my projects.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-   <h1 class="title"><a href="/2011/10/31/github-api-handling-authentication/">Github API: Handling authentication</a></h1>
-   <div class="meta">Monday, 31 Oct, 2011
-   </div>
-            
-   
-   
-<p>With v3 of the Github REST API, calling a certain methods when unauthenticated will return a limited set of information, and when authenticated will return extra information. One of the things I wanted to do was to make it easy, in a fluent manner, to add authentication to a request. For example:</p>
-
-<pre class="brush:csharp">var a = new UserApi();
-var user = a.WithAuthentication(authenticationObject).GetUser("example");
-var b = new UserApi().WithAuthentication(authenticationObject);
-user = b.GetUser("example");</pre>
-
-<p>Thus making it possible to instantiate an API object without having to authenticate, then when authorization for an action is required, the authentication can be provided. When that actually happens is, I think , something that is an implementation detail best left to future consumers of the library. Assuming I get it finished.</p>
-
-<p>I got bogged down over the course of several months in trying to wrap my head around a clean way of implementing this. Initially I had a good inheritance from an Api base class to the UserApi class - this is sensible, the base Api class does after all contain methods which are going to be common to different classes, such as GistsApi, RepositoriesApi etc.</p>
-
-<p>Then things got a little screwy.</p>
-
-<p>At that point I had the following implemented:</p>
-
-<pre class="brush:csharp">var github = new Github(authenticator);
-var user = gitHub.User.GetUser("example");
-user.Authenticated.AddEmail("example@example.com");</pre>
-
-<p>Which doesn't seem all that bad. The User property on the Github object was an instance of UserApi. When the example User is fetched, the UserApi object was added an internal instance on the User object. Then the Authenticated property on the User object returned a new AuthenticatedUser, which acted as a wrapper to the internal UserApi instance where the actual AddEmail was hidden as internal.</p>
-
-<p>Needless to say, I knew something was wrong with that, and I spent far too long in coming up with a more elegant solution.</p>
-
-<p>In my second stab at things, I tried to implement Decorator to solve this problem, that is, decorate the UserApi with the additional functionality to add the authentication. The trouble is that the way I wanted to implement the pattern wouldn't have lent itself exceedingly well to having specific functionality for the different parts of the api.</p>
-
-<p>Then I thought to myself, wouldn't it be great if I could intercept the method in the base class which gets the RestClient and add the authentication to it on the fly. A little Googling taught me that this is idealised as the Proxy pattern, from which it was but a short leap to the <a title="The Castle Project" href="http://www.google.co.uk/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCUQFjAA&amp;url=http%3A%2F%2Fwww.castleproject.org%2F&amp;rct=j&amp;q=castle%20project&amp;ei=5hqHTu3bCKnH0QXsgPXvDw&amp;usg=AFQjCNEUSLcxGcsnLhC_LQOSuUFdNZLizw&amp;cad=rja" target="_blank">Castle project </a>and <a title="Castle DynamicProxy" href="http://www.castleproject.org/dynamicproxy/index.html" target="_blank">DynamicProxy</a>.</p>
-
-<p>&nbsp;</p>
  
    <hr />
 </div><!--/.post-->
