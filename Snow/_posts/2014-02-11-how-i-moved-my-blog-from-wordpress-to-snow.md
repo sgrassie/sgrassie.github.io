@@ -31,7 +31,7 @@ Wordpress makes it fairly easy to export your blog posts, pages, comments and so
 When you click export, you'll be able to download the XML file containing your content. Now we just have to pull out what we want.
 
 ## wp2md
-I looked around for something that would do the conversion of my wordpress content into markdown, but I couldn't find one that I liked, or that worked exactly the way that I wanted it to. So naturally, [I wrote my own](https://github.com/sgrassie/wp2md.net).
+I looked around for something that would do the conversion of my wordpress content into markdown, but I couldn't find one that I liked, or that worked exactly the way that I wanted it to. So [I wrote my own](https://github.com/sgrassie/wp2md.net).
 
 The export file format isn't documented anywhere that I could find online, there were a few bits and pieces here and there on blogs and on some forums, but, honestly, it's just an xml file, it's not all that difficult. The only thing that may trip you up is the number of xml namespaces it uses, although if like me you've had a job maintaining software which manages complex xml, then it's no big deal.
 
@@ -45,8 +45,8 @@ I found it has a root ```<rss>``` element, followed by ```<channel>``` and then 
 		<dc:creator><![CDATA[stuart]]></dc:creator>
 		<guid isPermaLink="false">http://temporalcohesion.co.uk/?p=394</guid>
 		<description></description>
-		<content:encoded><![CDATA[Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.
-
+		<content:encoded><![CDATA[Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.
+
 I will not work on it anymore.]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>394</wp:post_id>
@@ -55,4 +55,30 @@ I will not work on it anymore.]]></content:encoded>
 		......
 </code></pre>
 
+So I defined a POCO [```Item.cs```](https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Item.cs) model class to hold everything interesting about a post, and then parsed the document to get all of the items.
 
+<pre><code>
+Items = (from item in _document.Root.Element("channel").Elements("item")
+                         select
+                            new Item
+                            {
+                                Title = item.Element("title").Value,
+                                PublicationDate = ParseDateTime(item.Element("pubDate").Value),
+                                Author = item.Element(dc + "creator").Value,
+                                ....
+                            }).ToList()
+</code></pre>
+Fairly standard Linq-to-Object parsing of the XML document. You can see the XML Namespace ```dc``` being used, that is just a static namespace member defined as ```private static XNamespace dc = "http://purl.org/dc/elements/1.1/";``` at the top of the class.
+
+Now that we have a whole bunch of ```Items```, we can move on to generating the markdown.
+
+Markdown is really fairly simple. Before I embarked on this process, I'd never realised how powerfully simple it is. Our ```Item``` now contains the (mostly) encoded content of our post, so we don't have any worry about doing any escaped html removal. To my eyes, and someone correct me if I'm wrong, but it seems to me that Wordpress virtually converts our content into markdown when it generates the export. I could be wrong, but it's what it looks like to me.
+
+We can then use the Visitor pattern to control how we want our ```Items``` to be processed.
+
+    parser.Parse(document);
+    parser.VisitWith(new PostVisitor());
+
+I did not have very many pages on my wordpress blog, so I was not concerned with converting them. Similarly, I'd already converted my wordpress blog to use disqus comments, so I did not need to write a Visitor to handle converting the comments.
+
+As this post is already getting fairly long, I will leave a discussion of the Visitor pattern to another time, but you can see the ```PostVisitor``` implementation in detail [in the repo on Github.com](https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Visitor.cs).
