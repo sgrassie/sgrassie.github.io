@@ -1,4 +1,150 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2014-02-19T22:28:45Z</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/" /><link rel="self" type="application/atom+xml" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2014/02/19/extending-sandra-snow/</id><title type="text">Extending Sandra.Snow</title><summary type="html">&lt;p&gt;After switching my blog over to use &lt;a href="https://github.com/Sandra/Sandra.Snow"&gt;Sandra.Snow&lt;/a&gt;, I noticed that in at least one feed aggregator that my blog shows up in, it wasn't displaying correct. The escaped html in the feed generator from the markdown by Snow wasn't getting rendered in the aggregator correctly. After a little digging it was apparant to me that the &lt;code&gt;RssResponse&lt;/code&gt; in Snow was not correctly setting it's content type.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2014-03-03T22:56:39Z</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/" /><link rel="self" type="application/atom+xml" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/</id><title type="text">How I moved my blog from wordpress to snow, part one</title><summary type="html">&lt;p&gt;Wherein I show you how I moved my blog from Wordpress, to a statically generated html hosted on github. I will assume that you have a wordpress blog, hosted on either Wordpress.com or your own hosting. If you don't have a wordpress based blog, then that's ok, most of this will still apply.&lt;/p&gt;
+
+&lt;p&gt;We can identify a pretty broad set of tasks straightaway:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Export posts from wordpress into markdown.&lt;/li&gt;
+&lt;li&gt;Configure Sandra.Snow to publish our markdown.&lt;/li&gt;
+&lt;li&gt;Make it look nice.&lt;/li&gt;
+&lt;li&gt;Setup github to publish our new site.&lt;/li&gt;
+&lt;li&gt;Update our DNS settings.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Liberating content from Wordpress&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src="../../../../../images/wordpress-export.png" alt="Export wordpress content"&gt;&lt;/p&gt;
+
+&lt;p&gt;Jekyll has some tooling that enables auto-exporting of your blog and its contents into markdown for you, but as it is still (relativly) early days for Sandra.Snow, there is no such tooling for us to leverage.&lt;/p&gt;
+
+&lt;p&gt;Wordpress makes it fairly easy to export your blog posts, pages, comments and some other meta-information, packaging everything up into a single XML file, that depending on the number of blog post and other content you have, can be fairly large.&lt;/p&gt;
+
+&lt;p&gt;When you click export, you'll be able to download the XML file containing your content. Now we just have to pull out what we want.&lt;/p&gt;
+
+&lt;h2&gt;wp2md&lt;/h2&gt;
+
+&lt;p&gt;I looked around for something that would do the conversion of my wordpress content into markdown, but I couldn't find one that I liked, or that worked exactly the way that I wanted it to. So &lt;a href="https://github.com/sgrassie/wp2md.net"&gt;I wrote my own&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The export file format isn't documented anywhere that I could find online, there were a few bits and pieces here and there on blogs and on some forums, but, honestly, it's just an xml file, it's not all that difficult. The only thing that may trip you up is the number of xml namespaces it uses, although if like me you've had a job maintaining software which manages complex xml, then it's no big deal.&lt;/p&gt;
+
+&lt;p&gt;I found it has a root &lt;code&gt;&amp;lt;rss&amp;gt;&lt;/code&gt; element, followed by &lt;code&gt;&amp;lt;channel&amp;gt;&lt;/code&gt; and then &lt;code&gt;&amp;lt;item&amp;gt;&lt;/code&gt; where an item is a post, comment or even a page. An item is then broken down into further child elements which include things like the title of the post (or page, or comment), the url, publication date, actual content of the post, and various other pieces of meta data about the post. For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;title&amp;gt;Definitely given up on my github-csharp-api project&amp;lt;/title&amp;gt;
+&amp;lt;link&amp;gt;http://temporalcohesion.co.uk/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/&amp;lt;/link&amp;gt;
+&amp;lt;pubDate&amp;gt;Thu, 07 Nov 2013 21:08:19 +0000&amp;lt;/pubDate&amp;gt;
+&amp;lt;dc:creator&amp;gt;&amp;lt;![CDATA[stuart]]&amp;gt;&amp;lt;/dc:creator&amp;gt;
+&amp;lt;guid isPermaLink="false"&amp;gt;http://temporalcohesion.co.uk/?p=394&amp;lt;/guid&amp;gt;
+&amp;lt;description&amp;gt;&amp;lt;/description&amp;gt;
+&amp;lt;content:encoded&amp;gt;&amp;lt;![CDATA[Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.
+
+I will not work on it anymore.]]&amp;gt;&amp;lt;/content:encoded&amp;gt;
+&amp;lt;excerpt:encoded&amp;gt;&amp;lt;![CDATA[]]&amp;gt;&amp;lt;/excerpt:encoded&amp;gt;
+&amp;lt;wp:post_id&amp;gt;394&amp;lt;/wp:post_id&amp;gt;
+&amp;lt;wp:post_date&amp;gt;2013-11-07 21:08:19&amp;lt;/wp:post_date&amp;gt;
+&amp;lt;wp:post_date_gmt&amp;gt;2013-11-07 21:08:19&amp;lt;/wp:post_date_gmt&amp;gt;
+......
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So I defined a POCO &lt;a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Item.cs"&gt;&lt;code&gt;Item.cs&lt;/code&gt;&lt;/a&gt; model class to hold everything interesting about a post, and then parsed the document to get all of the items.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Items = (from item in _document.Root.Element("channel").Elements("item")
+  select new Item
+  {
+    Title = item.Element("title").Value,
+    PublicationDate = ParseDateTime(item.Element("pubDate").Value),
+    Author = item.Element(dc + "creator").Value,
+    ....
+  }).ToList()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Fairly standard Linq-to-Object parsing of the XML document. You can see the XML Namespace &lt;code&gt;dc&lt;/code&gt; being used, that is just a static namespace member defined as &lt;code&gt;private static XNamespace dc = "http://purl.org/dc/elements/1.1/";&lt;/code&gt; at the top of the class.&lt;/p&gt;
+
+&lt;p&gt;Now that we have a whole bunch of &lt;code&gt;Items&lt;/code&gt;, we can move on to generating the markdown.&lt;/p&gt;
+
+&lt;p&gt;Markdown is really fairly simple. Before I embarked on this process, I'd never realised how powerfully simple it is. Our &lt;code&gt;Item&lt;/code&gt; now contains the (mostly) encoded content of our post, so we don't have any worry about doing any escaped html removal. To my eyes, and someone correct me if I'm wrong, but it seems to me that Wordpress virtually converts our content into markdown when it generates the export. I could be wrong, but it's what it looks like to me.&lt;/p&gt;
+
+&lt;p&gt;We can then use the Visitor pattern to control how we want our &lt;code&gt;Items&lt;/code&gt; to be processed.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;parser.Parse(document);
+parser.VisitWith(new PostVisitor());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I did not have very many pages on my wordpress blog, so I was not concerned with converting them. Similarly, I'd already converted my wordpress blog to use disqus comments, so I did not need to write a Visitor to handle converting the comments.&lt;/p&gt;
+
+&lt;p&gt;As this post is already getting fairly long, I will leave a discussion of the Visitor pattern to another time, but you can see the &lt;code&gt;PostVisitor&lt;/code&gt; implementation in detail &lt;a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Visitor.cs"&gt;in the repo on Github.com&lt;/a&gt;.&lt;/p&gt;
+</summary><published>2014-03-03T00:00:00Z</published><updated>2014-03-03T00:00:00Z</updated><link rel="alternate" href="http://www.temporalcohesion.co.uk/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/" /><content type="html">&lt;p&gt;Wherein I show you how I moved my blog from Wordpress, to a statically generated html hosted on github. I will assume that you have a wordpress blog, hosted on either Wordpress.com or your own hosting. If you don't have a wordpress based blog, then that's ok, most of this will still apply.&lt;/p&gt;
+
+&lt;p&gt;We can identify a pretty broad set of tasks straightaway:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Export posts from wordpress into markdown.&lt;/li&gt;
+&lt;li&gt;Configure Sandra.Snow to publish our markdown.&lt;/li&gt;
+&lt;li&gt;Make it look nice.&lt;/li&gt;
+&lt;li&gt;Setup github to publish our new site.&lt;/li&gt;
+&lt;li&gt;Update our DNS settings.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Liberating content from Wordpress&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src="../../../../../images/wordpress-export.png" alt="Export wordpress content"&gt;&lt;/p&gt;
+
+&lt;p&gt;Jekyll has some tooling that enables auto-exporting of your blog and its contents into markdown for you, but as it is still (relativly) early days for Sandra.Snow, there is no such tooling for us to leverage.&lt;/p&gt;
+
+&lt;p&gt;Wordpress makes it fairly easy to export your blog posts, pages, comments and some other meta-information, packaging everything up into a single XML file, that depending on the number of blog post and other content you have, can be fairly large.&lt;/p&gt;
+
+&lt;p&gt;When you click export, you'll be able to download the XML file containing your content. Now we just have to pull out what we want.&lt;/p&gt;
+
+&lt;h2&gt;wp2md&lt;/h2&gt;
+
+&lt;p&gt;I looked around for something that would do the conversion of my wordpress content into markdown, but I couldn't find one that I liked, or that worked exactly the way that I wanted it to. So &lt;a href="https://github.com/sgrassie/wp2md.net"&gt;I wrote my own&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The export file format isn't documented anywhere that I could find online, there were a few bits and pieces here and there on blogs and on some forums, but, honestly, it's just an xml file, it's not all that difficult. The only thing that may trip you up is the number of xml namespaces it uses, although if like me you've had a job maintaining software which manages complex xml, then it's no big deal.&lt;/p&gt;
+
+&lt;p&gt;I found it has a root &lt;code&gt;&amp;lt;rss&amp;gt;&lt;/code&gt; element, followed by &lt;code&gt;&amp;lt;channel&amp;gt;&lt;/code&gt; and then &lt;code&gt;&amp;lt;item&amp;gt;&lt;/code&gt; where an item is a post, comment or even a page. An item is then broken down into further child elements which include things like the title of the post (or page, or comment), the url, publication date, actual content of the post, and various other pieces of meta data about the post. For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;title&amp;gt;Definitely given up on my github-csharp-api project&amp;lt;/title&amp;gt;
+&amp;lt;link&amp;gt;http://temporalcohesion.co.uk/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/&amp;lt;/link&amp;gt;
+&amp;lt;pubDate&amp;gt;Thu, 07 Nov 2013 21:08:19 +0000&amp;lt;/pubDate&amp;gt;
+&amp;lt;dc:creator&amp;gt;&amp;lt;![CDATA[stuart]]&amp;gt;&amp;lt;/dc:creator&amp;gt;
+&amp;lt;guid isPermaLink="false"&amp;gt;http://temporalcohesion.co.uk/?p=394&amp;lt;/guid&amp;gt;
+&amp;lt;description&amp;gt;&amp;lt;/description&amp;gt;
+&amp;lt;content:encoded&amp;gt;&amp;lt;![CDATA[Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.
+
+I will not work on it anymore.]]&amp;gt;&amp;lt;/content:encoded&amp;gt;
+&amp;lt;excerpt:encoded&amp;gt;&amp;lt;![CDATA[]]&amp;gt;&amp;lt;/excerpt:encoded&amp;gt;
+&amp;lt;wp:post_id&amp;gt;394&amp;lt;/wp:post_id&amp;gt;
+&amp;lt;wp:post_date&amp;gt;2013-11-07 21:08:19&amp;lt;/wp:post_date&amp;gt;
+&amp;lt;wp:post_date_gmt&amp;gt;2013-11-07 21:08:19&amp;lt;/wp:post_date_gmt&amp;gt;
+......
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So I defined a POCO &lt;a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Item.cs"&gt;&lt;code&gt;Item.cs&lt;/code&gt;&lt;/a&gt; model class to hold everything interesting about a post, and then parsed the document to get all of the items.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Items = (from item in _document.Root.Element("channel").Elements("item")
+  select new Item
+  {
+    Title = item.Element("title").Value,
+    PublicationDate = ParseDateTime(item.Element("pubDate").Value),
+    Author = item.Element(dc + "creator").Value,
+    ....
+  }).ToList()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Fairly standard Linq-to-Object parsing of the XML document. You can see the XML Namespace &lt;code&gt;dc&lt;/code&gt; being used, that is just a static namespace member defined as &lt;code&gt;private static XNamespace dc = "http://purl.org/dc/elements/1.1/";&lt;/code&gt; at the top of the class.&lt;/p&gt;
+
+&lt;p&gt;Now that we have a whole bunch of &lt;code&gt;Items&lt;/code&gt;, we can move on to generating the markdown.&lt;/p&gt;
+
+&lt;p&gt;Markdown is really fairly simple. Before I embarked on this process, I'd never realised how powerfully simple it is. Our &lt;code&gt;Item&lt;/code&gt; now contains the (mostly) encoded content of our post, so we don't have any worry about doing any escaped html removal. To my eyes, and someone correct me if I'm wrong, but it seems to me that Wordpress virtually converts our content into markdown when it generates the export. I could be wrong, but it's what it looks like to me.&lt;/p&gt;
+
+&lt;p&gt;We can then use the Visitor pattern to control how we want our &lt;code&gt;Items&lt;/code&gt; to be processed.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;parser.Parse(document);
+parser.VisitWith(new PostVisitor());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I did not have very many pages on my wordpress blog, so I was not concerned with converting them. Similarly, I'd already converted my wordpress blog to use disqus comments, so I did not need to write a Visitor to handle converting the comments.&lt;/p&gt;
+
+&lt;p&gt;As this post is already getting fairly long, I will leave a discussion of the Visitor pattern to another time, but you can see the &lt;code&gt;PostVisitor&lt;/code&gt; implementation in detail &lt;a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Visitor.cs"&gt;in the repo on Github.com&lt;/a&gt;.&lt;/p&gt;
+</content></entry><entry><id>http://www.temporalcohesion.co.uk/2014/02/19/extending-sandra-snow/</id><title type="text">Extending Sandra.Snow</title><summary type="html">&lt;p&gt;After switching my blog over to use &lt;a href="https://github.com/Sandra/Sandra.Snow"&gt;Sandra.Snow&lt;/a&gt;, I noticed that in at least one feed aggregator that my blog shows up in, it wasn't displaying correct. The escaped html in the feed generator from the markdown by Snow wasn't getting rendered in the aggregator correctly. After a little digging it was apparant to me that the &lt;code&gt;RssResponse&lt;/code&gt; in Snow was not correctly setting it's content type.&lt;/p&gt;
 
 &lt;p&gt;I could have left it there, or submitted a small patch to fix the issue (I still will), but I noticed that the feed it generates isn't a pure atom feed, so I basically copied the relevant classes (changing 'rss' to 'atom') in the class names, and did a little configuration, and swapped over the feed to use atom.&lt;/p&gt;
 
@@ -310,14 +456,4 @@ RxApp.DependencyResolver = resolver;
 </summary><published>2013-06-12T23:00:00Z</published><updated>2013-06-12T23:00:00Z</updated><link rel="alternate" href="http://www.temporalcohesion.co.uk/2013/06/13/your-favourite-language-sucks/" /><content type="html">&lt;blockquote&gt;&lt;a title="C# WTF" href="http://neildanson.wordpress.com/2013/06/12/c-wtf/" target="_blank"&gt;So next time you find yourself in a C# ivory tower, looking down on other less fortunate languages, just remember that someone, somewhere is looking down on you and C#, laughing at the simple mistakes that could be easily avoided if only you�d used their language.&lt;/a&gt;&lt;/blockquote&gt;
 
 &lt;p&gt;I don't think these words are just limited to just C#&lt;/p&gt;
-</content></entry><entry><id>http://www.temporalcohesion.co.uk/2012/11/03/virtualbox-development-environment/</id><title type="text">VirtualBox Development Environment</title><summary type="html">&lt;p&gt;In the past when doing web development, I would usually use something like &lt;a title="WAMP Server" href="http://www.wampserver.com" target="_blank"&gt;WAMP&lt;/a&gt; to get me a development environment to work locally. However these days with the proliferation of web development technologies, there are just too many tools to have running on your machine. I work in Windows, and having PHP, Ruby, Django, Node, Grails and whatever else all on my system path starts getting a little unwieldy.&lt;/p&gt;
-
-&lt;p&gt;Enter virtualisation to the rescue. With VirtualBox and a Linux distro you can build yourself a self contained development environment with all your favourite tools. With a little work, you can customise it just how you like, including getting Git running.&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-</summary><published>2012-11-03T00:00:00Z</published><updated>2012-11-03T00:00:00Z</updated><link rel="alternate" href="http://www.temporalcohesion.co.uk/2012/11/03/virtualbox-development-environment/" /><content type="html">&lt;p&gt;In the past when doing web development, I would usually use something like &lt;a title="WAMP Server" href="http://www.wampserver.com" target="_blank"&gt;WAMP&lt;/a&gt; to get me a development environment to work locally. However these days with the proliferation of web development technologies, there are just too many tools to have running on your machine. I work in Windows, and having PHP, Ruby, Django, Node, Grails and whatever else all on my system path starts getting a little unwieldy.&lt;/p&gt;
-
-&lt;p&gt;Enter virtualisation to the rescue. With VirtualBox and a Linux distro you can build yourself a self contained development environment with all your favourite tools. With a little work, you can customise it just how you like, including getting Git running.&lt;/p&gt;
-
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
 </content></entry></feed>

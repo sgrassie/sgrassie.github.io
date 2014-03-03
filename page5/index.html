@@ -59,6 +59,50 @@
 	
 
 <div class="post">
+	<h1 class="title"><a href="/2010/11/01/github-c-api-handling-the-response-with-restsharp/">Github C# API: Handling the response with RestSharp</a> <small>Monday, 01 Nov, 2010</small></h1>
+   <div class="meta">
+   </div>
+            
+   
+   
+<p>Once we make a request to Github.com with <a title="RestSharp.org" href="http://restsharp.org/" target="_blank">RestSharp</a>, we get a response, and RestSharp gives us a <a title="RestResponse class in RestSharp on github.com" href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestResponse.cs" target="_blank">RestResponse</a> object, with which we can do something with the content. The content will be in the format that we specified when we made the request, either JSON, XML or YAML.</p>
+
+<p>Oh crap, complicated string parsing...</p>
+
+<p>RestSharp to the rescue! We don't have to worry about parsing the response content, because RestSharp can do it for us.</p>
+
+<p>What we need to do, is model the response content into a POCO (Plain Old Clr Object):</p>
+
+<pre class="brush: csharp">public class User
+{
+    public virtual int Id { get; set; }
+    public virtual string Login { get; set; }
+    public virtual string Name { get; set;}
+
+    ...
+}</pre>
+
+<p>Note that in this <a title="User class in the csharp-github-api project" href="http://github.com/sgrassie/csharp-github-api/blob/master/csharp-github-api/Models/User.cs" target="_blank">User</a> class, I've made the properties virtual, this is not necessary for RestSharp to function correctly, it's more habit on my part from working with NHibernate; however it does mean you can reuse the same models with NHibernate (if you wanted to do something like store the response in a database, for example).</p>
+
+<p>Then we need to modify our client such that when we execute the request, we instruct RestSharp to construct an instance of the User object. Create the client in the usual way and also create the request in the usual way. The magic is in how the client executes the request:</p>
+
+<pre class="brush: csharp">var request = new RestRequest
+                  {
+                      Resource = string.Format("/user/show/{0}", username),
+                      RootElement = "user"
+                  };
+
+var response = client.Execute&lt;User&gt;(request);
+
+var user = response.Data;</pre>
+
+<p>As you can see, the Execute method has a generic overload. Internally, RestSharp detects that because we have used this overload, we want to deserialise the response content into an object of the given type, and it performs the deserialisation and constructs an instance of the object. The way that it does this is by looking at the Content-Type header in the response, and it uses the correct deserialiser depending upon the Content-Type. You can see more detail about this on <a href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestClient.cs" target="_blank">RestSharp's Github project pages</a>.</p>
+
+<p>It is really easy to work with the response from your REST request with RestSharp, you can access the raw string content of the response, or deserialise it into a POCO - it's up to you.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
 	<h1 class="title"><a href="/2010/10/25/lets-write-an-api-library-for-github/">Let's write an API library for Github</a> <small>Monday, 25 Oct, 2010</small></h1>
    <div class="meta">
    </div>
@@ -296,45 +340,6 @@ private void loadClasses() {
 <p>This is a disastrous situation, because it means I cannot refactor the class with any confidence. The me of 18 months ago has a lot to answer for. I've got a bit of work to do. Check back next time to see how I've progressed things.</p>
 
 <p style="text-align: left;"></p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title"><a href="/2010/03/17/even-more-on-the-generic-plugin-manager/">Even more on the generic plugin manager</a> <small>Wednesday, 17 Mar, 2010</small></h1>
-   <div class="meta">
-   </div>
-            
-   
-   
-<p>I've <a title="Writing a generic plugin manager in C# @ Temporal Cohesion" href="http://temporalcohesion.co.uk/2009/05/25/writing-a-generic-plugin-manager-in-c/" target="_self">written </a><a title="More on the generic plugin manager" href="http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/" target="_self">previously</a> about writing your own generic plugin manager/framework.</p>
-
-<p>I believe that this is a worthwhile exercise for the beginning programmer, because it firstly teaches you a lot about reflection, and secondly teaches you the advantages that proper use of interfaces can bring to your code. Thirdly it can also teach you to think about how your API might be used by someone else when they write a plugin for your program. In short I think it's a great exercise.</p>
-
-<p>While writing and using my own plugin framework has been a great learning experience for me, I've found that I have outgrown it's usefulness to me. What made me see this was when I started to think about and begin implementing a way for me to use the framework as a <a title="Dependency Injection on Wikipedia" href="http://en.wikipedia.org/wiki/Dependency_injection" target="_blank">IoC/Dependency Injection</a> tool. This led me off on some Googling and I found <a title="Funq DI container on Codeplex" href="http://funq.codeplex.com/" target="_blank">Funq</a>, and the the <a href="http://www.clariusconsulting.net/blogs/kzu/archive/2009/02/02/116399.aspx" target="_blank">associated screencasts by Cazzulino</a>.</p>
-
-<p>This got me to thinking about <a title="Don't Repeat Yourself on Wikipedia" href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself" target="_blank">DRY</a>. Don't Repeat Yourself can just as easily mean Don't Repeat Work Other People Have Already Done (If You Don't Have To), but DRWOPHADIYDHT doesn't sound/look nice as an acronym. Perhaps a better way to express that sentiment is "lazyDRY", or "The re-use of prexisting libraries and code can save you a lot of time, and which effort you can put into your application at a higher level."</p>
-
-<p>Or in other words, it is foolish to ignore the work that other people have done, unless you have a compelling reason to do so. If you really want to write your own IoC/DI container, then great, knock yourself out. No one is going to stop you.</p>
-
-<p>I'm lazy though. Nanos gigantium humeris insidentes.</p>
-
-<p>Depending on the blogs in your feed reader, or who you follow on Twitter, or just in general googling, you will probably come across references to the same group of IoC/DI containers. Chiefly:</p>
-
-<ul>
-    <li><a title="StructureMap on Github" href="http://structuremap.github.com/structuremap/index.html" target="_blank">StructureMap</a></li>
-    <li><a title="Castle Windsor" href="http://www.castleproject.org/" target="_blank">Castle Windsor</a></li>
-    <li><a title="AutoFac on Google code" href="http://code.google.com/p/autofac/" target="_blank">AutoFac</a></li>
-    <li><a title="Ninject" href="http://ninject.org/" target="_blank">Ninject</a></li>
-    <li><a href="http://www.codeplex.com/MEF/" target="_blank">MEF</a></li>
-    <li><a href="http://msdn.com/unity">Unity</a></li>
-    <li><a href="http://www.springframework.net/">Spring.net</a></li>
-</ul>
-
-<p>There are others, but it would seem hardly anyone uses them. Of those above, I have so far only used StructureMap and Ninject, and have really liked using both of them. I will try out the others at some point, but so far I've liked what I've seen in StructureMap and Ninject, I honestly don't think that any of the others will have anything better to offer me. Besides which, StructureMap has a built in method of using it as a plugin framework. Win.</p>
-
-<h2>In Conclusion</h2>
-
-<p>What can I draw from all this? I don't think that I wasted any of my time or effort in writing my own plugin framework. It was a worthwhile exercise which taught me a lot of things, and I urge you to do the same.</p>
  
    <hr />
 </div><!--/.post-->
