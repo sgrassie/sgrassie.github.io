@@ -59,6 +59,19 @@
 	
 
 <div class="post">
+	<h1 class="title"><a href="/2013/06/13/your-favourite-language-sucks/">Your favourite language sucks</a> <small>Thursday, 13 Jun, 2013</small></h1>
+   <div class="meta">
+   </div>
+            
+   
+   
+<blockquote><a title="C# WTF" href="http://neildanson.wordpress.com/2013/06/12/c-wtf/" target="_blank">So next time you find yourself in a C# ivory tower, looking down on other less fortunate languages, just remember that someone, somewhere is looking down on you and C#, laughing at the simple mistakes that could be easily avoided if only you�d used their language.</a></blockquote>
+
+<p>I don't think these words are just limited to just C#</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
 	<h1 class="title"><a href="/2012/11/03/virtualbox-development-environment/">VirtualBox Development Environment</a> <small>Saturday, 03 Nov, 2012</small></h1>
    <div class="meta">
    </div>
@@ -135,32 +148,6 @@
    
    
 <p><p>I�ve been thinking that I�m going to retire my <a href="https://github.com/sgrassie/csharp-github-api" target="_blank">CSharp Github API</a>. The ugly truth is that I�ve barely worked on it, literally in months. I did a little bit recently, and I had one or two good ideas about certain things, but, I do have to be honest with myself. I am not not admitting defeat, I know that I am capable enough to finish it. </p>  <p>I�m simply bored with it.</p>  <p>Also, someone has <a href="https://github.com/erikzaadi/GithubSharp" target="_blank">already beaten me to it</a>, and is writing something that is actually far superior to what I�d managed to push out. In my defence, I haven�t done very much anyway, so anything that is fairly substantial is going to look better by default.</p>  <p>So, I�m going to knock it on the head. I�ll leave the code, such as it is, up on Github.</p></p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title"><a href="/2011/11/14/stupid-design-decisions-with-the-github-api-wrapper/">Stupid design decisions with the Github API wrapper</a> <small>Monday, 14 Nov, 2011</small></h1>
-   <div class="meta">
-   </div>
-            
-   
-   
-<p>Whilst writing some blog posts about the authentication which I've been implementing, I've come to the realization, almost as an after thought, that even though I've still not got a lot of the main Github API implemented, the way I've envisioned the API working, from a user point of view, is sort of a bit shit.</p>
-
-<pre class="brush:applescript">var userApi = new UserApi();
-var user = userApi.GetUser("example");</pre>
-
-<p>Pretty straightforward, right? What about the as yet unwritten GistApi?</p>
-
-<pre class="brush:csharp">var gistApi = new GistApi();
-var gist = gistApi.GetGist(...);</pre>
-
-<p>Again, pretty straightforward. But I see a pattern forming. What am I going to do when it comes to the RepositoryApi?</p>
-
-<pre class="brush:csharp">var reposApi = new RepositoryApi();
-var repo = reposApi.GetRepository(...);</pre>
-
-<p>Well, that is starting to look pretty fucking stupid. I've caught myself doing it with other methods as well. I simply cannot believe I've let myself be so stupid. At least there is not that much implemented where I'll have to refactor loads of shit.</p>
  
    <hr />
 </div><!--/.post-->
