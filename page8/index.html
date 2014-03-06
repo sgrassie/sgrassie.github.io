@@ -59,41 +59,6 @@
 	
 
 <div class="post">
-	<h1 class="title"><a href="/2009/05/25/writing-a-generic-plugin-manager-in-c/">Writing a generic plugin manager in C#</a> <small>Monday, 25 May, 2009</small></h1>
-   <div class="meta">
-   </div>
-            
-   
-   
-<h4>Update:</h4>
-
-<p>I have written another post on this subject with some code examples  here: <a title="More on the generic plugin manager" href="http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/" target="_self">http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/</a></p>
-
-<h4>Update 2:</h4>
-
-<p>There is another follow on post here: <a href="http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/">http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/</a> where I talk about what I've learned.</p>
-
-<p>One of my current long term hobby project is a  map/world editor that I'm writing for Andy's (work in progress) game engine. It is still in a quite rudimentary stage, however, I have gotten an important aspect of the application into a fairly mature state already, and that is the plugin system.</p>
-
-<p>I don't want to get into too much detail over things that are available via some simple searches on google, so don't expect too much code. There are some good articles <a title="http://msdn.microsoft.com/en-us/library/ms972962.aspx" href="http://" target="_blank">here</a>, <a title="http://www.codeproject.com/KB/macros/PluginsManager.aspx?display=Print" href="http://" target="_blank">here </a>and <a title="http://www.codeproject.com/KB/cs/Plugin_Basics.aspx" href="http://" target="_blank">here</a>, which delve quite deeply into this, and how to develop a plugin framework in general. I developed my plugin framework based on the code in <a title="http://www.amazon.com/2008-NET-Platform-Fourth-Windows-Net/dp/1590598849" href="http://" target="_blank">this book</a>, which incidentally is a very good book.</p>
-
-<p>Also, in my own google searches on this subject, a lot of the articles I found are getting to be four years old, in a few instances even older. Not that this automatically makes them invalid as sources of information, it's just that they may not reflect best practices in modern C#. (Not that I am claiming to be a <a title="http://msmvps.com/blogs/jon_skeet/default.aspx" href="http://" target="_blank">Jon Skeet</a>-like C# guru). Also, quite a few of the ones I found make use of an XML configuration file to hold a reference to the plugins. I'm not a big fan of this type of thing, I much prefer convention over configuration.</p>
-
-<p><strong>Why Generic?</strong></p>
-
-<p>I've written a plugin system for the Editor because I want to provide a way to make it easily extendible in the future, without having to change the core application, to enable it to perform actions that are above and beyond it's core capabilities. Byond that basic requirement, there are a couple of other reasons to make it a generic plugin framework.</p>
-
-<p>Firstly, I've made it generic because I wanted to make a distinction between different types of plugins, such as a type of plugin for resources, and a type of plugin which adds functionality into the application (such as tools, UI widgets etc).</p>
-
-<p>Secondly, and perhaps most important (to me, anyway), is that I'll never need to write a C# plugin framework again, for any of my personal projects. I've had a go at writing a plugin framework before, a few times for none-work projects and once for a project at work, and I finally realised what my problem was - reinventing the wheel each time.</p>
-
-<p>The plugin framework I've written ensures that I don't have to worry about this the next time one of my pet projects needs a plugin system. The Editor will in fact have two types of plugins available, one to extend the types of data sources it can load in resources from, and another to provide additional functionality, like tools.</p>
-
-<p>I'm fairly pleased with the way that it has turned out, and it works quite well in practice.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
 	<h1 class="title"><a href="/2008/09/12/building-the-project-euler-framework-part-3/">Building the Project Euler framework, part 3</a> <small>Friday, 12 Sep, 2008</small></h1>
    <div class="meta">
    </div>
@@ -322,6 +287,51 @@ public void run(boolean showAnswers) {
 <p>As you can see, the problem runner itself is fairly basic, and does present some immediate areas of improvement, such as running a specific problem.</p>
 
 <p>I'll cover that next time.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title"><a href="/2008/08/15/project-euler-problem-runner-framework-in-java/">Project Euler problem runner framework in Java</a> <small>Friday, 15 Aug, 2008</small></h1>
+   <div class="meta">
+   </div>
+            
+   
+   
+<p>Recently, I've been working on the problems on <a title="Projec Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>, and I've done the first 16 problems (in Java), although I will freely admit that I had help on two of the most difficult ones. I do intend on continuing to do the problems, and I am currently working on problem 17, however I paused to write the problem runner framework I'm going to talk about in this post.</p>
+
+<p>What I had started to do, was to write each solution in it's own Class, and have the main(String[] args) method output the answer. This was fine for the first few problems, and I could have continued to do it like that for all of the problems - however I wanted to be able to run all the problems at once, or a specific problem, and get the answer(s), or not show the answers but still get the timings.</p>
+
+<p>After chatting with one of the Senior Dev's at my job, he pointed out that what I wanted to do was basically the <a title="Command Pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> pattern. He sent me some example code, although once he'd said "Command pattern" I knew exactly what it was that I needed to do.</p>
+
+<p>Thus, my problem runner framework was born, and whilst fairly simple, it does employ some techniques that the beginning Java developer might not be aware of. So, what I am going to (try) to do over the next few weeks is write a series of posts that show how I wrote it, partly just to have some content on my blog (which I am really, really lazy at updating), secondly to see how good I am at explaining something like this, and thirdly - it might actually be useful to someone.</p>
+
+<p>The output of the problem runner framework looks like this:</p>
+
+<p>C:development&gt;java -jar euler.jar -noanswers
+Project Euler : Problem Runner - http://projecteuler.net/</p>
+
+<p>Problem: 1. Time: 0.0s
+Problem: 2. Time: 0.0s
+Problem: 3. Time: 0.347s
+Problem: 4. Time: 0.307s
+Problem: 5. Time: 63.803s
+Problem: 6. Time: 0.0s
+Problem: 7. Time: 0.335s
+Problem: 8. Time: 0.0020s
+Problem: 9. Time: 34.178s
+Problem: 10. Time: 0.369s
+Problem: 11. Time: 1.218275999017E9s
+Problem: 12. Time: 0.021s
+Problem: 13. Time: 0.0s
+Problem: 14. Time: 21.717s
+Problem: 15. Time: 0.0s
+Problem: 16. Time: 0.0010s</p>
+
+<p>As you can see, I have output a list of the problems, and the time taken to solve the problem, but I haven't shown the answer.</p>
+
+<p>Well, you didn't think I was going to tell you the answers... Did you?</p>
+
+<p>This also shows that I need to work on problem 5, 9 and 14 to try and optimise the solution to speed up performance, Project Euler says that problems "should" take under a minute to solve, however I'd still like to improve the code.</p>
  
    <hr />
 </div><!--/.post-->
