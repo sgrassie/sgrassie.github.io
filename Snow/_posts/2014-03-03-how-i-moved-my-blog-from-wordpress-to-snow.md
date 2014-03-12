@@ -7,7 +7,7 @@ series:
     name: 201403003
     current: 1
     part: How I moved my blog from wordpress to snow, part one
-    part: How I moved my blog from wordpress to snow, part two
+    part: How I moved my blog to sandra snow, part two
     part: How I moved my blog from wordpress to snow, part three
 metadescription: How I moved by blog from wordpress to snow, part one
 ---
