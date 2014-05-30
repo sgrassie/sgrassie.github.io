@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
     <!-- Custom styles for this template -->
     <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
@@ -59,8 +59,49 @@
 	
 
 <div class="post">
-	<h1 class="title"><a href="/2007/07/23/limitations-in-delphi/">Limitations in Delphi</a> <small>Monday, 23 Jul, 2007</small></h1>
-   <div class="meta">
+	<h1 class="title">
+		<a href="/2007/08/05/linux-adventures/">linux adventures</a> <small>Sunday, 05 Aug, 2007</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/linux" title="linux">linux</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>I spent much of the weekend fucking around installing linux on my laptop. I like linux, it's free, and there's loads of cool software available. I tried:</p>
+
+<ul>
+    <li>Ubuntu 7.04</li>
+    <li>Fedora 7</li>
+    <li>opensuse 10.2</li>
+</ul>
+
+<p>The actual installations themselves went pretty painlessly, just pop the disk in, and boot from it, and click install. These modern installations are pretty cool, not like the good old days of installing redhat/slackware/debian from multiple floppy discs.</p>
+
+<p>The only problem I had was getting my 3Com 3crwe62092b wireless lan pcmcia card to work. What a pain in the fucking arse that was. Ubuntu Feistey Fawn 7.04 wouldn't even detect it, and Fedora 7 detected it, but it wouldn't work.</p>
+
+<p>Needless to say, I was getting frustrated at this point, and I downloaded opensuse 10.2, specifically a 44mb network install disk. And fuck me, it asked me for wlan details, and connected to my wireless network first time. Ace.</p>
+
+<p>But - and theres always a but - when it rebooted there was a problem. The wireless stopped working. I managed to get the rest of the installation completed using a wired connection. After some further googling, it turns out that the solution to my problem was to download the atmel-firmware, and copy the *.bin's to /lib/firmware. Rebooted and the wireless came up straightway. Hurrah!</p>
+
+<p>I suspect that armed with this new knowledge I should be able to install Ubuntu/Fedora and get the card to work on them, but I'm liking opensuse enough that I'm not sure I can be bothered to reinstall a different distribution again.</p>
+
+<p>This is also the reason that linux isn't ready for the desktop yet - the average person wouldn't spend time googling and recompiling kernels and installing different distributions just to get wireless working on their laptop. It should just work, with no effort. This is the advantage that windows has over linux, the driver support is significantly better.</p>
+
+<p>But it works for me, so fuck em.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
+		<a href="/2007/07/23/limitations-in-delphi/">Limitations in Delphi</a> <small>Monday, 23 Jul, 2007</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/delphi" title="delphi">delphi</a></li>
+	   </ul>
    </div>
             
    
@@ -105,8 +146,13 @@ end</pre>
    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title"><a href="/2007/07/20/hello-world-2/">Hello world!</a> <small>Friday, 20 Jul, 2007</small></h1>
-   <div class="meta">
+	<h1 class="title">
+		<a href="/2007/07/20/hello-world-2/">Hello world!</a> <small>Friday, 20 Jul, 2007</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/News" title="News">News</a></li>
+	   </ul>
    </div>
             
    

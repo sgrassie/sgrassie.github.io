@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,git,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
     <!-- Custom styles for this template -->
     <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
@@ -59,8 +59,68 @@
 	
 
 <div class="post">
-	<h1 class="title"><a href="/2008/01/07/new-years-resolutions-are-so-passe/">New Year's Resolutions are so pass�</a> <small>Monday, 07 Jan, 2008</small></h1>
-   <div class="meta">
+	<h1 class="title">
+		<a href="/2008/08/15/project-euler-problem-runner-framework-in-java/">Project Euler problem runner framework in Java</a> <small>Friday, 15 Aug, 2008</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/Java" title="Java">Java</a></li>
+			<li><a href="/category/Java" title="Java">Java</a></li>
+			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
+			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>Recently, I've been working on the problems on <a title="Projec Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>, and I've done the first 16 problems (in Java), although I will freely admit that I had help on two of the most difficult ones. I do intend on continuing to do the problems, and I am currently working on problem 17, however I paused to write the problem runner framework I'm going to talk about in this post.</p>
+
+<p>What I had started to do, was to write each solution in it's own Class, and have the main(String[] args) method output the answer. This was fine for the first few problems, and I could have continued to do it like that for all of the problems - however I wanted to be able to run all the problems at once, or a specific problem, and get the answer(s), or not show the answers but still get the timings.</p>
+
+<p>After chatting with one of the Senior Dev's at my job, he pointed out that what I wanted to do was basically the <a title="Command Pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> pattern. He sent me some example code, although once he'd said "Command pattern" I knew exactly what it was that I needed to do.</p>
+
+<p>Thus, my problem runner framework was born, and whilst fairly simple, it does employ some techniques that the beginning Java developer might not be aware of. So, what I am going to (try) to do over the next few weeks is write a series of posts that show how I wrote it, partly just to have some content on my blog (which I am really, really lazy at updating), secondly to see how good I am at explaining something like this, and thirdly - it might actually be useful to someone.</p>
+
+<p>The output of the problem runner framework looks like this:</p>
+
+<p>C:development&gt;java -jar euler.jar -noanswers
+Project Euler : Problem Runner - http://projecteuler.net/</p>
+
+<p>Problem: 1. Time: 0.0s
+Problem: 2. Time: 0.0s
+Problem: 3. Time: 0.347s
+Problem: 4. Time: 0.307s
+Problem: 5. Time: 63.803s
+Problem: 6. Time: 0.0s
+Problem: 7. Time: 0.335s
+Problem: 8. Time: 0.0020s
+Problem: 9. Time: 34.178s
+Problem: 10. Time: 0.369s
+Problem: 11. Time: 1.218275999017E9s
+Problem: 12. Time: 0.021s
+Problem: 13. Time: 0.0s
+Problem: 14. Time: 21.717s
+Problem: 15. Time: 0.0s
+Problem: 16. Time: 0.0010s</p>
+
+<p>As you can see, I have output a list of the problems, and the time taken to solve the problem, but I haven't shown the answer.</p>
+
+<p>Well, you didn't think I was going to tell you the answers... Did you?</p>
+
+<p>This also shows that I need to work on problem 5, 9 and 14 to try and optimise the solution to speed up performance, Project Euler says that problems "should" take under a minute to solve, however I'd still like to improve the code.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
+		<a href="/2008/01/07/new-years-resolutions-are-so-passe/">New Year's Resolutions are so pass�</a> <small>Monday, 07 Jan, 2008</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
+	   </ul>
    </div>
             
    
@@ -96,8 +156,13 @@
    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title"><a href="/2007/10/10/more-cake/">more cake</a> <small>Wednesday, 10 Oct, 2007</small></h1>
-   <div class="meta">
+	<h1 class="title">
+		<a href="/2007/10/10/more-cake/">more cake</a> <small>Wednesday, 10 Oct, 2007</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
+	   </ul>
    </div>
             
    
@@ -125,8 +190,13 @@ $html = new HtmlHelper();
    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title"><a href="/2007/10/07/cakephp-with-eclipse/">cakePHP with Eclipse</a> <small>Sunday, 07 Oct, 2007</small></h1>
-   <div class="meta">
+	<h1 class="title">
+		<a href="/2007/10/07/cakephp-with-eclipse/">cakePHP with Eclipse</a> <small>Sunday, 07 Oct, 2007</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/PHP" title="PHP">PHP</a></li>
+	   </ul>
    </div>
             
    
@@ -172,8 +242,13 @@ var $Post;
    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title"><a href="/2007/08/20/source-control-systems/">source control systems</a> <small>Monday, 20 Aug, 2007</small></h1>
-   <div class="meta">
+	<h1 class="title">
+		<a href="/2007/08/20/source-control-systems/">source control systems</a> <small>Monday, 20 Aug, 2007</small>
+	</h1>
+   <div class="meta">Categories: 
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+	   </ul>
    </div>
             
    
@@ -195,37 +270,6 @@ var $Post;
 <p>After about 10 minutes fannying around, I had Bazaar installed, and a shared repository set-up on my dev server, which I checked out and branched a few times on my laptop (3 branches: dev, testing and stable). With bazaar I can make as many dev branches as I like, for each crazy idea I have, and easily merge them upstream as they become awesomely realised ideas, or deleted and forgotten about like a red-headed step-child.</p>
 
 <p>This is all on my laptop, and I can easily push my working code onto my desktop if I want to code on there, or back onto my server for safe keeping, or publish it on a website. Or any combination of those. I'll post some more about Bazaar after I've been using it for a while.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title"><a href="/2007/08/05/linux-adventures/">linux adventures</a> <small>Sunday, 05 Aug, 2007</small></h1>
-   <div class="meta">
-   </div>
-            
-   
-   
-<p>I spent much of the weekend fucking around installing linux on my laptop. I like linux, it's free, and there's loads of cool software available. I tried:</p>
-
-<ul>
-    <li>Ubuntu 7.04</li>
-    <li>Fedora 7</li>
-    <li>opensuse 10.2</li>
-</ul>
-
-<p>The actual installations themselves went pretty painlessly, just pop the disk in, and boot from it, and click install. These modern installations are pretty cool, not like the good old days of installing redhat/slackware/debian from multiple floppy discs.</p>
-
-<p>The only problem I had was getting my 3Com 3crwe62092b wireless lan pcmcia card to work. What a pain in the fucking arse that was. Ubuntu Feistey Fawn 7.04 wouldn't even detect it, and Fedora 7 detected it, but it wouldn't work.</p>
-
-<p>Needless to say, I was getting frustrated at this point, and I downloaded opensuse 10.2, specifically a 44mb network install disk. And fuck me, it asked me for wlan details, and connected to my wireless network first time. Ace.</p>
-
-<p>But - and theres always a but - when it rebooted there was a problem. The wireless stopped working. I managed to get the rest of the installation completed using a wired connection. After some further googling, it turns out that the solution to my problem was to download the atmel-firmware, and copy the *.bin's to /lib/firmware. Rebooted and the wireless came up straightway. Hurrah!</p>
-
-<p>I suspect that armed with this new knowledge I should be able to install Ubuntu/Fedora and get the card to work on them, but I'm liking opensuse enough that I'm not sure I can be bothered to reinstall a different distribution again.</p>
-
-<p>This is also the reason that linux isn't ready for the desktop yet - the average person wouldn't spend time googling and recompiling kernels and installing different distributions just to get wireless working on their laptop. It should just work, with no effort. This is the advantage that windows has over linux, the driver support is significantly better.</p>
-
-<p>But it works for me, so fuck em.</p>
  
    <hr />
 </div><!--/.post-->

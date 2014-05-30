@@ -6,8 +6,16 @@
 
 @foreach(var post in Model.PostsPaged) {
 <div class="post">
-	<h1 class="title"><a href="@post.Url">@post.Title</a> <small>@post.Date.ToString("dddddd, dd MMM, yyyy")</small></h1>
+	<h1 class="title">
+		<a href="@post.Url">@post.Title</a> <small>@post.Date.ToString("dddddd, dd MMM, yyyy")</small>
+	</h1>
    <div class="meta">
+	   <ul class="list-unstyled list-inline">
+	   	@foreach(var category in @post.Categories.ToList()) 
+		{
+			<li><a href="/category/@category" title="@category">@category</a></li>
+		}
+	   </ul>
    </div>
             
    @Html.RenderSeries(post)
