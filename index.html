@@ -60,6 +60,35 @@
 
 <div class="post">
 	<h1 class="title">
+		<a href="/2014/10/20/a-useful-prism-extension-method/">A useful PRISM extension method</a> <small>Monday, 20 Oct, 2014</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+	   </ul>
+   </div>
+            
+   
+   
+<p>I'm doing some work with Microsoft <a href="http://msdn.microsoft.com/en-us/library/gg406140.aspx">Prism</a> at the moment, and once again I've gotten annoyed that <code>RequestNavigate</code> doesn't have a generic overload.</p>
+
+<p>Naturally I had to write it, again:</p>
+
+<p><pre><code>
+public static class RegionManagerExtensions
+{
+    public void RequestNavigate<TView>(this IRegionManager regionManager, string regionName)
+    {
+        regionManager.RequestNavigate(regionName, new Uri(typeof(TView), UriKind.Relative).Name));
+    }
+}
+</pre></code></p>
+
+<p>the <code>new Uri(typeof(TView)...)</code> works because of the view locator conventions I've implemented.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
 		<a href="/2014/05/30/how-i-moved-my-blog-to-sandra-now-part2/">How I moved my blog to sandra snow, part two</a> <small>Friday, 30 May, 2014</small>
 	</h1>
    <div class="meta">
@@ -270,43 +299,6 @@ git commit -am "Updated submodules to latest"
 </code></pre>
 
 <p>Hope that helps someone.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2014/02/08/moved-blog-to-snow-and-github/">Moved blog to snow and github</a> <small>Saturday, 08 Feb, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/blog" title="blog">blog</a></li>
-			<li><a href="/category/nancy" title="nancy">nancy</a></li>
-			<li><a href="/category/sandra.snow" title="sandra.snow">sandra.snow</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<h1>No longed bound to wordpress</h1>
-
-<p>For most of the time I've been blogging, I've used Wordpress. It's very good software, but kind of requires
-somewhere to host it. Either on your own custom hosting, or wordpress.com. For a long time, I paid for my own
-hosting provider. But the times they are a changing, and I'm no longer prepared to pay for my own hosting.</p>
-
-<h2>Enter snow</h2>
-
-<p>Github provide a way of hosting a website, for free, it's called Github Pages. Using a tool called Jekyll, it is
-possible to take a series of Markdown files and generate a static html website from them. The only drawback to Jekyll
-is that that it's written in Ruby, it can be a pain to configure on Windows, and I'm primarily a windows kind of guy. </p>
-
-<p>It's also true that the vast majority of guides/tutorials out there for running a blog with Jekyll assume that you'll
-be doing it on either a Mac or a Linux machine. I work entirely on Windows, and there is no way I'm going to try to
-configure Ruby on all the machines I use (or might use).</p>
-
-<p><a href="https://github.com/Sandra/Sandra.Snow">Sandra.Snow</a> is written in C#, and uses <a href="https://github.com/nancyFx/Nancy">Nancyfx</a> to process the markdown into static html, exactly like Jekyll. I'm
-not sure about the name myself, but there you go.</p>
-
-<p>Over the next few posts I'll go over how I switched my blog from a hosted Wordpress to a staticly generated site using Snow.</p>
  
    <hr />
 </div><!--/.post-->

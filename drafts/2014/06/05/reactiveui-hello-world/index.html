@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="build script,f#,FAKE" />
+    <meta name="keywords" content="c#,mvvm,reactiveui,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -25,7 +25,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/drafts/2014/06/03/fake-build-script/" />
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/drafts/2014/06/05/reactiveui-hello-world/" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -59,21 +59,31 @@
 	
 
 <div class="post">
-    <h1 class="title">A FAKE build script <small>Tuesday, 03, Jun 2014</small></h1>
+    <h1 class="title">ReactiveUI - Hello, World! <small>Thursday, 05, Jun 2014</small></h1>
 
     
         
     <blockquote>
-  <p>On any significantly sized application (and even small ones), having an automated build script in place is a must for any lazy developer. Consistent, reproducible builds save time, effort and heartache.</p>
+  <p>ReactiveUI is an MVVM framework. I'm going to mess around with it and see if I
+  can make it do something useful, and maybe get shouted at for Doing It Wrong&#8482;</p>
 </blockquote>
 
-<p>I've written before on this blog about utilising build scripts, back then my choice was psake, a relatively new (at the time) build system that uses PowerShell scripts to do its thing. I also spent a while writing custom MSBuild scripts. At my last job, we used the full power and glory of TFS, and I didn't have anything to do with building the project, and it was nice.</p>
+<p>A journey starts with a small step, and this journey will, I hope, take me, and you,
+but mostly me I hope, toward a greater understanding of writing applications with ReactiveUI.</p>
 
-<p>At my latest adventure, I'm back taking care of my own build infrastructure, so that means I get to write build scripts again. My new favourite tool of choice is FAKE. I say that it is MY new favour tool of choice, it turns out that FAKE has been around for quite a while, it just seems to only just be getting the kind of traction it deserves as a default tool of choice for the discerning OSS .NET developer, and corporate developer drone who needs to automate stuff as quickly and simply as possible just to claw back precious moments of time to do actual work instead of attend hours of pointless and mandatory meetings, which do nothing useful except massage the egoes of the people who organise them.</p>
+<p>I'm most interested in WPF applications, but I think at least some of what we're
+going to get into applies to IOS/Android and WP8 - ReactiveUI is cross-platform
+by nature, and that is one of the things that makes writing applications with it
+fairly attractive.</p>
 
-<p>I digress. (My new job is nothing like a corporate hell hole).</p>
+<h3>First things first</h3>
 
-<h2>F# in my C</h2>
+<ol>
+<li>Create a new WPF application.</li>
+<li><code>Install-Package reactiveui -Pre</code> (Currently 5.99.6)</li>
+</ol>
+
+<p>What our app is going to do, is </p>
 
 
     <div id="disqus_thread"></div>
@@ -83,14 +93,14 @@
             reload: true,
             config: function () {
                 //this.page.identifier = '';
-                this.page.url = 'http://www.temporalcohesion.co.uk/drafts/2014/06/03/fake-build-script/';
+                this.page.url = 'http://www.temporalcohesion.co.uk/drafts/2014/06/05/reactiveui-hello-world/';
                 //this.page.title = '';
             }
         });
     };
 
     var disqus_shortname = 'temporalcohesion';
-    var disqus_url = 'http://www.temporalcohesion.co.uk/drafts/2014/06/03/fake-build-script/';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/drafts/2014/06/05/reactiveui-hello-world/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -25,7 +25,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/drafts/" />
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2014/10/20/a-useful-prism-extension-method/" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -58,17 +58,55 @@
     <div class="container">
 	
 
-  <header>
-  <div class="head-inner">
-    <h1>Drafts</h1>
-  </div>
-  </header>
-  
-  <ul class="category-list fancy-container darkishblue">
-      <li><a href="/drafts/2014/06/05/reactiveui-hello-world/" title="ReactiveUI - Hello, World!">ReactiveUI - Hello, World!</a></li>
-      <li><a href="/drafts/2014/03/07/creating-a-custom-theme-for-sandra-snow/" title="Create a custom theme for sandra snow">Create a custom theme for sandra snow</a></li>
-  </ul>
-  
+<div class="post">
+    <h1 class="title">A useful PRISM extension method <small>Monday, 20, Oct 2014</small></h1>
+
+    
+        
+    <p>I'm doing some work with Microsoft <a href="http://msdn.microsoft.com/en-us/library/gg406140.aspx">Prism</a> at the moment, and once again I've gotten annoyed that <code>RequestNavigate</code> doesn't have a generic overload.</p>
+
+<p>Naturally I had to write it, again:</p>
+
+<p><pre><code>
+public static class RegionManagerExtensions
+{
+    public void RequestNavigate<TView>(this IRegionManager regionManager, string regionName)
+    {
+        regionManager.RequestNavigate(regionName, new Uri(typeof(TView), UriKind.Relative).Name));
+    }
+}
+</pre></code></p>
+
+<p>the <code>new Uri(typeof(TView)...)</code> works because of the view locator conventions I've implemented.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2014/10/20/a-useful-prism-extension-method/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2014/10/20/a-useful-prism-extension-method/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
 
         
         <hr />
@@ -83,7 +121,21 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
-    
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-9870754-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
 
     <script src="/javascripts/prettify.js"></script>
     <script type='text/javascript'>

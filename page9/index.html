@@ -60,6 +60,86 @@
 
 <div class="post">
 	<h1 class="title">
+		<a href="/2008/08/22/building-the-project-euler-framework-part-1/">Building the Project Euler framework, part 1</a> <small>Friday, 22 Aug, 2008</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/Java" title="Java">Java</a></li>
+			<li><a href="/category/Java" title="Java">Java</a></li>
+			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
+			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>As promised, here is the first part of the series of posts I hope to write demonstrating how I wrote my problem runner framework for <a title="Project Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>.</p>
+
+<p>Firstly, before you continue reading, I suggest that you research the <a title="The Command pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> pattern, Google will also provide you with some good sources in your research.</p>
+
+<p>Done? Ok then. It shouldn't matter what IDE you use, I am using Eclipse (ganymede), any IDE should do. If you don't know what an IDE is, then go and find out, and then come back.</p>
+
+<h2>Start Coding</h2>
+
+<p>In your IDE, and following the <a title="Java package naming conventions" href="http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html" target="_blank">Java package naming conventions</a>, create a package to hold the Project Euler code, for example: co.uk.temporalcohesion.euler.problems. Because we are going to need an interface, also create a package to hold those, as this can help keep things more organised, for example: co.uk.temporalcohesion.euler.interfaces</p>
+
+<p>Let's define that interface</p>
+
+<pre lang="java">public interface Problem {
+
+    /**
+     * Answer method. Returns the answer for the problem
+     * @return - the integer answer to the problem
+     */
+    String answer();
+
+    /**
+     * The problem number.
+     * @return - The number of the problem
+     */
+    int id();
+
+    /**
+     * How long does it take to work out the answer?
+     * @return - The time in seconds it takes to work out the answer to the problem
+     */
+    double time();
+}</pre>
+
+<p>Before we move on an implement that interface in a problem, let's write the basic problem runner itself. We'll need a way to register an instance of a problem, and a way to run the problem and get the answer.</p>
+
+<pre lang="java">public class Euler {
+    private List&lt;Problem&gt; problems = new ArrayList();
+
+    public Euler() {
+        problems.add(new One());
+    }
+
+    private void run() {
+        for (Problem prob : problems) {
+            System.out.println("Problem " + prob.id() + ": " + prob.answer());
+        }
+    }
+
+    public static void main(String[] args) {
+        new Euler().run();
+    }
+}</pre>
+
+<p>That's pretty much all you need for a basic problem runner. You just register an instance of each problem you write into the problems List object in the constructor, and run the program, and it iterates through each Problem in the List, and outputs the answer.</p>
+
+<p>I'm not going to give you the code to problem one, however it is pretty trivial if you know what the modulus operator is used for...</p>
+
+<p>As you can see, the problem runner itself is fairly basic, and does present some immediate areas of improvement, such as running a specific problem.</p>
+
+<p>I'll cover that next time.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
 		<a href="/2008/08/15/project-euler-problem-runner-framework-in-java/">Project Euler problem runner framework in Java</a> <small>Friday, 15 Aug, 2008</small>
 	</h1>
    <div class="meta">
@@ -238,38 +318,6 @@ var $Post;
 }</pre>
 
 <p>Hope this is of use to somebody :)</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2007/08/20/source-control-systems/">source control systems</a> <small>Monday, 20 Aug, 2007</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>The other day, I watched the Linus Torvalds <a href="http://www.youtube.com/watch?v=4XpnKHJAok8" title="Linus Torvald's tech talk on git" target="_blank">tech talk</a> at google, which he gave on source control systems. It was mostly (biased) about how great <a href="http://git.or.cz/" target="_blank">git</a> is, and how other source control systems, with a few exceptions, have mostly got it wrong. This all got me thinking about source control systems I have used.</p>
-
-<p>Now, I use Microsoft's <a href="http://msdn2.microsoft.com/en-us/vstudio/aa718670.aspx" target="_blank">Visual Sourcesafe</a> every day at work, and let me tell you: it's shit. The only (slightly) good thing about it, is the integration with VS.Net 2005, which is unsurprisingly very good. I know that I'm not really offering much of an argument as to exactly why VSS is a horrible pile of dog turd, but anyone whose ever used will understand.</p>
-
-<p>Anyway. I digress.</p>
-
-<p>I never really thought that the creator of Linux would be such an engaging and humorous speaker - aren't stereotypes fun - but he was. It kind of got me thinking about source control. I've used CVS and SVN before on a few open source projects I've contributed to, or just wanted to get the latest source for.</p>
-
-<p>I've mostly only ever used CVS or SVN, arguably the two most popular version control systems currently in use today. Better than VSS in every way, but still lacking quite a lot. For instance it's a well known fact that merges in CVS are a horrible nightmare, and that merges in SVN aren't much better. Thankfully I've never had to do them. And I know enough about VSS to know that merges are just generally avoided. Like you'd try to avoid an STI.</p>
-
-<p>So, over the weekend (you'll notice how much of my free time is "over the weekend") I decided to have a little play with with some distributed version control systems. Now, I'm not going to go on about what one of those is, nor how great they are, as you can use google for that. But suffice to say that they are fucking ace.</p>
-
-<p>I had to discount Git pretty much straight away - for various reasons (development being primary) I've installed Winxp back onto my laptop, and I'm playing with Windows Server 2003 R2 on my dev server, so I road tested Mercurial and Bazaar-ng. I spent a great deal of time researching the two systems, and ultimately decided to go with bazaar.  I've not really got down to much development with bazaar yet, but early results look promising.</p>
-
-<p>After about 10 minutes fannying around, I had Bazaar installed, and a shared repository set-up on my dev server, which I checked out and branched a few times on my laptop (3 branches: dev, testing and stable). With bazaar I can make as many dev branches as I like, for each crazy idea I have, and easily merge them upstream as they become awesomely realised ideas, or deleted and forgotten about like a red-headed step-child.</p>
-
-<p>This is all on my laptop, and I can easily push my working code onto my desktop if I want to code on there, or back onto my server for safe keeping, or publish it on a website. Or any combination of those. I'll post some more about Bazaar after I've been using it for a while.</p>
  
    <hr />
 </div><!--/.post-->
