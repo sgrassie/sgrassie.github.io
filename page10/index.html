@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,58 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2007/10/07/cakephp-with-eclipse/">cakePHP with Eclipse</a> <small>Sunday, 07 Oct, 2007</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/PHP" title="PHP">PHP</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p><a href="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.png" title="cakePHP development in Eclipse"><img src="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.thumbnail.png" title="cakePHP development in Eclipse" alt="cakePHP development in Eclipse" align="left" height="223" hspace="20" width="295" /></a></p>
+
+<p>After chatting with one of my friends who is earning loads of cash doing php web development, I've decided that I'm going  relearn PHP, not because I want a change of career, I'm happy where I am, but because... I just want to.</p>
+
+<p>Because I've become a bit of a snob, used to having intellisense and and all the wonders that IDE's such as Visual Studio and Borland Delphi provide, I wanted to do my PHP development in a proper IDE. Since I've been doing a lot of Java at work - enter <a href="http://www.eclipse.org" title="The Eclipse IDE" target="_blank">Eclipse</a>, and the <a href="http://www.eclipse.org/pdt/" title="Eclipse PDT plugins" target="_blank">Eclipse PHP</a> plugins.</p>
+
+<p>As you can see in the screenshot above (which shows some code from the <a href="http://www.cakephp.org" title="A Nice Piece of Cake!">cakePHP</a> 15 minute blog tutorial), the plugins provide an awesome amount of functionality, such as:</p>
+
+<ul>
+    <li>Code folding</li>
+    <li>Intellisense/code completion</li>
+    <li>Syntax highlighting/colouring</li>
+    <li>API Documentation tool-tips</li>
+</ul>
+
+<p>All this functionality is pretty easy to set up, and there is a pretty good guide available in <a href="http://bakery.cakephp.org/articles/view/setting-up-eclipse-to-work-with-cake" target="_blank">The Bakery</a> that covers just about everything you need to know to get going. There was a little bit of configuration that I did that was slightly different to that guide:</p>
+
+<p>Firstly, I don't believe that you need to set up cakePHP as a project in order to get the code completion to work. If you expand your project, and right click on your project include paths, you should be on the PHP Include path dialog, in the projects properties. If you add an external folder, and browse to the cake core directory (for me: C:xampphtdocscake), and click ok, you should now have code completion and all the associated awesomeness in your project, with the added benefit that for any different projects in your workspace, you can set up different versions of cakePHP or (I haven't tried this though) a different framework such as <a href="http://www.symfony-project.com">Symfony</a>.</p>
+
+<p>Secondly, for code completion in Models, you just have to do something like this:</p>
+
+<pre lang="PHP">
+class PostsController extends AppController{var $name = 'Posts';
+
+/**
+
+* @var Post
+
+*/
+
+var $Post;
+
+...code
+
+}</pre>
+
+<p>Hope this is of use to somebody :)</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2007/08/20/source-control-systems/">source control systems</a> <small>Monday, 20 Aug, 2007</small>

@@ -1,4 +1,128 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2014-10-20T21:54:44+01:00</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/feed.xml" /><link rel="self" type="text/html" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2014/10/20/a-useful-prism-extension-method/</id><title type="text">A useful PRISM extension method</title><summary type="html">&lt;p&gt;I'm doing some work with Microsoft &lt;a href="http://msdn.microsoft.com/en-us/library/gg406140.aspx"&gt;Prism&lt;/a&gt; at the moment, and once again I've gotten annoyed that &lt;code&gt;RequestNavigate&lt;/code&gt; doesn't have a generic overload.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2014-10-22T13:16:37+01:00</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/feed.xml" /><link rel="self" type="text/html" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2014/10/22/about-those-view-locator-conventions/</id><title type="text">About those view locator conventions</title><summary type="html">&lt;p&gt;As I mentioned in a previous post, I do not like some of the default PRISM view location conventions.&lt;/p&gt;
+
+&lt;p&gt;As a refresher, these are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;View models to be located in a folder called ViewModel, named MyAwesomeViewModel&lt;/li&gt;
+&lt;li&gt;Views to be located in a folder called Views, named MyAwesome&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It's the view naming that I don't like: In my world (which is based on Caliburn.Micro and ReactiveUI), views should be named MyAwesomeView. This is a simple distinction, but an important one for me because I automatically expect view names to end in View.&lt;/p&gt;
+
+&lt;p&gt;Fortunately in PRISM 5, this is easy to change:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =&amp;gt;
+{
+    var viewName = viewType.FullName;
+    var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+    var viewModelName = string.Format(CultureInfo.InvariantCulture, " {0}Model, {1} ", viewName.Replace("Views", "ViewModels"), viewAssemblyName);
+    return Type.GetType(viewModelName);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We get the full name of the view, and the full name of the assembly, and then replace "Views" for the "ViewModels" folder, and add "Model" to the end. I would call this somewhere in your applications startup, such as in the bootstrapper &lt;code&gt;Run&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Autowiring&lt;/h2&gt;
+
+&lt;p&gt;Something else that you can do in PRISM 5, is autowire the view model and view such that the &lt;code&gt;DataContext&lt;/code&gt; of the view is automatically populated. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ViewModelLocationProvider.SetDefaultViewModelFactory(type =&amp;gt; Container.GetInstance(type));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I'm using StructureMap here (of which I am a big fan), but you should be able to get to work with your favourite IoC library.&lt;/p&gt;
+
+&lt;p&gt;This though, means that you have to tell StructureMap about all your views in order for it to be able to resolve them. That's too much messing about remembering having to update a &lt;code&gt;Registry&lt;/code&gt; everytime I add a view. StructureMap can solve that for us no problem:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class ViewRegistrationConvention : IRegistrationConvention
+{
+    public void Process(Type type, Registry registry)
+    {
+        if (!type.Name.EndsWith("View") || ! type.IsConcrete()) return ;
+
+        registry.For(typeof(object)).Use(type).Named(type.Name);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here we say that if the name of the type being resolved ends with "View", and it is a concrete type (i.e. not an abstract class or interface), then add it to the registry.
+The trick with PRISM is that it is asking to resolve an &lt;code&gt;object&lt;/code&gt; with a specific name, it doesn't try to resolve the type of the view, so adding something to the registry as &lt;code&gt;For&amp;lt;MyAwesomeView&amp;gt;().Use&amp;lt;MyAwesomeView&amp;gt;()&lt;/code&gt; won't work, you have to use &lt;code&gt;For(typeof(object))&lt;/code&gt; and make it a named instance, using the name of the type. &lt;/p&gt;
+
+&lt;p&gt;And then just register the convention when you configure the container:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Container.Configure(configure =&amp;gt;
+{
+    configure.Scan(scan =&amp;gt;
+    {
+        ...
+        scan.Convention&amp;lt;ViewRegistrationConvention&amp;gt;();
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then from the region manager, you can &lt;code&gt;RequestNavigate("AwesomeRegion", new Uri(typeof(MyAwesomeView)))&lt;/code&gt;, or use the extension method in my previous post. &lt;/p&gt;
+</summary><published>2014-10-21T23:00:00Z</published><updated>2014-10-21T23:00:00Z</updated><link rel="alternate" href="http://www.temporalcohesion.co.uk/2014/10/22/about-those-view-locator-conventions/" /><content type="html">&lt;p&gt;As I mentioned in a previous post, I do not like some of the default PRISM view location conventions.&lt;/p&gt;
+
+&lt;p&gt;As a refresher, these are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;View models to be located in a folder called ViewModel, named MyAwesomeViewModel&lt;/li&gt;
+&lt;li&gt;Views to be located in a folder called Views, named MyAwesome&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It's the view naming that I don't like: In my world (which is based on Caliburn.Micro and ReactiveUI), views should be named MyAwesomeView. This is a simple distinction, but an important one for me because I automatically expect view names to end in View.&lt;/p&gt;
+
+&lt;p&gt;Fortunately in PRISM 5, this is easy to change:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =&amp;gt;
+{
+    var viewName = viewType.FullName;
+    var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+    var viewModelName = string.Format(CultureInfo.InvariantCulture, " {0}Model, {1} ", viewName.Replace("Views", "ViewModels"), viewAssemblyName);
+    return Type.GetType(viewModelName);
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We get the full name of the view, and the full name of the assembly, and then replace "Views" for the "ViewModels" folder, and add "Model" to the end. I would call this somewhere in your applications startup, such as in the bootstrapper &lt;code&gt;Run&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Autowiring&lt;/h2&gt;
+
+&lt;p&gt;Something else that you can do in PRISM 5, is autowire the view model and view such that the &lt;code&gt;DataContext&lt;/code&gt; of the view is automatically populated. &lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ViewModelLocationProvider.SetDefaultViewModelFactory(type =&amp;gt; Container.GetInstance(type));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I'm using StructureMap here (of which I am a big fan), but you should be able to get to work with your favourite IoC library.&lt;/p&gt;
+
+&lt;p&gt;This though, means that you have to tell StructureMap about all your views in order for it to be able to resolve them. That's too much messing about remembering having to update a &lt;code&gt;Registry&lt;/code&gt; everytime I add a view. StructureMap can solve that for us no problem:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class ViewRegistrationConvention : IRegistrationConvention
+{
+    public void Process(Type type, Registry registry)
+    {
+        if (!type.Name.EndsWith("View") || ! type.IsConcrete()) return ;
+
+        registry.For(typeof(object)).Use(type).Named(type.Name);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here we say that if the name of the type being resolved ends with "View", and it is a concrete type (i.e. not an abstract class or interface), then add it to the registry.
+The trick with PRISM is that it is asking to resolve an &lt;code&gt;object&lt;/code&gt; with a specific name, it doesn't try to resolve the type of the view, so adding something to the registry as &lt;code&gt;For&amp;lt;MyAwesomeView&amp;gt;().Use&amp;lt;MyAwesomeView&amp;gt;()&lt;/code&gt; won't work, you have to use &lt;code&gt;For(typeof(object))&lt;/code&gt; and make it a named instance, using the name of the type. &lt;/p&gt;
+
+&lt;p&gt;And then just register the convention when you configure the container:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Container.Configure(configure =&amp;gt;
+{
+    configure.Scan(scan =&amp;gt;
+    {
+        ...
+        scan.Convention&amp;lt;ViewRegistrationConvention&amp;gt;();
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then from the region manager, you can &lt;code&gt;RequestNavigate("AwesomeRegion", new Uri(typeof(MyAwesomeView)))&lt;/code&gt;, or use the extension method in my previous post. &lt;/p&gt;
+</content></entry><entry><id>http://www.temporalcohesion.co.uk/2014/10/20/a-useful-prism-extension-method/</id><title type="text">A useful PRISM extension method</title><summary type="html">&lt;p&gt;I'm doing some work with Microsoft &lt;a href="http://msdn.microsoft.com/en-us/library/gg406140.aspx"&gt;Prism&lt;/a&gt; at the moment, and once again I've gotten annoyed that &lt;code&gt;RequestNavigate&lt;/code&gt; doesn't have a generic overload.&lt;/p&gt;
 
 &lt;p&gt;Naturally I had to write it, again:&lt;/p&gt;
 
