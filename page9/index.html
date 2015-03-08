@@ -60,6 +60,102 @@
 
 <div class="post">
 	<h1 class="title">
+		<a href="/2008/09/05/building-the-project-euler-framework-part-2/">Building the Project Euler framework, part 2</a> <small>Friday, 05 Sep, 2008</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/Java" title="Java">Java</a></li>
+			<li><a href="/category/Java" title="Java">Java</a></li>
+			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
+			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>In Part 1, I showed a basic problem runner framework for Project Euler, however there are a number of ways in which we can improve it. For example:</p>
+
+<ul>
+    <li>How can we run a specific problem?</li>
+    <li>How can we hide the answer, but still run the problem?</li>
+    <li>How can we avoid manually adding problems to the List of problems?</li>
+    <li>Not really to do with the framework, but how can we automate building everything?</li>
+</ul>
+
+<p>I'll demonstrate some ways that we can do all that, except for the 4th option, which is handled by Ant.</p>
+
+<h2>Improving the framework</h2>
+
+<p>The first thing that we can do is to add a utility function that handles showing the answers, this way we only have one place in the code that we need to update when we want to change how the answers are shown.</p>
+
+<pre lang="java">private void showAnswers(Problem problem){
+        System.out.println("Problem: " + problem.id() + ". Answer: "
+                + problem.answer() + ". Time: " + problem.time() + "s");</pre>
+
+<p>}</p>
+
+<p>To run a specific problem, we need to overload the <em>run()</em> function to access the problem we want, and show the answer.</p>
+
+<pre lang="java">public void run(int i) {
+        try{
+            Problem problem = (Problem) problems.get(i);/* problem list starts at 0 */
+
+            if (problem != null) {
+                showAnswers(problem);
+            }
+            else {
+                System.out.println("There doesn't appear to be an answer for problem " + i);
+            }
+
+        } catch (IndexOutOfBoundsException e){
+            System.err.println("There doesn't appear to be an answer for problem " + i);
+        }
+
+    }</pre>
+
+<p>As you can see, we get the specified problem out of the list, and use our new <em>showAnswers()</em> function to display the answer.� I've tried to include some good error checking - we might try to get a problem that doesn't exist.</p>
+
+<p>In order to prevent the answer from being shown, we can add a boolean parameter to the <em>run()</em> and <em>showAnswers()</em> functions.</p>
+
+<pre lang="java">private void showAnswers(Problem problem, boolean showAnswers){
+        if(showAnswers){
+            System.out.println("Problem: " + problem.id() + ". Answer: "
+                    + problem.answer() + ". Time: " + problem.time() + "s");
+            }
+            else {
+                problem.answer(); /* we still need to work out the answer */
+                System.out.println("Problem: " + problem.id() + ". Time: " + problem.time() + "s");
+            }
+    }
+
+public void run(boolean showAnswers) {
+        for (Problem problem : problems) {
+            if (problem != null) {
+                showAnswers(problem, showAnswers);
+            }
+        }
+    }</pre>
+
+<p>Dont't forget to change the overloaded <em>run(int i)</em> to <em>run(int i, boolean showAnswers)</em>. This way we can control exactly� whether to show the answers when we run all the problems, or to show the answer if we run a specific problem.</p>
+
+<p>One thing remains to do, and that is to correctly parse the command line arguments to control whether the answers are shown or not. We want to handle something like this:</p>
+
+<p>C:developmenteuler&gt;java -jar ProjectEuler.jar 42 -noanswer</p>
+
+<p>Where 42 is problem 42, and -noanswer clearly specifies not to show the answer. We'll also need to handle all combinations of this as well, such as:</p>
+
+<p>C:developmenteuler&gt;java -jar ProjectEuler.jar 42</p>
+
+<p>Which should show the answer. I'm not going to show my code for parsing the command line arguements, I'll leave that as an exercise for the reader, as I believe that it is adequately covered elsewhere on the internet, and in any number of Java books.</p>
+
+<p>The more astute among you will notice that I've not mentioned how we are going to avoid manually adding problems to the List of problems. I'll cover that next time.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
 		<a href="/2008/08/29/source-control-using-dropbox/">Source control using Dropbox</a> <small>Friday, 29 Aug, 2008</small>
 	</h1>
    <div class="meta">
@@ -257,40 +353,6 @@ Problem: 16. Time: 0.0010s</p>
 </ul>
 
 <p>These aren't my goals for this year... Ok, I don't smoke, but the other two count. I'm not revealing my other goals... yet. I have several though, and I intend to get stuck in and achieve them.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2007/10/10/more-cake/">more cake</a> <small>Wednesday, 10 Oct, 2007</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>Something I discovered fairly quickly when coding (cake)PHP in eclipse, is that, like code completion in Models, unless you do a little extra configuration, code completion in Views won't work.</p>
-
-<p>If however, you make a slight modification to the Views index.ctp, and create a HtmlHelper() yourself, then you get code completion on $html-&gt;, and access to all the methods, and the rendered view isn't affected at all.</p>
-
-<p>For example:</p>
-
-<pre lang="PHP">
-<?php
-if(false)
-
-{
-
-$html = new HtmlHelper();
-
-}
-
-?></pre>
-
-<p>I found the answer to this after posting on the <a href="http://groups.google.com/group/cake-php/browse_thread/thread/04b94b593714b394/9c71e02157bcaacd#9c71e02157bcaacd" target="_blank">CakePHP google group</a>, and getting a good answer from a user. Top Stuff</p>
  
    <hr />
 </div><!--/.post-->

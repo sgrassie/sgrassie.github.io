@@ -60,6 +60,26 @@
 
 <div class="post">
 	<h1 class="title">
+		<a href="/2014/02/19/extending-sandra-snow/">Extending Sandra.Snow</a> <small>Wednesday, 19 Feb, 2014</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/snow" title="snow">snow</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>After switching my blog over to use <a href="https://github.com/Sandra/Sandra.Snow">Sandra.Snow</a>, I noticed that in at least one feed aggregator that my blog shows up in, it wasn't displaying correct. The escaped html in the feed generator from the markdown by Snow wasn't getting rendered in the aggregator correctly. After a little digging it was apparant to me that the <code>RssResponse</code> in Snow was not correctly setting it's content type.</p>
+
+<p>I could have left it there, or submitted a small patch to fix the issue (I still will), but I noticed that the feed it generates isn't a pure atom feed, so I basically copied the relevant classes (changing 'rss' to 'atom') in the class names, and did a little configuration, and swapped over the feed to use atom.</p>
+
+<p>Even though I know that the atom feed validates, this post is in part a test to see what happens...</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
 		<a href="/2014/02/15/updating-git-submodules/">Updating git submodules</a> <small>Saturday, 15 Feb, 2014</small>
 	</h1>
    <div class="meta">
@@ -211,25 +231,6 @@ not sure about the name myself, but there you go.</p>
 <p>So I thought I'd give it a try myself.</p>
 
 <p>I'm going to try and blog my way through my learning experience, on a step-by-step basis. I'm going to make mistakes, some of my code will be awful, my WPF UI design is guaranteed to make you vomit, and I might not even use RxUI in the way that you are supposed to. But hopefully any mistakes I make will go towards the learning aspect of this endeavour.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/">Definitely given up on my github-csharp-api project</a> <small>Thursday, 07 Nov, 2013</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.</p>
-
-<p>I will not work on it anymore.</p>
  
    <hr />
 </div><!--/.post-->
