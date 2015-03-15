@@ -23,7 +23,9 @@ As I already utilise Structuremap in the application, I wanted to configure it t
 '''
 The mapping classes must inherit from `Map<T>`, which itself inherits from `IMap`. Thus we can confidently add all types of `IMap` in the scan.
 
-Then an instance of `FluentConfig` must be registered, which can be done with an overload of `.Use`
+Then an instance of `FluentConfig` must be registered, which can be done with an overload of `.Use, which we get the context from and pull out all the types of IMap which have been found,so the constructed instance of the onfig which use.
+
+
 
 '''
 	public class DatabaseFactory
