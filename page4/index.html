@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,26 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2012/11/03/virtualbox-development-environment/">VirtualBox Development Environment</a> <small>Saturday, 03 Nov, 2012</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>In the past when doing web development, I would usually use something like <a title="WAMP Server" href="http://www.wampserver.com" target="_blank">WAMP</a> to get me a development environment to work locally. However these days with the proliferation of web development technologies, there are just too many tools to have running on your machine. I work in Windows, and having PHP, Ruby, Django, Node, Grails and whatever else all on my system path starts getting a little unwieldy.</p>
+
+<p>Enter virtualisation to the rescue. With VirtualBox and a Linux distro you can build yourself a self contained development environment with all your favourite tools. With a little work, you can customise it just how you like, including getting Git running.</p>
+
+<p>&nbsp;</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2012/10/29/notes-on-vim/">Notes on Vim</a> <small>Monday, 29 Oct, 2012</small>
@@ -173,79 +193,6 @@ var gist = gistApi.GetGist(...);</pre>
 var repo = reposApi.GetRepository(...);</pre>
 
 <p>Well, that is starting to look pretty fucking stupid. I've caught myself doing it with other methods as well. I simply cannot believe I've let myself be so stupid. At least there is not that much implemented where I'll have to refactor loads of shit.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2011/11/07/adding-authentication-on-the-fly-to-a-restsharp-client-request/">Adding authentication on the fly to a RestSharp client request</a> <small>Monday, 07 Nov, 2011</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-			<li><a href="/category/github-api" title="github-api">github-api</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<h1>The Basics</h1>
-
-<p>The typical way that you'd make a request with RestSharp:</p>
-
-<ol>
-    <li>Create a RestRequest</li>
-    <li>Create a RestClient</li>
-    <li>Execute the request with the client</li>
-    <li>Do something with the response.</li>
-</ol>
-
-<p>It's at the point that you get the client object that you may wish to add authentication. For example with a REST API such as Githubs, certain methods behave differently if the request is authenticated or not, so being able to magically turn on authentication is desirable.</p>
-
-<p>To authenticate a request with RestSharp, it is a simple case of creating a RestRequest, RestClient and an IAuthenticator instance for the authenticating mechanism you want to use. For example:</p>
-
-<pre class="brush:csharp">var client = new RestClient
-             {
-                 BaseUrl ="https://api.github.com",
-                 Authenticator = new HttpBasicAuthenticator(username, password)
-             };</pre>
-
-<p>This is pretty straightforward and standard RestSharp usage. You may have a class to encapsulate this functionality, with a method which returns the RestClient instance, probably in a base class in order to inherit this common functionality in other classes.</p>
-
-<pre class="brush:csharp">public abstract class BaseApi
-{
-    RestClient GetRestClient()
-    {
-        ...
-    }
-}</pre>
-
-<h1>Options</h1>
-
-<p>There are several methods which we can use to add authentication dynamically to the RestClient instance, ranging from the trivial to the more involved.</p>
-
-<p>The trivial solution is to add the IAuthenticator as a parameter to the method, which is then assigned to the RestClient when it is created. Easy. Also fairly easy is just make it abstract or virtual and override it in an inheriting class, although this breaks SRP.</p>
-
-<p>Alternatively, we can implement the Decorator pattern, and introduce the authentication in a class which is solely responsible for handing it. I'm not going to go into this in too much detail, there is a wealth of information on implementing this pattern already available on the web. Using a Decorator is valid in a lot of situations, particularly when re-factoring someone else's mess, as you can adhere to the same interface and not risk breaking some important business function. In other cases, it is better to intercept.</p>
-
-<h1>Interception</h1>
-
-<p>A pattern which lends itself to this is called Proxy, and if you spend any time with Google and search terms like "c# proxy pattern" you'll quickly end up finding a lot of information about implementing it. You'll also find interesting stuff about Castle.DynamicProxy, and you may quickly realise this is an excellent way of adding the ability to dynamically intercept a method to add additional functionality on the fly. I've implemented an interceptor in the Github API library, with the core magic being:</p>
-
-<pre class="brush:csharp">public void Intercept(IInvocation invocation)
-{
-    invocation.Proceed(); // let the RestClient be instantiated as normal.
-    var restClient = (RestClient)invocation.ReturnValue;
-    restClient.Authenticator = _authenticator; // add the authenticator
-    invocation.ReturnValue = restClient;
- }</pre>
-
-<p>I then wrap the interception up in a static class, which is a technique I <a href="http://geekswithblogs.net/BlackRabbitCoder/archive/2010/05/06/c-why-decorate-when-you-can-intercept.aspx">saw on another website</a>, which I then wrap in a extension method which with a little bit of generics hangs off API classes in a fluent manner.</p>
-
-<pre class="brush:csharp">var api = new UserApi(GitHubUrl).WithAuthentication(authenticator);</pre>
-
-<p>I feel like it is the best way to do this sort of thing, and I will certainly starting using more of it, where necessary, in all my projects.</p>
  
    <hr />
 </div><!--/.post-->

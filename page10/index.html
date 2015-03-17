@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,48 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2008/01/07/new-years-resolutions-are-so-passe/">New Year's Resolutions are so pass�</a> <small>Monday, 07 Jan, 2008</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>It's true, New Years resolutions are pass�. Every year, you look at what is wrong in your life and triumphantly decide that you are going to resolve these problems by issuing a bold and sweeping set of statements, or edicts.</p>
+
+<ul>
+    <li>Lose weight</li>
+    <li>Stop smoking</li>
+    <li>Get fit</li>
+</ul>
+
+<p>These are what you want to achieve, chasing that ever elusive dream of making your life better. Can you? Can a simple list of statements help you achieve these goals? I'm not so sure. For some people I'm sure that they don't even have to write them down, those super motivated people who seem to exude success.</p>
+
+<p>I used to do this, on scraps of easily lost paper, "Stuart's New Year's Resolutions!" it would say, with a list of two or three word ambition's for the year. Lost by February. For the last few years I haven't even bothered with writing them down, I'd just mouth off to anyone who would listen, "I'm gonna do this, and that, this year, you wait and see".</p>
+
+<p>Which funnily enough, didn't get me very far with achieving very much. That said, 2007 was a year I'll never forget, for a number of reasons (not all of which I want to go into here), and it has led me to believe even more than I did, that it is all well and good to strole through life without a care, thinking everything is fine and dandy. Because it is not. Doing that will get you stuck, trapped in a rut that you can't get out of, never having made anything of your life.</p>
+
+<p>Thankfully, I'm pretty certain that I'm not in a rut. Trust me, I've been there and I know what it is like.</p>
+
+<p>So what to do instead of making 'New Year's Resolutions'? It's simple: Set goals. "But", I hear you cry, "a goal IS a resolution?!" Which in this sense I suppose they are, however there is a crucial difference. A goal set's out what you want to do and how you are going to achieve it.</p>
+
+<p>The above list could be re-written like so:</p>
+
+<ul>
+    <li>Lose weight by eating healthily and exercising more to get fit.</li>
+    <li>Stop smoking by using patches and will power, giving up completely by Easter.</li>
+    <li>Get fit, by joining a gym, running and cycling and lose 2 stone by Easter</li>
+</ul>
+
+<p>These aren't my goals for this year... Ok, I don't smoke, but the other two count. I'm not revealing my other goals... yet. I have several though, and I intend to get stuck in and achieve them.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2007/10/10/more-cake/">more cake</a> <small>Wednesday, 10 Oct, 2007</small>
@@ -209,57 +251,6 @@ var $Post;
 <p>This is also the reason that linux isn't ready for the desktop yet - the average person wouldn't spend time googling and recompiling kernels and installing different distributions just to get wireless working on their laptop. It should just work, with no effort. This is the advantage that windows has over linux, the driver support is significantly better.</p>
 
 <p>But it works for me, so fuck em.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2007/07/23/limitations-in-delphi/">Limitations in Delphi</a> <small>Monday, 23 Jul, 2007</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/delphi" title="delphi">delphi</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.</p>
-
-<p>I think C# is generally better, but that said I have it on good authority that templates are still much better in C++ than generics are in C#.</p>
-
-<p>Anyway, that's enough rambling. On to the solution.</p>
-
-<p>What you need to do in order to get around this limitation is cheat. Well, it's not really cheating. The tricks is to use a look up function that accepts a string, one that you are expecting, which you have in a string array. Then all you need do is return which element of the array has been matched, and use that in the case statement.</p>
-
-<pre lang="delphi">
-function TClassName.lookupFunction(lookup: string): integer;
-const
-  ARRAY = ['one', 'two', 'three', 'four', 'five'];
-var
-  i: integer;
-begin
-  for i := 0 to Length(ARRAY) do
-    if lookup = ARRAY[i] then
-    begin
-      Result := i;
-      break;
-    end
-end
-
-procedure TClassName.someProc(somestring: string);
-begin
-  case LookupFunction(somestring)
-  1 : //code that does stuff for 'one'
-  2 : //code that does stuff for 'two'
-  3 : //code that does stuff for 'three'
-  4 : //code that does stuff for 'four'
-  5 : //code that does stuff for 'five'
-end</pre>
-
-<p>See! That's how simple it is.</p>
-
-<p>Maybe in a future version of delphi borland/codegear will introduce native string support for case statements. I won't hold my breather though.</p>
  
    <hr />
 </div><!--/.post-->

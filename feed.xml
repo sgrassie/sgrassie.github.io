@@ -1,4 +1,118 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2015-03-08T23:09:30Z</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/feed.xml" /><link rel="self" type="text/html" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/</id><title type="text">Learned so much about Vim that I should already know</title><summary type="html">&lt;p&gt;I've been a user of Vim for several years now. I use it as my go-to standard editor. As I primarily write C# code, I obviously use Visual Studio, a lot, and I have the wonderful &lt;a href="https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329"&gt;VsVim&lt;/a&gt; extension installed, which provides a lot of the power of Vim, from within Visual Studio.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2015-03-17T13:11:31Z</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/feed.xml" /><link rel="self" type="text/html" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2015/03/17/fluent-npoco-mappings-with-structuremap/</id><title type="text">Fluent NPoco mappings with StructureMap</title><summary type="html">&lt;p&gt;I like using &lt;a href="https://github.com/schotime/NPoco"&gt;NPoco&lt;/a&gt;, it's a really nice library that allows you stop having to write raw ADO.NET. Recently I just switched one of my projects at work to use the Fluent Mapping features, essentially so that my POCO's do not need to have the mapping attributes in them.&lt;/p&gt;
+
+&lt;p&gt;I started wth the example on the &lt;a href="https://github.com/schotime/NPoco/wiki/Fluent-mappings-including-conventional"&gt;NPoco wiki&lt;/a&gt; of creating a database factory, and adding the mapping class to the fluent configuration. As the number of mapping classes has grown, this has quickly become unwieldy and a bit of a maintainance issue.&lt;/p&gt;
+
+&lt;p&gt;As I already utilise Structuremap in the application, I wanted to configure it to automatically pick up my mapping classes and build the configuration object for me. This is easy to in the registry:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public DefaultRegistry()
+{
+    Scan(
+        scan =&amp;gt;
+        {
+            scan.TheCallingAssembly();
+            scan.WithDefaultConventions();
+            scan.With(new ControllerConvention());
+            scan.AddAllTypesOf&amp;lt;IMap&amp;gt;();
+        });
+
+    For&amp;lt;FluentConfig&amp;gt;().Use(context =&amp;gt; FluentMappingConfiguration.Configure(context.GetAllInstances&amp;lt;IMap&amp;gt;().ToArray()));
+    For&amp;lt;DatabaseFactory&amp;gt;().Singleton().Use&amp;lt;DatabaseFactory&amp;gt;();
+    For&amp;lt;IDatabase&amp;gt;().HttpContextScoped().Use(context =&amp;gt; context.GetInstance&amp;lt;DatabaseFactory&amp;gt;().GetDatabase());
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The mapping classes must inherit from &lt;code&gt;Map&amp;lt;T&amp;gt;&lt;/code&gt;, which itself inherits from &lt;code&gt;IMap&lt;/code&gt;. Thus we can confidently add all types of &lt;code&gt;IMap&lt;/code&gt; in the scan.&lt;/p&gt;
+
+&lt;p&gt;Then an instance of &lt;code&gt;FluentConfig&lt;/code&gt; must be registered, which can be done with an overload of &lt;code&gt;.Use&lt;/code&gt;, from which we get the StructureMap context and pull out all the types of IMap which have been found and pass it to the static &lt;code&gt;.Configure&lt;/code&gt; method of the &lt;code&gt;FluentMappingConfiguration&lt;/code&gt;, which constructs the instance.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;DatabaseFactory&lt;/code&gt; (see below) is then registered, and it accepts a 'FluentConfig' instance in its constructor. As per the original example on the NPoco wiki, it is marked as a singleton to ensure that only one instance is created, so that the mappings do not get registered more than once. I don't know what would happen if the mappings were to be registered more than once, but I assume that it would be a Bad Thing&amp;trade;.&lt;/p&gt;
+
+&lt;p&gt;Then, for the NPoco &lt;code&gt;IDatabase&lt;/code&gt; instance that we register, we want to always create it using the instance of the &lt;code&gt;DatabaseFactory&lt;/code&gt; that has already been registered, which again is accessible using the overload of &lt;code&gt;.Use&lt;/code&gt; to get the Structuremap context. It's marked as &lt;code&gt;.HttpContextScoped()&lt;/code&gt;, but I'm honestly not sure if that's required or not given that I'm using &lt;code&gt;Structuremap.MVC5&lt;/code&gt; nested containers.&lt;/p&gt;
+
+&lt;p&gt;For completeness, here is the &lt;code&gt;DatabaseFactory&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class DatabaseFactory
+{
+    private static NPoco.DatabaseFactory _internalFactory;
+
+    public DatabaseFactory(FluentConfig fluentConfig)
+    {
+        Configure(fluentConfig);
+    }
+
+    private static void Configure(FluentConfig fluentConfiguration)
+    {
+        _internalFactory = NPoco.DatabaseFactory.Config(x =&amp;gt;
+        {
+            x.UsingDatabase(() =&amp;gt; new Database("ConnectionString"));
+            x.WithFluentConfig(fluentConfiguration);
+        });
+    }
+
+    public NPoco.Database GetDatabase()
+    {
+        return _internalFactory.GetDatabase();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</summary><published>2015-03-17T00:00:00Z</published><updated>2015-03-17T00:00:00Z</updated><link rel="alternate" href="http://www.temporalcohesion.co.uk/2015/03/17/fluent-npoco-mappings-with-structuremap/" /><content type="html">&lt;p&gt;I like using &lt;a href="https://github.com/schotime/NPoco"&gt;NPoco&lt;/a&gt;, it's a really nice library that allows you stop having to write raw ADO.NET. Recently I just switched one of my projects at work to use the Fluent Mapping features, essentially so that my POCO's do not need to have the mapping attributes in them.&lt;/p&gt;
+
+&lt;p&gt;I started wth the example on the &lt;a href="https://github.com/schotime/NPoco/wiki/Fluent-mappings-including-conventional"&gt;NPoco wiki&lt;/a&gt; of creating a database factory, and adding the mapping class to the fluent configuration. As the number of mapping classes has grown, this has quickly become unwieldy and a bit of a maintainance issue.&lt;/p&gt;
+
+&lt;p&gt;As I already utilise Structuremap in the application, I wanted to configure it to automatically pick up my mapping classes and build the configuration object for me. This is easy to in the registry:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public DefaultRegistry()
+{
+    Scan(
+        scan =&amp;gt;
+        {
+            scan.TheCallingAssembly();
+            scan.WithDefaultConventions();
+            scan.With(new ControllerConvention());
+            scan.AddAllTypesOf&amp;lt;IMap&amp;gt;();
+        });
+
+    For&amp;lt;FluentConfig&amp;gt;().Use(context =&amp;gt; FluentMappingConfiguration.Configure(context.GetAllInstances&amp;lt;IMap&amp;gt;().ToArray()));
+    For&amp;lt;DatabaseFactory&amp;gt;().Singleton().Use&amp;lt;DatabaseFactory&amp;gt;();
+    For&amp;lt;IDatabase&amp;gt;().HttpContextScoped().Use(context =&amp;gt; context.GetInstance&amp;lt;DatabaseFactory&amp;gt;().GetDatabase());
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The mapping classes must inherit from &lt;code&gt;Map&amp;lt;T&amp;gt;&lt;/code&gt;, which itself inherits from &lt;code&gt;IMap&lt;/code&gt;. Thus we can confidently add all types of &lt;code&gt;IMap&lt;/code&gt; in the scan.&lt;/p&gt;
+
+&lt;p&gt;Then an instance of &lt;code&gt;FluentConfig&lt;/code&gt; must be registered, which can be done with an overload of &lt;code&gt;.Use&lt;/code&gt;, from which we get the StructureMap context and pull out all the types of IMap which have been found and pass it to the static &lt;code&gt;.Configure&lt;/code&gt; method of the &lt;code&gt;FluentMappingConfiguration&lt;/code&gt;, which constructs the instance.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;DatabaseFactory&lt;/code&gt; (see below) is then registered, and it accepts a 'FluentConfig' instance in its constructor. As per the original example on the NPoco wiki, it is marked as a singleton to ensure that only one instance is created, so that the mappings do not get registered more than once. I don't know what would happen if the mappings were to be registered more than once, but I assume that it would be a Bad Thing&amp;trade;.&lt;/p&gt;
+
+&lt;p&gt;Then, for the NPoco &lt;code&gt;IDatabase&lt;/code&gt; instance that we register, we want to always create it using the instance of the &lt;code&gt;DatabaseFactory&lt;/code&gt; that has already been registered, which again is accessible using the overload of &lt;code&gt;.Use&lt;/code&gt; to get the Structuremap context. It's marked as &lt;code&gt;.HttpContextScoped()&lt;/code&gt;, but I'm honestly not sure if that's required or not given that I'm using &lt;code&gt;Structuremap.MVC5&lt;/code&gt; nested containers.&lt;/p&gt;
+
+&lt;p&gt;For completeness, here is the &lt;code&gt;DatabaseFactory&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class DatabaseFactory
+{
+    private static NPoco.DatabaseFactory _internalFactory;
+
+    public DatabaseFactory(FluentConfig fluentConfig)
+    {
+        Configure(fluentConfig);
+    }
+
+    private static void Configure(FluentConfig fluentConfiguration)
+    {
+        _internalFactory = NPoco.DatabaseFactory.Config(x =&amp;gt;
+        {
+            x.UsingDatabase(() =&amp;gt; new Database("ConnectionString"));
+            x.WithFluentConfig(fluentConfiguration);
+        });
+    }
+
+    public NPoco.Database GetDatabase()
+    {
+        return _internalFactory.GetDatabase();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</content></entry><entry><id>http://www.temporalcohesion.co.uk/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/</id><title type="text">Learned so much about Vim that I should already know</title><summary type="html">&lt;p&gt;I've been a user of Vim for several years now. I use it as my go-to standard editor. As I primarily write C# code, I obviously use Visual Studio, a lot, and I have the wonderful &lt;a href="https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329"&gt;VsVim&lt;/a&gt; extension installed, which provides a lot of the power of Vim, from within Visual Studio.&lt;/p&gt;
 
 &lt;p&gt;I thought I was pretty good at using Vim, until the other day when I saw Vim being used in some screencasts and I immediately thought that I suck at using Vim.&lt;/p&gt;
 

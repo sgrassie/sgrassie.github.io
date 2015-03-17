@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,57 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2007/07/23/limitations-in-delphi/">Limitations in Delphi</a> <small>Monday, 23 Jul, 2007</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/delphi" title="delphi">delphi</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.</p>
+
+<p>I think C# is generally better, but that said I have it on good authority that templates are still much better in C++ than generics are in C#.</p>
+
+<p>Anyway, that's enough rambling. On to the solution.</p>
+
+<p>What you need to do in order to get around this limitation is cheat. Well, it's not really cheating. The tricks is to use a look up function that accepts a string, one that you are expecting, which you have in a string array. Then all you need do is return which element of the array has been matched, and use that in the case statement.</p>
+
+<pre lang="delphi">
+function TClassName.lookupFunction(lookup: string): integer;
+const
+  ARRAY = ['one', 'two', 'three', 'four', 'five'];
+var
+  i: integer;
+begin
+  for i := 0 to Length(ARRAY) do
+    if lookup = ARRAY[i] then
+    begin
+      Result := i;
+      break;
+    end
+end
+
+procedure TClassName.someProc(somestring: string);
+begin
+  case LookupFunction(somestring)
+  1 : //code that does stuff for 'one'
+  2 : //code that does stuff for 'two'
+  3 : //code that does stuff for 'three'
+  4 : //code that does stuff for 'four'
+  5 : //code that does stuff for 'five'
+end</pre>
+
+<p>See! That's how simple it is.</p>
+
+<p>Maybe in a future version of delphi borland/codegear will introduce native string support for case statements. I won't hold my breather though.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2007/07/20/hello-world-2/">Hello world!</a> <small>Friday, 20 Jul, 2007</small>
