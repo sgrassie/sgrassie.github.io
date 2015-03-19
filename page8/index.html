@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,121 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2009/11/02/more-on-the-generic-plugin-manager/">More on the generic plugin manager</a> <small>Monday, 02 Nov, 2009</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/C#" title="C#">C#</a></li>
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/Plugin Manager" title="Plugin Manager">Plugin Manager</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<h4>Update:</h4>
+
+<p>I've written some more about what I've learned whilst working on my plugin manager here: <a href="http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/" target="_self">http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/</a></p>
+
+<p>A few months ago <a title="Writing a generic plugin manager" href="http://temporalcohesion.co.uk/2009/05/25/writing-a-generic-plugin-manager-in-c/" target="_self">I wrote about</a> writing a generic plugin loader/manager in C#, where I offered links to several articles and referenced a rather excellent book about C# which I had used to base my plugin loader on. I hadn't really given it much thought since then, but according to Google Analytic's, it's one of the most hit posts on my blog. Recently I had a request to release the source code.</p>
+
+<p>Now when I first wrote that post, I was hesitant to include any code, and I still am - not because I think there is something new and unique with what I've done - but, rather that what I have written is not terribly difficult to write. I do not mean to sound snobbish or arrogant at all, I'm just telling you how it is, all I've done is to do a bit of reflection on assemblies in a folder, and load instances of certain interfaces.</p>
+
+<p>Anyway...</p>
+
+<p>The scenario is that you want to provide a way for for 3rd parties to be able to add additional functionality to your application at run time. We need to provide a common way for 3rd parties to be able to register their new functionality into our application, in order that the user can take advantage of the exciting new feature being added to the application.</p>
+
+<p>Straight away, you should be thinking to yourself: Interface!</p>
+
+<pre class="lang:csharp decode:1 " >
+
+public interface IPlugin
+ {
+ /// &amp;lt;summary&amp;gt;
+ /// Does what ever It is.
+ /// &amp;lt;/summary&amp;gt;
+ void Do(Action it);
+ }
+
+</pre>
+
+<p>Anyone who now wants to create a plugin for our application must implement our IPlugin interface, as it defines the contract to which our application is bound to, in order to recognise and load plugins. Thus any assembly, that has a class which implements IPlugin is considered by our application to be a plugin which is capable of offering additional functionality.</p>
+
+<p>We can now attempt to load our plugins. We need to have a class which can scan a folder for assemblies, scan those assemblies for types which implement IPlugin, and then create instances of them which our application can use. Loading the assemblies is easy:</p>
+
+<pre class="lang:csharp decode:1 " >
+public class PluginLoader&amp;lt;T&amp;gt;
+{
+ private IList&amp;lt;T&amp;gt; pluginsList = new List&amp;lt;T&amp;gt;();
+ ...
+}
+
+...
+
+public virtual IList&amp;lt;T&amp;gt; LoadPlugins()
+ {
+ foreach (string file in Directory.GetFiles(this.pluginFolderPath, &amp;quot;*.dll&amp;quot;, SearchOption.AllDirectories))
+ {
+ Assembly assembly = Assembly.LoadFile(file);
+ this.LoadObjects(assembly);
+ }
+
+ return this.pluginsList;
+ }
+</pre>
+
+<p>We create a generic class, so we can use it with any type of plugin, and not just ones which implement IPlugin, then it's just simple directory recursion to load all the files in the specified folder which have a file extension of .dll. The real magic happens in the LoadObjects() method.</p>
+
+<pre class="lang:csharp decode:1 " >
+var types = from t in assembly.GetTypes()
+ where t.IsClass &amp;amp;&amp;amp;
+ (t.GetInterface(typeof(T).Name) != null)
+ select t;
+
+ foreach (Type t in types)
+ {
+ T plugin = (T)assembly.CreateInstance(t.FullName, true);
+ this.pluginsList.Add(plugin);
+ }
+</pre>
+
+<p>Using LINQ, we extract all the types from the assembly which are classes, which implement the interface which is a typeof(T) - T being the type we specified when we instantiated the class. You could just as easily here specify the type should inherit from some other type, and you could also check to see if a class has some assembly level attribute.</p>
+
+<p>Why would you want to do that? Well, we can use an assembly level attribute to decorate the plugin class with meta-data about the plugin, such as the author, a short description, the name of the plugin, and it's version.</p>
+
+<pre class="lang:csharp decode:1 " >
+public virtual KeyValuePair&amp;lt;string, List&amp;lt;KeyValuePair&amp;lt;string, string&amp;gt;&amp;gt;&amp;gt; GetPluginInformation(Type type)
+ {
+ var attributeInfo = from pa in type.GetCustomAttributes(false)
+ where (pa.GetType() == typeof(PluginAttribute))
+ select pa;
+
+ foreach (PluginAttribute p in attributeInfo)
+ {
+ data.Add(new KeyValuePair&amp;lt;string, string&amp;gt;(&amp;quot;Author&amp;quot;, p.Author));
+ data.Add(new KeyValuePair&amp;lt;string, string&amp;gt;(&amp;quot;Description&amp;quot;, p.Description));
+ data.Add(new KeyValuePair&amp;lt;string, string&amp;gt;(&amp;quot;Name&amp;quot;, p.Name));
+ name = p.Name;
+ data.Add(new KeyValuePair&amp;lt;string, string&amp;gt;(&amp;quot;Type&amp;quot;, p.Type.ToString()));
+ data.Add(new KeyValuePair&amp;lt;string, string&amp;gt;(&amp;quot;Version&amp;quot;, p.Version));
+ }
+
+ this.attributeInformation = new KeyValuePair&amp;lt;string, List&amp;lt;KeyValuePair&amp;lt;string, string&amp;gt;&amp;gt;&amp;gt;(name, data);
+
+ return this.attributeInformation;
+ }
+</pre>
+
+<p>Or you could create a struct to use as a DTO for the plugin meta-data, it's up to you.</p>
+
+<p>I've removed all the comments and exception handling from the code I've posted purely just to save space, you'd really want to include that - especially the exception handling. But that's really all there is to it, you might want to have a property to access the actual plugin list, or return it from a LoadPlugins method, it's up to you.</p>
+
+<p>You'll notice I've made the methods virtual, you may want to use this class as a base class in another class. For instance I've got an additional class which inherits from my plugin loader class which does specific tasks for a particular type of plugin, and another which does different tasks for a different type of plugin.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2009/10/26/a-psake-build-script-example/">A psake build script example</a> <small>Monday, 26 Oct, 2009</small>
@@ -334,49 +449,6 @@ Console.WriteLine("Log message");</pre>
 <p>I've read here and there on some blogs, a few message boards and some email lists, that log4net is difficult and time consuming to set-up, and that it is hard to use. Which is nonsense, because after ten minutes (which included downloading the latest version) I had my first small test application up and running and outputting debug messages to the Output window in Visual Studio. Pretty swish indeed.� I did spend some time reading about the best ways to use log4net, and I still do, but I didn't find the initial set-up to be inordinately difficult at all.</p>
 
 <p>On the whole, I am impressed with it's ease of use, I'm now starting to use it in my own personal projects, and it is proving to be invaluable at work.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2009/05/25/writing-a-generic-plugin-manager-in-c/">Writing a generic plugin manager in C#</a> <small>Monday, 25 May, 2009</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-			<li><a href="/category/Plugin Manager" title="Plugin Manager">Plugin Manager</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<h4>Update:</h4>
-
-<p>I have written another post on this subject with some code examples  here: <a title="More on the generic plugin manager" href="http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/" target="_self">http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/</a></p>
-
-<h4>Update 2:</h4>
-
-<p>There is another follow on post here: <a href="http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/">http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/</a> where I talk about what I've learned.</p>
-
-<p>One of my current long term hobby project is a  map/world editor that I'm writing for Andy's (work in progress) game engine. It is still in a quite rudimentary stage, however, I have gotten an important aspect of the application into a fairly mature state already, and that is the plugin system.</p>
-
-<p>I don't want to get into too much detail over things that are available via some simple searches on google, so don't expect too much code. There are some good articles <a title="http://msdn.microsoft.com/en-us/library/ms972962.aspx" href="http://" target="_blank">here</a>, <a title="http://www.codeproject.com/KB/macros/PluginsManager.aspx?display=Print" href="http://" target="_blank">here </a>and <a title="http://www.codeproject.com/KB/cs/Plugin_Basics.aspx" href="http://" target="_blank">here</a>, which delve quite deeply into this, and how to develop a plugin framework in general. I developed my plugin framework based on the code in <a title="http://www.amazon.com/2008-NET-Platform-Fourth-Windows-Net/dp/1590598849" href="http://" target="_blank">this book</a>, which incidentally is a very good book.</p>
-
-<p>Also, in my own google searches on this subject, a lot of the articles I found are getting to be four years old, in a few instances even older. Not that this automatically makes them invalid as sources of information, it's just that they may not reflect best practices in modern C#. (Not that I am claiming to be a <a title="http://msmvps.com/blogs/jon_skeet/default.aspx" href="http://" target="_blank">Jon Skeet</a>-like C# guru). Also, quite a few of the ones I found make use of an XML configuration file to hold a reference to the plugins. I'm not a big fan of this type of thing, I much prefer convention over configuration.</p>
-
-<p><strong>Why Generic?</strong></p>
-
-<p>I've written a plugin system for the Editor because I want to provide a way to make it easily extendible in the future, without having to change the core application, to enable it to perform actions that are above and beyond it's core capabilities. Byond that basic requirement, there are a couple of other reasons to make it a generic plugin framework.</p>
-
-<p>Firstly, I've made it generic because I wanted to make a distinction between different types of plugins, such as a type of plugin for resources, and a type of plugin which adds functionality into the application (such as tools, UI widgets etc).</p>
-
-<p>Secondly, and perhaps most important (to me, anyway), is that I'll never need to write a C# plugin framework again, for any of my personal projects. I've had a go at writing a plugin framework before, a few times for none-work projects and once for a project at work, and I finally realised what my problem was - reinventing the wheel each time.</p>
-
-<p>The plugin framework I've written ensures that I don't have to worry about this the next time one of my pet projects needs a plugin system. The Editor will in fact have two types of plugins available, one to extend the types of data sources it can load in resources from, and another to provide additional functionality, like tools.</p>
-
-<p>I'm fairly pleased with the way that it has turned out, and it works quite well in practice.</p>
  
    <hr />
 </div><!--/.post-->

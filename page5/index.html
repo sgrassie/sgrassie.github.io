@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,blog,Books,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,38 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2011/11/14/stupid-design-decisions-with-the-github-api-wrapper/">Stupid design decisions with the Github API wrapper</a> <small>Monday, 14 Nov, 2011</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/C#" title="C#">C#</a></li>
+			<li><a href="/category/github-api" title="github-api">github-api</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>Whilst writing some blog posts about the authentication which I've been implementing, I've come to the realization, almost as an after thought, that even though I've still not got a lot of the main Github API implemented, the way I've envisioned the API working, from a user point of view, is sort of a bit shit.</p>
+
+<pre class="brush:applescript">var userApi = new UserApi();
+var user = userApi.GetUser("example");</pre>
+
+<p>Pretty straightforward, right? What about the as yet unwritten GistApi?</p>
+
+<pre class="brush:csharp">var gistApi = new GistApi();
+var gist = gistApi.GetGist(...);</pre>
+
+<p>Again, pretty straightforward. But I see a pattern forming. What am I going to do when it comes to the RepositoryApi?</p>
+
+<pre class="brush:csharp">var reposApi = new RepositoryApi();
+var repo = reposApi.GetRepository(...);</pre>
+
+<p>Well, that is starting to look pretty fucking stupid. I've caught myself doing it with other methods as well. I simply cannot believe I've let myself be so stupid. At least there is not that much implemented where I'll have to refactor loads of shit.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2011/11/07/adding-authentication-on-the-fly-to-a-restsharp-client-request/">Adding authentication on the fly to a RestSharp client request</a> <small>Monday, 07 Nov, 2011</small>
@@ -229,40 +261,6 @@ user.Authenticated.AddEmail("example@example.com");</pre>
 <p>I'll place myself firmly in that 20% block of programmers though. I wouldn't say I was a rock star programmer, I'm certainly not bad, but I do always want to constantly improve myself and my ability. As the old saying, "Practice makes perfect". I definitely love my job. Maybe I could do without some of the meetings and the office politics which comes from working in a large company, but still, I love what I do.</p>
 
 <p>I get paid to do what I love doing; I consider myself lucky.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2010/11/08/damn-you-empty-catch-block/">Damn you empty catch block</a> <small>Monday, 08 Nov, 2010</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/annoyance" title="annoyance">annoyance</a></li>
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-			<li><a href="/category/exception" title="exception">exception</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>In the code I help maintain in my day job, I see a lot of the following code:</p>
-
-<pre class="brush:csharp">
-try
-{
-/* code */
-}
-catch(Exception)
-{
-}
-</pre>
-
-<p>I see it in several different languages almost daily. It really frustrates me that my colleagues and predecessors did this. I stamp it out ruthlessly.</p>
-
-<p><a href="http://blogs.msdn.com/b/clrteam/archive/2009/02/19/why-catch-exception-empty-catch-is-bad.aspx">Here is a great post</a> on why empty catch blocks are bad. Here is a <a href="http://stackoverflow.com/questions/183589/c-windows-forms-best-practice-exception-handling" target="_blank">great question and series of answers</a> on StackOverflow about best practices for exception handling.</p>
  
    <hr />
 </div><!--/.post-->
