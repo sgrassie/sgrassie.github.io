@@ -60,6 +60,68 @@
 
 <div class="post">
 	<h1 class="title">
+		<a href="/2009/07/25/adding-logging-to-an-application/">Adding logging to an application</a> <small>Saturday, 25 Jul, 2009</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/C#" title="C#">C#</a></li>
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/log4net" title="log4net">log4net</a></li>
+			<li><a href="/category/Logging" title="Logging">Logging</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>Nearly every application I have ever used has produced some sort of log output, usually to record details of exactly what the application was doing when an error was encountered. To be perfectly truthful, it is not something that I have ever really given very much consideration to in either my own or work applications, there have always been more pressing things to attend to, such as meeting (unrealistic) deadlines, or implementing some interesting new feature. I've used log4j before in a work application, mostly because someone else had already done all the configuration.</p>
+
+<p>However, the application that is currently occupying the main focus of my attention at work had (almost) no logging in it what-s0-ever, but given the nature of the application, it can be very difficult to debug exactly what is happening internally using breakpoints. Again, the nature of the application doesn't really lend itself well to showing MessageBox's all the over the place.</p>
+
+<pre lang="csharp">MessageBox.Show("Log message");
+
+// or..
+
+Console.WriteLine("Log message");</pre>
+
+<p>How many times have you done that, or the equivalent, in an application? If you are like me, then you'll have done it hundreds of times, probably in the same application. It's really quick and easy to do, and can be very useful. You just have to remember to take it out of the Release build. What a pain.</p>
+
+<p><strong>A better way</strong></p>
+
+<p>Using a proper logging library (as I have now discovered) allows you much greater freedom. Freedom to not have to (overly) worry about leaving in <em>Log.Debug("Some message")</em> all over the code. Freedom to be able to configure what is logged, where it is logged to and how it is displayed. Freedom to receive concrete data on how your application is behaving in the real world, which will enable you to find and fix bugs faster than you would have thought possible.</p>
+
+<p>There are a multitude of logging libraries available:</p>
+
+<ul>
+    <li>Write your own</li>
+    <li>System.Diagnostics.Trace and System.Diagnostics.Debug</li>
+    <li>The Logging Application block from the <a title="Microsoft Enterprise Library" href="http://www.codeplex.com/entlib" target="_self">Enterprise Library</a></li>
+    <li>Bitfactory.Logging from <a title="Bitfactory.Logging from theobjectguy" href="http://www.theobjectguy.com/dotnetlog/" target="_blank">http://www.theobjectguy.com/dotnetlog/</a></li>
+    <li><a title="NLog C# logging library" href="http://csharp-source.net/open-source/logging/nlog" target="_blank">NLog</a></li>
+    <li> Plus many more that you can find via google or on Stack Overflow.</li>
+</ul>
+
+<p>Now, while it would probably be an interesting exercise to write a small logging library, the world doesn't need another one, so I immediately discounted that option.</p>
+
+<p>I've used System.Diagnostics here and there, and an ex-colleague wrote a small logging library based around using Trace and Debug, but that is getting dangerously close to writing your own logging library, so again that's out.</p>
+
+<p>The Logging application block from the Enterprise Library just seems too weighty, and too much of a pain to configure (I can probably be proved wrong though), so I discounted that as well.</p>
+
+<p>The object guy's logging library seems pretty good, but the documentation and examples kind of suck, and it doesn't look like it's been updated in a while, so after playing with it a little bit (and not really liking it all that much to be perfectly honest), I discounted that as well, although it does seem to have a lot of fans on Stack Overflow.</p>
+
+<p>NLog has plenty of documentation, and seems pretty straightforward to use, and it too has a lot of fans on Stack Overflow, but again, it's not been updated in a while, so I discounted that too.</p>
+
+<p><strong>Log4Net to the rescue</strong></p>
+
+<p>Log4Net is part of the <a title="Apache Logging Services" href="http://logging.apache.org/" target="_self">Apache Logging Services</a> project, along with Log4j, and Log4Cxx. It is a C# port of Log4j, and works amazingly well. I am not going to write about how to set it up and configure it, as <a title="log4net info on beefycode.com" href="http://www.beefycode.com/category/log4net.aspx">others have done that already</a>, and the documentation is excellent.</p>
+
+<p>I've read here and there on some blogs, a few message boards and some email lists, that log4net is difficult and time consuming to set-up, and that it is hard to use. Which is nonsense, because after ten minutes (which included downloading the latest version) I had my first small test application up and running and outputting debug messages to the Output window in Visual Studio. Pretty swish indeed.� I did spend some time reading about the best ways to use log4net, and I still do, but I didn't find the initial set-up to be inordinately difficult at all.</p>
+
+<p>On the whole, I am impressed with it's ease of use, I'm now starting to use it in my own personal projects, and it is proving to be invaluable at work.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
 		<a href="/2009/05/25/writing-a-generic-plugin-manager-in-c/">Writing a generic plugin manager in C#</a> <small>Monday, 25 May, 2009</small>
 	</h1>
    <div class="meta">
@@ -286,86 +348,6 @@ public void run(boolean showAnswers) {
 <p>With Dropbox, you get complete file history, so if you mistakenly remove some code that turns out to be pretty vital... you can get it back using the simple to use web interface. While you can share folders, and allow people to modify shared folders, I'm not too sure that it would work too well for collaborative software development. I think it would be far better to get a proper form of source control running on a server both parties have access to. There are plenty of proper source control providers out there with free options, and I am considering moving my code onto one of those, if I can find one that has a reasonable yearly subscription.</p>
 
 <p>For my current requirements, it suits me just fine. I realise that Dropbox is not intended to be a source control system, however... When the client is able to sync specific folders that you tell it to, it will be perfect.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2008/08/22/building-the-project-euler-framework-part-1/">Building the Project Euler framework, part 1</a> <small>Friday, 22 Aug, 2008</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-			<li><a href="/category/Java" title="Java">Java</a></li>
-			<li><a href="/category/Java" title="Java">Java</a></li>
-			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
-			<li><a href="/category/Project Euler" title="Project Euler">Project Euler</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>As promised, here is the first part of the series of posts I hope to write demonstrating how I wrote my problem runner framework for <a title="Project Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>.</p>
-
-<p>Firstly, before you continue reading, I suggest that you research the <a title="The Command pattern on Wikipedia" href="http://en.wikipedia.org/wiki/Command_pattern" target="_blank">Command</a> pattern, Google will also provide you with some good sources in your research.</p>
-
-<p>Done? Ok then. It shouldn't matter what IDE you use, I am using Eclipse (ganymede), any IDE should do. If you don't know what an IDE is, then go and find out, and then come back.</p>
-
-<h2>Start Coding</h2>
-
-<p>In your IDE, and following the <a title="Java package naming conventions" href="http://java.sun.com/docs/codeconv/html/CodeConventions.doc8.html" target="_blank">Java package naming conventions</a>, create a package to hold the Project Euler code, for example: co.uk.temporalcohesion.euler.problems. Because we are going to need an interface, also create a package to hold those, as this can help keep things more organised, for example: co.uk.temporalcohesion.euler.interfaces</p>
-
-<p>Let's define that interface</p>
-
-<pre lang="java">public interface Problem {
-
-    /**
-     * Answer method. Returns the answer for the problem
-     * @return - the integer answer to the problem
-     */
-    String answer();
-
-    /**
-     * The problem number.
-     * @return - The number of the problem
-     */
-    int id();
-
-    /**
-     * How long does it take to work out the answer?
-     * @return - The time in seconds it takes to work out the answer to the problem
-     */
-    double time();
-}</pre>
-
-<p>Before we move on an implement that interface in a problem, let's write the basic problem runner itself. We'll need a way to register an instance of a problem, and a way to run the problem and get the answer.</p>
-
-<pre lang="java">public class Euler {
-    private List&lt;Problem&gt; problems = new ArrayList();
-
-    public Euler() {
-        problems.add(new One());
-    }
-
-    private void run() {
-        for (Problem prob : problems) {
-            System.out.println("Problem " + prob.id() + ": " + prob.answer());
-        }
-    }
-
-    public static void main(String[] args) {
-        new Euler().run();
-    }
-}</pre>
-
-<p>That's pretty much all you need for a basic problem runner. You just register an instance of each problem you write into the problems List object in the constructor, and run the program, and it iterates through each Problem in the List, and outputs the answer.</p>
-
-<p>I'm not going to give you the code to problem one, however it is pretty trivial if you know what the modulus operator is used for...</p>
-
-<p>As you can see, the problem runner itself is fairly basic, and does present some immediate areas of improvement, such as running a specific problem.</p>
-
-<p>I'll cover that next time.</p>
  
    <hr />
 </div><!--/.post-->

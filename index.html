@@ -60,6 +60,48 @@
 
 <div class="post">
 	<h1 class="title">
+		<a href="/2015/04/15/gitlab-active-directory/">Gitlab and Active Directory</a> <small>Wednesday, 15 Apr, 2015</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/asp.net" title="asp.net">asp.net</a></li>
+			<li><a href="/category/bootstrap" title="bootstrap">bootstrap</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p><a href="http://www.gitlab.com">Gitlab</a> is an open source 'clone' of Github, although I don't think it's much of a clone anymore, to be fair. The Enterprise edition has full Active Directory support, and the Community edition does not. </p>
+
+<p>The integration with Active Directory is of great benefit. To get the most out of it, I think that you would need to upgrade to the Enterprise edition, as it adds a number of additonal integrations which look to be really usefull for larger organisations with multiple projects and development teams.</p>
+
+<p>It is possible to configure the Community edition to integrate with Active Directory, to the extent that you can restrict exactly who is allowed to login in. You have to manually configure the users permissions on groups/projects though. In the Enterprise edition, the tighter integration means that you can match up Active Directory groups with groups in Gitlab, and control access both to the server, and groups/projects, all through Active Directory.</p>
+
+<p>Here is the ldap section from my <code>gitlab.yml</code> (please be aware, I'm no Active Directory expert):</p>
+
+<pre><code>ldap:
+enabled: true
+  servers:
+    main:
+      label: 'domain'
+      host: 'ad.example.com'
+      port: 389 
+      uid: 'sAMAccountName'
+      method: 'plain' 
+      bind_dn: 'CN=Git Lab,OU=AB,OU=example,DC=example,DC=com'
+      password: 'secret'
+      allow_username_or_email_login: true
+      active_directory: true
+      base: 'OU=example,DC=example,DC=com'
+      user_filter: '(memberOf=cn=devs,ou=groups,dc=example,dc=com)'
+</code></pre>
+
+<p>The <code>bind_dn</code> is for a user called 'Git Lab', and you must suppoly the password. This user was expressly setup just for this, but you can use any user. The <code>base</code> is the level of Active Directory that Gitlab searches for users from. Finally, the <code>user_filter</code> states that users must members of <code>devs</code> in order to be able to login.</p>
+ 
+   <hr />
+</div><!--/.post-->
+<div class="post">
+	<h1 class="title">
 		<a href="/2015/03/19/asp-net-bootstrap-form-control-width/">ASP.Net Bootstrap 3 form control width</a> <small>Thursday, 19 Mar, 2015</small>
 	</h1>
    <div class="meta">
@@ -251,35 +293,6 @@ The trick with PRISM is that it is asking to resolve an <code>object</code> with
 </code></pre>
 
 <p>Then from the region manager, you can <code>RequestNavigate("AwesomeRegion", new Uri(typeof(MyAwesomeView)))</code>, or use the extension method in my previous post. </p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2014/10/20/a-useful-prism-extension-method/">A useful PRISM extension method</a> <small>Monday, 20 Oct, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-	   </ul>
-   </div>
-            
-   
-   
-<p>I'm doing some work with Microsoft <a href="http://msdn.microsoft.com/en-us/library/gg406140.aspx">Prism</a> at the moment, and once again I've gotten annoyed that <code>RequestNavigate</code> doesn't have a generic overload.</p>
-
-<p>Naturally I had to write it, again:</p>
-
-<p><pre><code>
-public static class RegionManagerExtensions
-{
-    public void RequestNavigate<TView>(this IRegionManager regionManager, string regionName)
-    {
-        regionManager.RequestNavigate(regionName, new Uri(typeof(TView), UriKind.Relative).Name));
-    }
-}
-</pre></code></p>
-
-<p>the <code>new Uri(typeof(TView)...)</code> works because of the view locator conventions I've implemented.</p>
  
    <hr />
 </div><!--/.post-->
