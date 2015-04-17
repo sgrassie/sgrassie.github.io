@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,47 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2012/08/27/why-do-i-procrastinate/">Why do I procrastinate?</a> <small>Monday, 27 Aug, 2012</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/cathartic" title="cathartic">cathartic</a></li>
+			<li><a href="/category/random" title="random">random</a></li>
+			<li><a href="/category/self pity" title="self pity">self pity</a></li>
+			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<blockquote>Never put off until tomorrow what you can do the day after tomorrow. - Mark Twain</blockquote>
+
+<p>Procrastination is defined as: <em>�The action of delaying or postponing something.�</em>� It is something with which I am unfortunately very familiar with. I have suffered from it, or been guilty of it, for as long as I can remember.</p>
+
+<p>Why?</p>
+
+<p>Facebook, twitter, read a book, IM a friend, see what films are on the movie channels, do housework, go for a walk, play a video game, re-check email, call my fianc�e, write some code, mindlessly read RSS feeds for the latest up-to-the-second news about the latest iPhone rumours even though I no longer own an iPhone. In short, do anything but that which I have set out to do, which is write a blog post about procrastination.</p>
+
+<p>Case in point on how much I procrastinate about certain things: This blog post. It's been almost a year since I last edited it and saved it as a draft.</p>
+
+<p>[caption id="attachment_326" align="aligncenter" width="452"]<a href="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png"><img class="size-full wp-image-326" title="lastedited" src="http://temporalcohesion.co.uk/wp-content/uploads/2012/08/lastedited.png" alt="Last Edited" width="452" height="53" /></a> I am lazy[/caption]</p>
+
+<p>I�m not going to even attempt to write about curing procrastination because I obviously haven't found something which works for me. There are also a myriad of websites and books available on this subject, and it is painfully obvious that I am not the one to be giving advice on how to beat it. I will instead attempt to explore why it is that I do it.</p>
+
+<p>So why do I procrastinate? An easy question to ask, a harder one to answer. Avoiding thinking about the answer to this question by looking through hits on Google leads me to this blog post at Lifehack.org, on <a href="http://www.lifehack.org/articles/productivity/overcome-procrastination-once-and-for-all.html">overcoming productivity</a>. It contains a number of basic reasons why people procrastinate, and I can identify with all of them, although some more than others. That it is a basic list implies that there are more complex reasons why people procrastinate.</p>
+
+<p>After reflecting on this question for some time, I think that I can confidently say that when I embark on a new project, the initial excitement and enthusiasm for it carry me through, but once that wears off, my interest in it starts to wane. In the case of a coding project, the problem domain is what interests me, the technical challenge of designing and implementing a solution to the problem; once that problem is solved, the interest wanes, and the finer details fail to get polished.</p>
+
+<p>This is in itself fairly interesting, because as a programmer, I do tend to be a little OCD over certain things. Obviously this doesn�t extend to finishing projects. Take for example the Github API library I�ve been �working� on for far too long. Obsessing over tiny implementation details of the best way to handle authentication and access to methods on the API which require authorization has been my primary method of procrastination on this particular project. Now that I�ve pretty much resolved that particular issue, the detail of actually fleshing out all the methods for the API �seems like a boring chore.</p>
+
+<p>This also extends to blogging, clearly evidenced by this blog itself with the almost year long hiatus between updates. Then there is another blog, on a wholly unrelated subject, which I started about 4 years ago and haven�t updated in three-and-a-half. I�ll get the blogging bug, write a few posts, get bored with it, and stop.</p>
+
+<p>I really do need to put a stop to this, as it is becoming a big problem for me, as well as making me look like an idiot. Maybe this whole cathartic post might help me in some small way.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2011/12/12/probably-giving-up-my-csharp-github-api/">Probably giving up my CSharp Github API</a> <small>Monday, 12 Dec, 2011</small>
@@ -222,32 +263,6 @@ user.Authenticated.AddEmail("example@example.com");</pre>
 <p>Then I thought to myself, wouldn't it be great if I could intercept the method in the base class which gets the RestClient and add the authentication to it on the fly. A little Googling taught me that this is idealised as the Proxy pattern, from which it was but a short leap to the <a title="The Castle Project" href="http://www.google.co.uk/url?sa=t&amp;source=web&amp;cd=1&amp;ved=0CCUQFjAA&amp;url=http%3A%2F%2Fwww.castleproject.org%2F&amp;rct=j&amp;q=castle%20project&amp;ei=5hqHTu3bCKnH0QXsgPXvDw&amp;usg=AFQjCNEUSLcxGcsnLhC_LQOSuUFdNZLizw&amp;cad=rja" target="_blank">Castle project </a>and <a title="Castle DynamicProxy" href="http://www.castleproject.org/dynamicproxy/index.html" target="_blank">DynamicProxy</a>.</p>
 
 <p>&nbsp;</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2011/09/26/is-this-thing-on/">Is this thing on?</a> <small>Monday, 26 Sep, 2011</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>Despite many months of not posting anything on this blog (OK, nearly a year) I am returning with another post about my on/off project to write a C# library to access the Github REST API. Much like my blogging schedule, which can arguably be said to be none-existent, my pet-project�s suffer from the same cruel lack of... habit.</p>
-
-<p>To recap this particular project, you may like to browse some of the earlier posts on it, wherein I grandly proclaim my intent to write a �Github API in C#�. Which I should really have finished by now. As you will have no doubt realised, I do suffer from a certain amount of laziness. That is a subject for another blog post. To my shame, I can tell you that the amount of Github�s REST API which I�m covering is minimal, limited to a subset of the available User related commands.</p>
-
-<p>Moving swiftly along, with no trace of irony.</p>
-
-<p>In the months since the start of this project, Github has release v3 of their REST API, which contains many updated and/or new methods to access the whole plethora of the functionality available on Github. Indeed, they have even gone as far as to release a desktop client for Mac�s, and for all I know are working on a Windows version, which would then render this effort of mine (because that�s what I�ve always intended) redundant.</p>
-
-<p>So, despite not blogging about it, and despite going months between commits, I have been working on the library. The RestSharp git sub-module is gone (I mean, who likes sub-modules anyway?) in favour of the NuGet package. The authentication has been reworked slightly (still no OAuth yet) and the API is a little more fluenty.</p>
-
-<p>Of course, it still doesn�t actually let you do very much, I mean even after a year, you still can�t perform all of the actions available to a user. This is terrible, and speaks volumes about me, as a person. Procrastination is my enemy.</p>
  
    <hr />
 </div><!--/.post-->

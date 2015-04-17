@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,104 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2010/03/04/git-plus-dropbox/">Git plus dropbox</a> <small>Thursday, 04 Mar, 2010</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Dropbox" title="Dropbox">Dropbox</a></li>
+			<li><a href="/category/Git" title="Git">Git</a></li>
+			<li><a href="/category/Git" title="Git">Git</a></li>
+			<li><a href="/category/Source Control" title="Source Control">Source Control</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p><a title="Link to earlier blog post." href="http://temporalcohesion.co.uk/2008/08/29/source-control-using-dropbox/" target="_self">Some time ago</a>, I wrote about using <a title="Link to dropbox.com" href="https://www.dropbox.com/" target="_blank">Dropbox </a>as a version control system. I now realise how naive� and short-sighted that thought was. At the time, it was my belief that a dropbox account could be suitable for maintaining version history, and after a fashion, it can be, because using the web client to view your files, you can see previous versions of� the files in your dropbox.</p>
+
+<p>However, there are problems with this approach. Consider that you've changed several files, but then you realise that the changes you have made are not good enough, or just don't work. With svn, or vss (<em>vomit</em>), you can undo-checkout to get the previous version back, with dropbox you can roll back to the previous version - one file at a time. There is no branching, no merging, no tagging. Nothing like a traditional SCM tool should have.</p>
+
+<p>Dropbox is after all, essentially just a folder that is backed up "to the cloud". If we use the right tool, we can take advantage of this properly.</p>
+
+<h1>Enter Git</h1>
+
+<p>What is <a title="Git SCM" href="http://git-scm.com/" target="_blank">Git</a>? Well, surely you must have at least heard of Git by now? If not, I refer you to the <a title="Wikipedia article about git" href="http://en.wikipedia.org/wiki/Git_(software)" target="_blank">wikipedia page</a> about Git. Ok? You're back?</p>
+
+<p>The key aspect of Git which we can take advantage of is essentially the very nature of Git itself. Every Git clone is a full-repository, containing the full commit  history and full revision tracking capability for the project, and it does not rely on network access nor a central server.</p>
+
+<p>Basically, the idea is that you initialise an empty, bare repository inside your dropbox folder, and then somewhere else on your filesystem, perhaps a development folder where you store all your projects, you clone the repo from dropbox, and do all your work on that clone. Then when you call 'git push origin master', your changes are pushed into the dropbox repo, ready to be synced up on other computers you use.</p>
+
+<blockquote>Note: This is not a substitue for having a proper hosted Git repository, such as a project on Github, or somewhere else. However, it useful if you are working on something you aren't ready to put into the public domain, or you haven't yet decided to purchase an account on a private repository provider.</blockquote>
+
+<h1>Setup</h1>
+
+<p>Setting it up is fairly simple, but, I am going to assume that you have Dropbox and a dropbox account, Git and (if you are on Windows) GitExtensions, correctly installed already.</p>
+
+<blockquote>Note: I have only tested this on Windows 7, but I wouldn't expect it to not work on any other system. As always YMMV.</blockquote>
+
+<p>First, create a folder in your dropbox folder to house your projects, e.g. C:UsersStuartDocumentsMy Dropboxprojects or just store it in the root of your Dropbox, it's upto you. Don't forget to include quotes around any path that has a space in, or else it won't work.</p>
+
+<p>[sourcecode language="bash"]</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects
+$ mkdir example</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects
+$ cd example</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropboxprojects/example
+$ mkdir .git</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects/example
+$ cd .git/</p>
+
+<p>Stuart@LAPTOP ~/Documents/My Dropbox/projects/example/example.git
+$ git init --bare
+Initialized empty Git repository in c:/Users/Stuart/Documents/My Dropbox/projects/example
+/example.git/</p>
+
+<p>[/sourcecode]</p>
+
+<p>Then, in your development folder clone that repo.</p>
+
+<p>[sourcecode language="bash"]
+Stuart@LAPTOP /c/development/examples
+$ git clone -v &quot;C:/Users/Stuart/Documents/My Dropbox/projects/example/.git&quot;
+Initialized empty Git repository in c:/development/examples/example/.git/</p>
+
+<p>Stuart@LAPTOP /c/development/examples
+$ cd example/</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ touch example.txt</p>
+
+<p>Stuart@STUART-LAPTOP /c/development/examples/example (master)
+$ git add example.txt</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ git commit -m &quot;Added example file to initial commit&quot;
+[master e9ac78d] Added example file to initial commit
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 example.txt</p>
+
+<p>Stuart@LAPTOP /c/development/examples/example (master)
+$ git push origin master
+Counting objects: 3, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 253 bytes, done.
+Total 2 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (2/2), done.
+To C:/Users/Stuart/Documents/My Dropbox/projects/example/.git
+ 1e38d4e..e9ac78d� master -&gt; master
+[/sourcecode]</p>
+
+<p>Dropbox will sync the files into the cloud. On your other computer, the git repo will sync, then you can clone it, and find that you have all your history for your project as you would expect.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2010/02/17/i-won-a-free-typemock-t-shirt-via-twitter/">I won a free Typemock t-shirt via Twitter!</a> <small>Wednesday, 17 Feb, 2010</small>
@@ -361,55 +459,6 @@ Task Release -depends Init {
 <p>[caption id="attachment_114" align="alignleft" width="128" caption="C# in Depth"]<a href="http://www.amazon.co.uk/gp/product/1933988363?ie=UTF8&amp;tag=tempocohes-21&amp;linkCode=as2&amp;camp=1634&amp;creative=6738&amp;creativeASIN=1933988363"><img class="size-full wp-image-114  " title="C# in Depth" src="http://temporalcohesion.co.uk/wp-content/uploads/2009/10/41-I8sBZWSL._SL160_.jpg" alt="C# in Depth" width="128" height="160" /></a>[/caption]</p>
 
 <p><strong>C# In Depth</strong>, by <a title="Jon Skeet's Coding Blog" href="http://msmvps.com/blogs/jon_skeet/default.aspx" target="_blank">Jon Skeet</a> is an excellent book about the C# programming language. If you want to understand something about C#, and I mean really, truly understand why the language does what it does, then I suggest that you read this book. The book is clear and straightforward, with excellent examples. Honestly if most of the people posting C# questions on stackoverflow.com read this book, then I suspect the number of questions would stop increasing at the current rate.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2009/07/27/bending-jquery-to-my-will/">Bending jQuery to my will</a> <small>Monday, 27 Jul, 2009</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-			<li><a href="/category/jQuery" title="jQuery">jQuery</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>Like many people, I have a vanity domain name, www.stuart-grassie.co.uk. Many moons ago I used to host my blog on there, but for a variety of reasons I bought this domain and switched my blog here. So I put up a basic index page, listing a few interesting factoids about me, and what I do. When I say a "basic" page, I mean basic - black text on a white background, almost as if it was just few words typed into a text file - although there was semantically correct and valid xhtml behind it.</p>
-
-<p>The other day I came across a link,<a title="30 Examples of Extreme Minimalism in web design" href="http://singlefunction.com/30-examples-of-extreme-minimalism-in-web-design/" target="_blank"> 30 Examples of Extreme Minimalism in web design</a> and it inspired me to do a small make-over on my vanity domain name site. Which I think has turned out fairly ok. Athough that isn't the point of this blog post.</p>
-
-<p>As there is not a massive amount of information (after all it's just a "here I am, here's some information about me, here's how you can contact me" site, all of it is on one page. I'm using jQuery to hide everything, until the user clicks a link to see the information they want. I used jQuery UI, to use a couple of basic slide in/out effects. The actual effects are "clip" and "blind", using "toggle" to turn them on/off. All the other content apart from the "frontpage" is hidden.</p>
-
-<p>Initially, I had it working so that you could click a link, and the requested "page" would transition into view, the "frontpage" would transition out of view, then I had a &lt;span&gt;&lt;back&lt;/span&gt;, which I made react to mouse clicks, using jQuery, and you could then click back to the "frontpage".</p>
-
-<pre lang="html">
-<div id="main">
-Maybe you would like to read this <a id="examplelink" href="#example">example</a> page.</div>
-<div id="example">
-
-This is some example content.</div></pre>
-
-<pre lang="javascript">$(document).ready(function(){
-    $("#example").hide(); // Hide the example on page load
-});
-
-// detect when the link is clicked, and toggle the two<div>'s
-$(function() {
-    $("#examplelink").click(function() {
-    $("#example").toggle("clip", {}, 500);
-        $("#main").toggle("blind", {}, 500);
-    return false;
-    });
-});</pre>
-
-<p>In my excitement to get this learned and done (I've never used jQuery before), I've lost the original code, but that's essentially what I had, without the code to detect when the fake back button <span>back</span> is clicked - all it did was to run the toggle again, which returned the user to the "frontpage". I had to to do it this way, because the browser forward/back doesn't work.</p>
-
-<p>Clearly, this is not an ideal situation, because it has broken one of the cardinal web design guidelines, by breaking the users browser, by rendering the forward/back buttons inoperable.</p>
-
-<p>I'll show you what I did next time.</p>
  
    <hr />
 </div><!--/.post-->

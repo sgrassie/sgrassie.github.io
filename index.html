@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,28 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2015/04/17/msbuild-code-analysis-jenkins/">MSBuild Code Analysis (on a build server)</a> <small>Friday, 17 Apr, 2015</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/c#" title="c#">c#</a></li>
+			<li><a href="/category/jenkins" title="jenkins">jenkins</a></li>
+			<li><a href="/category/msbuild" title="msbuild">msbuild</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>It is possible to setup your build server to run code analysis on your solution/projects, without having to install VS on your build server.</p>
+
+<p>The answer is here: <a href="http://stackoverflow.com/a/21731245/3181">http://stackoverflow.com/a/21731245/3181</a></p>
+
+<p>I'm not going to reproduce the code here, there is no point. This post is just a reminder to myself as to where I found the solution to this.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2015/04/15/gitlab-active-directory/">Gitlab and Active Directory</a> <small>Wednesday, 15 Apr, 2015</small>
@@ -215,84 +237,6 @@ enabled: true
 <p>I have now found a great source of screencasts about using Vim, <a href="http://derekwyatt.org/vim/tutorials/">here</a>, which are split into Beginner, Intermediate and Advanced. I learned how to do new stuff with Vim that is in the first beginner video.</p>
 
 <p>I wish that I had found these videos several years ago when I was first starting out with Vim, as watching them then would probably have saved me a lot of time over the last several years.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2014/10/22/about-those-view-locator-conventions/">About those view locator conventions</a> <small>Wednesday, 22 Oct, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/prism" title="prism">prism</a></li>
-			<li><a href="/category/wpf" title="wpf">wpf</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>As I mentioned in a previous post, I do not like some of the default PRISM view location conventions.</p>
-
-<p>As a refresher, these are:</p>
-
-<ul>
-<li>View models to be located in a folder called ViewModel, named MyAwesomeViewModel</li>
-<li>Views to be located in a folder called Views, named MyAwesome</li>
-</ul>
-
-<p>It's the view naming that I don't like: In my world (which is based on Caliburn.Micro and ReactiveUI), views should be named MyAwesomeView. This is a simple distinction, but an important one for me because I automatically expect view names to end in View.</p>
-
-<p>Fortunately in PRISM 5, this is easy to change:</p>
-
-<pre><code>ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =&gt;
-{
-    var viewName = viewType.FullName;
-    var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-    var viewModelName = string.Format(CultureInfo.InvariantCulture, " {0}Model, {1} ", viewName.Replace("Views", "ViewModels"), viewAssemblyName);
-    return Type.GetType(viewModelName);
-});
-</code></pre>
-
-<p>We get the full name of the view, and the full name of the assembly, and then replace "Views" for the "ViewModels" folder, and add "Model" to the end. I would call this somewhere in your applications startup, such as in the bootstrapper <code>Run</code>.</p>
-
-<h2>Autowiring</h2>
-
-<p>Something else that you can do in PRISM 5, is autowire the view model and view such that the <code>DataContext</code> of the view is automatically populated. </p>
-
-<pre><code>ViewModelLocationProvider.SetDefaultViewModelFactory(type =&gt; Container.GetInstance(type));
-</code></pre>
-
-<p>I'm using StructureMap here (of which I am a big fan), but you should be able to get to work with your favourite IoC library.</p>
-
-<p>This though, means that you have to tell StructureMap about all your views in order for it to be able to resolve them. That's too much messing about remembering having to update a <code>Registry</code> everytime I add a view. StructureMap can solve that for us no problem:</p>
-
-<pre><code>public class ViewRegistrationConvention : IRegistrationConvention
-{
-    public void Process(Type type, Registry registry)
-    {
-        if (!type.Name.EndsWith("View") || ! type.IsConcrete()) return ;
-
-        registry.For(typeof(object)).Use(type).Named(type.Name);
-    }
-}
-</code></pre>
-
-<p>Here we say that if the name of the type being resolved ends with "View", and it is a concrete type (i.e. not an abstract class or interface), then add it to the registry.
-The trick with PRISM is that it is asking to resolve an <code>object</code> with a specific name, it doesn't try to resolve the type of the view, so adding something to the registry as <code>For&lt;MyAwesomeView&gt;().Use&lt;MyAwesomeView&gt;()</code> won't work, you have to use <code>For(typeof(object))</code> and make it a named instance, using the name of the type. </p>
-
-<p>And then just register the convention when you configure the container:</p>
-
-<pre><code>Container.Configure(configure =&gt;
-{
-    configure.Scan(scan =&gt;
-    {
-        ...
-        scan.Convention&lt;ViewRegistrationConvention&gt;();
-    });
-});
-</code></pre>
-
-<p>Then from the region manager, you can <code>RequestNavigate("AwesomeRegion", new Uri(typeof(MyAwesomeView)))</code>, or use the extension method in my previous post. </p>
  
    <hr />
 </div><!--/.post-->

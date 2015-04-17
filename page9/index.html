@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jQuery,linux,log4net,Logging,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,55 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2009/07/27/bending-jquery-to-my-will/">Bending jQuery to my will</a> <small>Monday, 27 Jul, 2009</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Coding" title="Coding">Coding</a></li>
+			<li><a href="/category/jQuery" title="jQuery">jQuery</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>Like many people, I have a vanity domain name, www.stuart-grassie.co.uk. Many moons ago I used to host my blog on there, but for a variety of reasons I bought this domain and switched my blog here. So I put up a basic index page, listing a few interesting factoids about me, and what I do. When I say a "basic" page, I mean basic - black text on a white background, almost as if it was just few words typed into a text file - although there was semantically correct and valid xhtml behind it.</p>
+
+<p>The other day I came across a link,<a title="30 Examples of Extreme Minimalism in web design" href="http://singlefunction.com/30-examples-of-extreme-minimalism-in-web-design/" target="_blank"> 30 Examples of Extreme Minimalism in web design</a> and it inspired me to do a small make-over on my vanity domain name site. Which I think has turned out fairly ok. Athough that isn't the point of this blog post.</p>
+
+<p>As there is not a massive amount of information (after all it's just a "here I am, here's some information about me, here's how you can contact me" site, all of it is on one page. I'm using jQuery to hide everything, until the user clicks a link to see the information they want. I used jQuery UI, to use a couple of basic slide in/out effects. The actual effects are "clip" and "blind", using "toggle" to turn them on/off. All the other content apart from the "frontpage" is hidden.</p>
+
+<p>Initially, I had it working so that you could click a link, and the requested "page" would transition into view, the "frontpage" would transition out of view, then I had a &lt;span&gt;&lt;back&lt;/span&gt;, which I made react to mouse clicks, using jQuery, and you could then click back to the "frontpage".</p>
+
+<pre lang="html">
+<div id="main">
+Maybe you would like to read this <a id="examplelink" href="#example">example</a> page.</div>
+<div id="example">
+
+This is some example content.</div></pre>
+
+<pre lang="javascript">$(document).ready(function(){
+    $("#example").hide(); // Hide the example on page load
+});
+
+// detect when the link is clicked, and toggle the two<div>'s
+$(function() {
+    $("#examplelink").click(function() {
+    $("#example").toggle("clip", {}, 500);
+        $("#main").toggle("blind", {}, 500);
+    return false;
+    });
+});</pre>
+
+<p>In my excitement to get this learned and done (I've never used jQuery before), I've lost the original code, but that's essentially what I had, without the code to detect when the fake back button <span>back</span> is clicked - all it did was to run the toggle again, which returned the user to the "frontpage". I had to to do it this way, because the browser forward/back doesn't work.</p>
+
+<p>Clearly, this is not an ideal situation, because it has broken one of the cardinal web design guidelines, by breaking the users browser, by rendering the forward/back buttons inoperable.</p>
+
+<p>I'll show you what I did next time.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2009/07/25/adding-logging-to-an-application/">Adding logging to an application</a> <small>Saturday, 25 Jul, 2009</small>
@@ -323,31 +372,6 @@ public void run(boolean showAnswers) {
 <p>Which should show the answer. I'm not going to show my code for parsing the command line arguements, I'll leave that as an exercise for the reader, as I believe that it is adequately covered elsewhere on the internet, and in any number of Java books.</p>
 
 <p>The more astute among you will notice that I've not mentioned how we are going to avoid manually adding problems to the List of problems. I'll cover that next time.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2008/08/29/source-control-using-dropbox/">Source control using Dropbox</a> <small>Friday, 29 Aug, 2008</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>Everyone developer should use some form of <a title="Wikipedia entry on source control" href="http://en.wikipedia.org/wiki/Source_control" target="_blank">source control</a>. It's like an unwritten law, if you don't use it, then you should - as long as it isn't <a title="Jeff Atwood on why you shouldn't use sourcesafe" href="http://www.codinghorror.com/blog/archives/000660.html" target="_blank">sourcesafe</a>.</p>
-
-<p>A few weeks ago, I recently managed to get hold of an invite to <a title="get dropbox" href="http://www.getdropbox.com/" target="_blank">Dropbox</a>, which describes itself as "Secure back up, sync and sharing made easy". I've been using it both as a basic form of source control, and because I always tend to forget my usb pendrive, as a portable storage device.</p>
-
-<p>The great thing about Dropbox is that you get 2gb of free storage. So far, I've sync'd a few photo's, some word documents and pdf's and the Java source for my Project Euler code, and according to the Dropbox client on my laptop, I've used 0.1% of 2gb. This is more than enough for me, and more than likely I'll use it for some more coding projects. I'd like to see how a Visual Studio project takes to being sync'd across different computers.</p>
-
-<p>With Dropbox, you get complete file history, so if you mistakenly remove some code that turns out to be pretty vital... you can get it back using the simple to use web interface. While you can share folders, and allow people to modify shared folders, I'm not too sure that it would work too well for collaborative software development. I think it would be far better to get a proper form of source control running on a server both parties have access to. There are plenty of proper source control providers out there with free options, and I am considering moving my code onto one of those, if I can find one that has a reasonable yearly subscription.</p>
-
-<p>For my current requirements, it suits me just fine. I realise that Dropbox is not intended to be a source control system, however... When the client is able to sync specific folders that you tell it to, it will be perfect.</p>
  
    <hr />
 </div><!--/.post-->

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="c#,jenkins,msbuild" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -25,7 +25,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/category/logging/" />
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2015/04/17/msbuild-code-analysis-jenkins/" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -58,19 +58,45 @@
     <div class="container">
 	
 
-  <header>
-  <div class="head-inner">
-    <h1><a href="/category/">Categories</a> - Logging</h1>
-  </div>
-  </header>
+<div class="post">
+    <h1 class="title">MSBuild Code Analysis (on a build server) <small>Friday, 17, Apr 2015</small></h1>
 
-  <ul class="category-list fancy-container orange">
-      <li>
-        <a href="/2009/07/25/adding-logging-to-an-application/" title="Adding logging to an application">Adding logging to an application</a> 
-        <small>(25 Jul 2009)</small>
-      </li>
-  </ul>
-  
+    
+        
+    <p>It is possible to setup your build server to run code analysis on your solution/projects, without having to install VS on your build server.</p>
+
+<p>The answer is here: <a href="http://stackoverflow.com/a/21731245/3181">http://stackoverflow.com/a/21731245/3181</a></p>
+
+<p>I'm not going to reproduce the code here, there is no point. This post is just a reminder to myself as to where I found the solution to this.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2015/04/17/msbuild-code-analysis-jenkins/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2015/04/17/msbuild-code-analysis-jenkins/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
 
         
         <hr />
