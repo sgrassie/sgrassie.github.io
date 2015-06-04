@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,30 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/">Learned so much about Vim that I should already know</a> <small>Sunday, 08 Mar, 2015</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/vim" title="vim">vim</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>I've been a user of Vim for several years now. I use it as my go-to standard editor. As I primarily write C# code, I obviously use Visual Studio, a lot, and I have the wonderful <a href="https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329">VsVim</a> extension installed, which provides a lot of the power of Vim, from within Visual Studio.</p>
+
+<p>I thought I was pretty good at using Vim, until the other day when I saw Vim being used in some screencasts and I immediately thought that I suck at using Vim.</p>
+
+<p>It turns out, that I learned enough about using Vim that got me a good increase in productivity, that I basically stopped learning how to use it. My brain must have decided that I learned all I needed to know to get me through my day, and stopped me wanting to learn anymore.</p>
+
+<p>I have now found a great source of screencasts about using Vim, <a href="http://derekwyatt.org/vim/tutorials/">here</a>, which are split into Beginner, Intermediate and Advanced. I learned how to do new stuff with Vim that is in the first beginner video.</p>
+
+<p>I wish that I had found these videos several years ago when I was first starting out with Vim, as watching them then would probably have saved me a lot of time over the last several years.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2014/10/22/about-those-view-locator-conventions/">About those view locator conventions</a> <small>Wednesday, 22 Oct, 2014</small>
@@ -288,26 +312,6 @@ parser.VisitWith(new PostVisitor());
 <p>I did not have very many pages on my wordpress blog, so I was not concerned with converting them. Similarly, I'd already converted my wordpress blog to use disqus comments, so I did not need to write a Visitor to handle converting the comments.</p>
 
 <p>As this post is already getting fairly long, I will leave a discussion of the Visitor pattern to another time, but you can see the <code>PostVisitor</code> implementation in detail <a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Visitor.cs">in the repo on Github.com</a>.</p>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2014/02/19/extending-sandra-snow/">Extending Sandra.Snow</a> <small>Wednesday, 19 Feb, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/snow" title="snow">snow</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>After switching my blog over to use <a href="https://github.com/Sandra/Sandra.Snow">Sandra.Snow</a>, I noticed that in at least one feed aggregator that my blog shows up in, it wasn't displaying correct. The escaped html in the feed generator from the markdown by Snow wasn't getting rendered in the aggregator correctly. After a little digging it was apparant to me that the <code>RssResponse</code> in Snow was not correctly setting it's content type.</p>
-
-<p>I could have left it there, or submitted a small patch to fix the issue (I still will), but I noticed that the feed it generates isn't a pure atom feed, so I basically copied the relevant classes (changing 'rss' to 'atom') in the class names, and did a little configuration, and swapped over the feed to use atom.</p>
-
-<p>Even though I know that the atom feed validates, this post is in part a test to see what happens...</p>
  
    <hr />
 </div><!--/.post-->

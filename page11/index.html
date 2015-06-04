@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,40 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2007/10/10/more-cake/">more cake</a> <small>Wednesday, 10 Oct, 2007</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>Something I discovered fairly quickly when coding (cake)PHP in eclipse, is that, like code completion in Models, unless you do a little extra configuration, code completion in Views won't work.</p>
+
+<p>If however, you make a slight modification to the Views index.ctp, and create a HtmlHelper() yourself, then you get code completion on $html-&gt;, and access to all the methods, and the rendered view isn't affected at all.</p>
+
+<p>For example:</p>
+
+<pre lang="PHP">
+<?php
+if(false)
+
+{
+
+$html = new HtmlHelper();
+
+}
+
+?></pre>
+
+<p>I found the answer to this after posting on the <a href="http://groups.google.com/group/cake-php/browse_thread/thread/04b94b593714b394/9c71e02157bcaacd#9c71e02157bcaacd" target="_blank">CakePHP google group</a>, and getting a good answer from a user. Top Stuff</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2007/10/07/cakephp-with-eclipse/">cakePHP with Eclipse</a> <small>Sunday, 07 Oct, 2007</small>
@@ -229,28 +263,6 @@ end</pre>
  
    <hr />
 </div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2007/07/20/hello-world-2/">Hello world!</a> <small>Friday, 20 Jul, 2007</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/News" title="News">News</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>Welcome to my new website, and my new blog. I'd kind of outgrown the old site, which I've now turned into a kind of "here's my CV" sort of site. Although I am happy in my job.</p>
-
-<p>I'm going to attempt to write more often on here, about a lot of things. I'm still getting things just the way I like them - I've still got a few plugins for wordpress to download and install yet. If I get time I might even write my own theme, but considering there are so many already brilliant themes available I might just save myself the time and effort.</p>
-
-<p>Hell, that's why I'm using Wordpress and not writing my own blogging system.</p>
-
-<p>As an old friend of mine used to say: Onwards and Upwards!</p>
- 
-   <hr />
-</div><!--/.post-->
 
   <!-- Pagination links -->
   <div id="post-pagination" class="pagination">
@@ -261,6 +273,9 @@ end</pre>
         </p>
 
 
+    <p class="previous">
+      <a href="/page12">Next Page</a>
+    </p>
 
   </div>
 

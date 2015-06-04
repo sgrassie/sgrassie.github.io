@@ -1,4 +1,166 @@
-<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2015-04-17T14:56:07+01:00</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/feed.xml" /><link rel="self" type="text/html" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2015/04/17/msbuild-code-analysis-jenkins/</id><title type="text">MSBuild Code Analysis (on a build server)</title><summary type="html">&lt;p&gt;It is possible to setup your build server to run code analysis on your solution/projects, without having to install VS on your build server.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title type="text">temporalcohesion.co.uk</title><subtitle type="text">temporalcohesion.co.uk</subtitle><id>http://www.temporalcohesion.co.uk/</id><updated>2015-06-04T13:41:32+01:00</updated><author><name>Stuart Grassie</name><uri>http://www.temporalcohesion.co.uk</uri><email>sgrassie@gmail.com</email></author><generator>Sandra.Snow Atom Generator</generator><link rel="alternate" href="http://www.temporalcohesion.co.uk/feed.xml" /><link rel="self" type="text/html" title="temporalcohesion.co.uk" href="http://www.temporalcohesion.co.uk/feed.xml" /><entry><id>http://www.temporalcohesion.co.uk/2015/06/04/structuremap-and-signalr/</id><title type="text">Configuring SignalR in StructureMap</title><summary type="html">&lt;p&gt;Configuring &lt;a href="http://signalr.net/"&gt;SignalR&lt;/a&gt; in ASP.NET MVC, using &lt;a href="http://structuremap.github.io/structuremap/"&gt;StructureMap&lt;/a&gt; as the IoC container is fairly straightforward, but not without some subtleties that caught me out.&lt;/p&gt;
+
+&lt;p&gt;For the purposes of this post, I'm going to assume that you are familiar with both SignalR and StructureMap, and that you know how to configure them in an ASP.NET MVC application. I will also assume that through some google-fu you have seen the &lt;a href="http://www.asp.net/signalr/overview/advanced/dependency-injection"&gt;Dependency Injection in SignalR&lt;/a&gt; guidance, and have worked through it and got to the "Using IoC Containers in SignalR" section.&lt;/p&gt;
+
+&lt;p&gt;I would assume, although I've not tested it, that much of this could also be applied to a self-hosted SignalR server.&lt;/p&gt;
+
+&lt;h2&gt;Library versions used&lt;/h2&gt;
+
+&lt;p&gt;This post is based on:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Asp.Net MVC 5.2.3&lt;/li&gt;
+&lt;li&gt;SignalR 2.2.0&lt;/li&gt;
+&lt;li&gt;StructureMap 3.1.5.154&lt;/li&gt;
+&lt;li&gt;StructureMap.MVC5 3.1.1.134&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Follow the guidance up to the section on using Ninject, at which point we now want to configure StructureMap.&lt;/p&gt;
+
+&lt;h2&gt;Replace the SignalR Dependency Resolver&lt;/h2&gt;
+
+&lt;p&gt;The implementation is nearly identical, with some obvious StructureMap specific differences:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class StructureMapSignalRDependencyResolver : DefaultDependencyResolver
+{
+    private readonly IContainer _container;
+
+    public StructureMapSignalRDependencyResolver(IContainer container)
+    {
+        _container = container;
+    }
+
+    public override object GetService(Type serviceType)
+    {
+        return _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
+    }
+
+    public override IEnumerable&amp;lt;object&amp;gt; GetServices(Type serviceType)
+    {
+        var objects = _container.GetAllInstances(serviceType).Cast&amp;lt;object&amp;gt;();
+        return objects.Concat(base.GetServices(serviceType));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The behaviour is fairly similar. &lt;code&gt;TryGetInstance&lt;/code&gt; will attempt to resolve the type, and if it doesn't know about it, will return null, in which case we call the base resolver, which does.&lt;/p&gt;
+
+&lt;p&gt;Register this with StructureMap:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;For&amp;lt;IDependencyResolver&amp;gt;().Singleton().Use&amp;lt;StructureMapSignalRDependencyResolver&amp;gt;();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In your &lt;code&gt;Startup&lt;/code&gt;, where you configure SignalR, we need to use this new resolver implementation:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var resolver = DependencyResolver.Current.GetService&amp;lt;Microsoft.AspNet.SignalR.IDependencyResolver&amp;gt;();
+
+var hubConfiguration = new HubConfiguration
+{
+    Resolver = resolver
+
+/* other options as required */
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here, we are using the MVC DependencyResolver, which has already been replaced by StructureMap thanks to StructureMap.MVC5, to resolve an instance of the SignalR dependency resolver we've registered, which we then tell SignalR to use with a hub configuration object.&lt;/p&gt;
+
+&lt;p&gt;Now we just need to configure the StructureMap registry, and teach it how to resolve &lt;code&gt;IHubConnectionContext&amp;lt;dynamic&amp;gt;&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;For&amp;lt;IConnectionManager&amp;gt;().Use&amp;lt;ConnectionManager&amp;gt;();
+For&amp;lt;IStockTicker&amp;gt;()
+    .Singleton()
+    .Use&amp;lt;StockTicker&amp;gt;()
+    .Ctor&amp;lt;IHubConnectionContext&amp;lt;dynamic&amp;gt;&amp;gt;()
+    .Is(ctx =&amp;gt; ctx.GetInstance&amp;lt;IDependencyResolver&amp;gt;()
+        .Resolve&amp;lt;IConnectionManager&amp;gt;()
+        .GetHubContext&amp;lt;StockTickerHub&amp;gt;().Clients);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As in the guidance, we want the &lt;code&gt;StockTicker&lt;/code&gt; instance to be a singleton, and we have specify how to resolve the &lt;code&gt;IHubConnectionContext&amp;lt;dynamic&amp;gt;&lt;/code&gt; which the &lt;code&gt;StockTicker&lt;/code&gt; requires. In the &lt;code&gt;Is&lt;/code&gt;, I'm using the context to resolve the default SignalR connection manager we've registered. This isn't in the guidance, but I couldn't get it work without doing this.&lt;/p&gt;
+
+&lt;p&gt;If anyone has comments/improvements on this, I'd love to hear them.&lt;/p&gt;
+</summary><published>2015-06-03T23:00:00Z</published><updated>2015-06-03T23:00:00Z</updated><link rel="alternate" href="http://www.temporalcohesion.co.uk/2015/06/04/structuremap-and-signalr/" /><content type="html">&lt;p&gt;Configuring &lt;a href="http://signalr.net/"&gt;SignalR&lt;/a&gt; in ASP.NET MVC, using &lt;a href="http://structuremap.github.io/structuremap/"&gt;StructureMap&lt;/a&gt; as the IoC container is fairly straightforward, but not without some subtleties that caught me out.&lt;/p&gt;
+
+&lt;p&gt;For the purposes of this post, I'm going to assume that you are familiar with both SignalR and StructureMap, and that you know how to configure them in an ASP.NET MVC application. I will also assume that through some google-fu you have seen the &lt;a href="http://www.asp.net/signalr/overview/advanced/dependency-injection"&gt;Dependency Injection in SignalR&lt;/a&gt; guidance, and have worked through it and got to the "Using IoC Containers in SignalR" section.&lt;/p&gt;
+
+&lt;p&gt;I would assume, although I've not tested it, that much of this could also be applied to a self-hosted SignalR server.&lt;/p&gt;
+
+&lt;h2&gt;Library versions used&lt;/h2&gt;
+
+&lt;p&gt;This post is based on:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Asp.Net MVC 5.2.3&lt;/li&gt;
+&lt;li&gt;SignalR 2.2.0&lt;/li&gt;
+&lt;li&gt;StructureMap 3.1.5.154&lt;/li&gt;
+&lt;li&gt;StructureMap.MVC5 3.1.1.134&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Follow the guidance up to the section on using Ninject, at which point we now want to configure StructureMap.&lt;/p&gt;
+
+&lt;h2&gt;Replace the SignalR Dependency Resolver&lt;/h2&gt;
+
+&lt;p&gt;The implementation is nearly identical, with some obvious StructureMap specific differences:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class StructureMapSignalRDependencyResolver : DefaultDependencyResolver
+{
+    private readonly IContainer _container;
+
+    public StructureMapSignalRDependencyResolver(IContainer container)
+    {
+        _container = container;
+    }
+
+    public override object GetService(Type serviceType)
+    {
+        return _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
+    }
+
+    public override IEnumerable&amp;lt;object&amp;gt; GetServices(Type serviceType)
+    {
+        var objects = _container.GetAllInstances(serviceType).Cast&amp;lt;object&amp;gt;();
+        return objects.Concat(base.GetServices(serviceType));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The behaviour is fairly similar. &lt;code&gt;TryGetInstance&lt;/code&gt; will attempt to resolve the type, and if it doesn't know about it, will return null, in which case we call the base resolver, which does.&lt;/p&gt;
+
+&lt;p&gt;Register this with StructureMap:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;For&amp;lt;IDependencyResolver&amp;gt;().Singleton().Use&amp;lt;StructureMapSignalRDependencyResolver&amp;gt;();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In your &lt;code&gt;Startup&lt;/code&gt;, where you configure SignalR, we need to use this new resolver implementation:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var resolver = DependencyResolver.Current.GetService&amp;lt;Microsoft.AspNet.SignalR.IDependencyResolver&amp;gt;();
+
+var hubConfiguration = new HubConfiguration
+{
+    Resolver = resolver
+
+/* other options as required */
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here, we are using the MVC DependencyResolver, which has already been replaced by StructureMap thanks to StructureMap.MVC5, to resolve an instance of the SignalR dependency resolver we've registered, which we then tell SignalR to use with a hub configuration object.&lt;/p&gt;
+
+&lt;p&gt;Now we just need to configure the StructureMap registry, and teach it how to resolve &lt;code&gt;IHubConnectionContext&amp;lt;dynamic&amp;gt;&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;For&amp;lt;IConnectionManager&amp;gt;().Use&amp;lt;ConnectionManager&amp;gt;();
+For&amp;lt;IStockTicker&amp;gt;()
+    .Singleton()
+    .Use&amp;lt;StockTicker&amp;gt;()
+    .Ctor&amp;lt;IHubConnectionContext&amp;lt;dynamic&amp;gt;&amp;gt;()
+    .Is(ctx =&amp;gt; ctx.GetInstance&amp;lt;IDependencyResolver&amp;gt;()
+        .Resolve&amp;lt;IConnectionManager&amp;gt;()
+        .GetHubContext&amp;lt;StockTickerHub&amp;gt;().Clients);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As in the guidance, we want the &lt;code&gt;StockTicker&lt;/code&gt; instance to be a singleton, and we have specify how to resolve the &lt;code&gt;IHubConnectionContext&amp;lt;dynamic&amp;gt;&lt;/code&gt; which the &lt;code&gt;StockTicker&lt;/code&gt; requires. In the &lt;code&gt;Is&lt;/code&gt;, I'm using the context to resolve the default SignalR connection manager we've registered. This isn't in the guidance, but I couldn't get it work without doing this.&lt;/p&gt;
+
+&lt;p&gt;If anyone has comments/improvements on this, I'd love to hear them.&lt;/p&gt;
+</content></entry><entry><id>http://www.temporalcohesion.co.uk/2015/04/17/msbuild-code-analysis-jenkins/</id><title type="text">MSBuild Code Analysis (on a build server)</title><summary type="html">&lt;p&gt;It is possible to setup your build server to run code analysis on your solution/projects, without having to install VS on your build server.&lt;/p&gt;
 
 &lt;p&gt;The answer is here: &lt;a href="http://stackoverflow.com/a/21731245/3181"&gt;http://stackoverflow.com/a/21731245/3181&lt;/a&gt;&lt;/p&gt;
 

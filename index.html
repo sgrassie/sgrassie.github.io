@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,snow,Source Control,structuremap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -58,6 +58,103 @@
     <div class="container">
 	
 
+<div class="post">
+	<h1 class="title">
+		<a href="/2015/06/04/structuremap-and-signalr/">Configuring SignalR in StructureMap</a> <small>Thursday, 04 Jun, 2015</small>
+	</h1>
+   <div class="meta">
+	   <ul class="list-unstyled list-inline">
+			<li><a href="/category/SignalR" title="SignalR">SignalR</a></li>
+			<li><a href="/category/StructureMap" title="StructureMap">StructureMap</a></li>
+	   </ul>
+   </div>
+            
+   
+   
+<p>Configuring <a href="http://signalr.net/">SignalR</a> in ASP.NET MVC, using <a href="http://structuremap.github.io/structuremap/">StructureMap</a> as the IoC container is fairly straightforward, but not without some subtleties that caught me out.</p>
+
+<p>For the purposes of this post, I'm going to assume that you are familiar with both SignalR and StructureMap, and that you know how to configure them in an ASP.NET MVC application. I will also assume that through some google-fu you have seen the <a href="http://www.asp.net/signalr/overview/advanced/dependency-injection">Dependency Injection in SignalR</a> guidance, and have worked through it and got to the "Using IoC Containers in SignalR" section.</p>
+
+<p>I would assume, although I've not tested it, that much of this could also be applied to a self-hosted SignalR server.</p>
+
+<h2>Library versions used</h2>
+
+<p>This post is based on:</p>
+
+<ul>
+<li>Asp.Net MVC 5.2.3</li>
+<li>SignalR 2.2.0</li>
+<li>StructureMap 3.1.5.154</li>
+<li>StructureMap.MVC5 3.1.1.134</li>
+</ul>
+
+<p>Follow the guidance up to the section on using Ninject, at which point we now want to configure StructureMap.</p>
+
+<h2>Replace the SignalR Dependency Resolver</h2>
+
+<p>The implementation is nearly identical, with some obvious StructureMap specific differences:</p>
+
+<pre><code>public class StructureMapSignalRDependencyResolver : DefaultDependencyResolver
+{
+    private readonly IContainer _container;
+
+    public StructureMapSignalRDependencyResolver(IContainer container)
+    {
+        _container = container;
+    }
+
+    public override object GetService(Type serviceType)
+    {
+        return _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
+    }
+
+    public override IEnumerable&lt;object&gt; GetServices(Type serviceType)
+    {
+        var objects = _container.GetAllInstances(serviceType).Cast&lt;object&gt;();
+        return objects.Concat(base.GetServices(serviceType));
+    }
+}
+</code></pre>
+
+<p>The behaviour is fairly similar. <code>TryGetInstance</code> will attempt to resolve the type, and if it doesn't know about it, will return null, in which case we call the base resolver, which does.</p>
+
+<p>Register this with StructureMap:</p>
+
+<pre><code>For&lt;IDependencyResolver&gt;().Singleton().Use&lt;StructureMapSignalRDependencyResolver&gt;();
+</code></pre>
+
+<p>In your <code>Startup</code>, where you configure SignalR, we need to use this new resolver implementation:</p>
+
+<pre><code>var resolver = DependencyResolver.Current.GetService&lt;Microsoft.AspNet.SignalR.IDependencyResolver&gt;();
+
+var hubConfiguration = new HubConfiguration
+{
+    Resolver = resolver
+
+/* other options as required */
+};
+</code></pre>
+
+<p>Here, we are using the MVC DependencyResolver, which has already been replaced by StructureMap thanks to StructureMap.MVC5, to resolve an instance of the SignalR dependency resolver we've registered, which we then tell SignalR to use with a hub configuration object.</p>
+
+<p>Now we just need to configure the StructureMap registry, and teach it how to resolve <code>IHubConnectionContext&lt;dynamic&gt;</code>:</p>
+
+<pre><code>For&lt;IConnectionManager&gt;().Use&lt;ConnectionManager&gt;();
+For&lt;IStockTicker&gt;()
+    .Singleton()
+    .Use&lt;StockTicker&gt;()
+    .Ctor&lt;IHubConnectionContext&lt;dynamic&gt;&gt;()
+    .Is(ctx =&gt; ctx.GetInstance&lt;IDependencyResolver&gt;()
+        .Resolve&lt;IConnectionManager&gt;()
+        .GetHubContext&lt;StockTickerHub&gt;().Clients);
+</code></pre>
+
+<p>As in the guidance, we want the <code>StockTicker</code> instance to be a singleton, and we have specify how to resolve the <code>IHubConnectionContext&lt;dynamic&gt;</code> which the <code>StockTicker</code> requires. In the <code>Is</code>, I'm using the context to resolve the default SignalR connection manager we've registered. This isn't in the guidance, but I couldn't get it work without doing this.</p>
+
+<p>If anyone has comments/improvements on this, I'd love to hear them.</p>
+ 
+   <hr />
+</div><!--/.post-->
 <div class="post">
 	<h1 class="title">
 		<a href="/2015/04/17/msbuild-code-analysis-jenkins/">MSBuild Code Analysis (on a build server)</a> <small>Friday, 17 Apr, 2015</small>
@@ -213,30 +310,6 @@ enabled: true
     }
 }
 </code></pre>
- 
-   <hr />
-</div><!--/.post-->
-<div class="post">
-	<h1 class="title">
-		<a href="/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/">Learned so much about Vim that I should already know</a> <small>Sunday, 08 Mar, 2015</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/vim" title="vim">vim</a></li>
-	   </ul>
-   </div>
-            
-   
-   
-<p>I've been a user of Vim for several years now. I use it as my go-to standard editor. As I primarily write C# code, I obviously use Visual Studio, a lot, and I have the wonderful <a href="https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329">VsVim</a> extension installed, which provides a lot of the power of Vim, from within Visual Studio.</p>
-
-<p>I thought I was pretty good at using Vim, until the other day when I saw Vim being used in some screencasts and I immediately thought that I suck at using Vim.</p>
-
-<p>It turns out, that I learned enough about using Vim that got me a good increase in productivity, that I basically stopped learning how to use it. My brain must have decided that I learned all I needed to know to get me through my day, and stopped me wanting to learn anymore.</p>
-
-<p>I have now found a great source of screencasts about using Vim, <a href="http://derekwyatt.org/vim/tutorials/">here</a>, which are split into Beginner, Intermediate and Advanced. I learned how to do new stuff with Vim that is in the first beginner video.</p>
-
-<p>I wish that I had found these videos several years ago when I was first starting out with Vim, as watching them then would probably have saved me a lot of time over the last several years.</p>
  
    <hr />
 </div><!--/.post-->

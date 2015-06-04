@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Stuart Grassie's Blog">
+    <meta name="author" content="Stuart Grassie">
+    <meta name="keywords" content="SignalR,StructureMap" />
+    <title>temporalcohesion.co.uk</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2015/06/04/structuremap-and-signalr/" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">temporalcohesion.co.uk</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/archive">Archives</a></li>
+          </ul>
+	  <ul class="nav navbar-nav navbar-right">
+		  <li><a href="http://twitter.com/stugrassie"><img src="/images/twitter.png"></a></li>
+		  <li><a href="http://facebook.com/sgrassie"><img src="/images/facebook.png"></a></li>
+		  <li><a href="http://uk.linkedin.com/in/sgrassie/"><img src="/images/linkedin.png"></a></li>
+	  </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+	
+
+<div class="post">
+    <h1 class="title">Configuring SignalR in StructureMap <small>Thursday, 04, Jun 2015</small></h1>
+
+    
+        
+    <p>Configuring <a href="http://signalr.net/">SignalR</a> in ASP.NET MVC, using <a href="http://structuremap.github.io/structuremap/">StructureMap</a> as the IoC container is fairly straightforward, but not without some subtleties that caught me out.</p>
+
+<p>For the purposes of this post, I'm going to assume that you are familiar with both SignalR and StructureMap, and that you know how to configure them in an ASP.NET MVC application. I will also assume that through some google-fu you have seen the <a href="http://www.asp.net/signalr/overview/advanced/dependency-injection">Dependency Injection in SignalR</a> guidance, and have worked through it and got to the "Using IoC Containers in SignalR" section.</p>
+
+<p>I would assume, although I've not tested it, that much of this could also be applied to a self-hosted SignalR server.</p>
+
+<h2>Library versions used</h2>
+
+<p>This post is based on:</p>
+
+<ul>
+<li>Asp.Net MVC 5.2.3</li>
+<li>SignalR 2.2.0</li>
+<li>StructureMap 3.1.5.154</li>
+<li>StructureMap.MVC5 3.1.1.134</li>
+</ul>
+
+<p>Follow the guidance up to the section on using Ninject, at which point we now want to configure StructureMap.</p>
+
+<h2>Replace the SignalR Dependency Resolver</h2>
+
+<p>The implementation is nearly identical, with some obvious StructureMap specific differences:</p>
+
+<pre><code>public class StructureMapSignalRDependencyResolver : DefaultDependencyResolver
+{
+    private readonly IContainer _container;
+
+    public StructureMapSignalRDependencyResolver(IContainer container)
+    {
+        _container = container;
+    }
+
+    public override object GetService(Type serviceType)
+    {
+        return _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
+    }
+
+    public override IEnumerable&lt;object&gt; GetServices(Type serviceType)
+    {
+        var objects = _container.GetAllInstances(serviceType).Cast&lt;object&gt;();
+        return objects.Concat(base.GetServices(serviceType));
+    }
+}
+</code></pre>
+
+<p>The behaviour is fairly similar. <code>TryGetInstance</code> will attempt to resolve the type, and if it doesn't know about it, will return null, in which case we call the base resolver, which does.</p>
+
+<p>Register this with StructureMap:</p>
+
+<pre><code>For&lt;IDependencyResolver&gt;().Singleton().Use&lt;StructureMapSignalRDependencyResolver&gt;();
+</code></pre>
+
+<p>In your <code>Startup</code>, where you configure SignalR, we need to use this new resolver implementation:</p>
+
+<pre><code>var resolver = DependencyResolver.Current.GetService&lt;Microsoft.AspNet.SignalR.IDependencyResolver&gt;();
+
+var hubConfiguration = new HubConfiguration
+{
+    Resolver = resolver
+
+/* other options as required */
+};
+</code></pre>
+
+<p>Here, we are using the MVC DependencyResolver, which has already been replaced by StructureMap thanks to StructureMap.MVC5, to resolve an instance of the SignalR dependency resolver we've registered, which we then tell SignalR to use with a hub configuration object.</p>
+
+<p>Now we just need to configure the StructureMap registry, and teach it how to resolve <code>IHubConnectionContext&lt;dynamic&gt;</code>:</p>
+
+<pre><code>For&lt;IConnectionManager&gt;().Use&lt;ConnectionManager&gt;();
+For&lt;IStockTicker&gt;()
+    .Singleton()
+    .Use&lt;StockTicker&gt;()
+    .Ctor&lt;IHubConnectionContext&lt;dynamic&gt;&gt;()
+    .Is(ctx =&gt; ctx.GetInstance&lt;IDependencyResolver&gt;()
+        .Resolve&lt;IConnectionManager&gt;()
+        .GetHubContext&lt;StockTickerHub&gt;().Clients);
+</code></pre>
+
+<p>As in the guidance, we want the <code>StockTicker</code> instance to be a singleton, and we have specify how to resolve the <code>IHubConnectionContext&lt;dynamic&gt;</code> which the <code>StockTicker</code> requires. In the <code>Is</code>, I'm using the context to resolve the default SignalR connection manager we've registered. This isn't in the guidance, but I couldn't get it work without doing this.</p>
+
+<p>If anyone has comments/improvements on this, I'd love to hear them.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2015/06/04/structuremap-and-signalr/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2015/06/04/structuremap-and-signalr/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
+
+        
+        <hr />
+        <footer>
+            <p>&copy; temporalcohesion.co.uk 2014 | Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+        </footer>
+
+    </div><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+var _gaq = _gaq || [];
+
+_gaq.push(['_setAccount', 'UA-9870754-1']);
+_gaq.push(['_trackPageview']);
+        
+(function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+    <script src="/javascripts/prettify.js"></script>
+    <script type='text/javascript'>
+      $(function () {
+        $("pre code").parent().each(function () {
+          if (!$(this).hasClass("prettyprint")) {
+            $(this).addClass("prettyprint");
+            a = true
+          }
+        });
+
+        prettyPrint();
+      });
+    </script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+
+    <script src="/javascripts/cohesion.js"></script>
+</body>
+</html>
