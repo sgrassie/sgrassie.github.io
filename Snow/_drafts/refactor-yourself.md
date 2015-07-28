@@ -14,4 +14,6 @@ Here are two that I've noted:
 
 Pretty broad generalisations I know, but I think it's true. If I were to say "Most developers are overweight and only work 9-5, never on weekends, and never on side projects", would you disagree? 
 
-Scott Hanselman calls these "Dark Matter Developers"; Troy Hunt called them "The Ghosts Who Code".
+> Incidentily, Scott Hanselman calls these "Dark Matter Developers"; Troy Hunt called them "The Ghosts Who Code".
+
+If you are in the practice of refactoring code when appropriate (and you should be), then I think you should also be in the practice of refactoring yourself.
