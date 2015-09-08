@@ -5,7 +5,8 @@
 }
 
 <div class="post">
-    <h1 class="title">@Model.Title <small>@Model.PostDate.ToString("dddddd, dd, MMM yyyy")</small></h1>
+    <h1 class="title">@Model.Title</h1>
+    <h3>@Model.PostDate.ToString("dddddd, dd, MMM yyyy")</h3>
 
     @Html.RenderSeries()
         

@@ -12,9 +12,9 @@
 
     <!-- Bootstrap core CSS -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
     <!-- Custom styles for this template -->
     <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
@@ -59,36 +59,48 @@
 	
 
 <div class="post">
-	<h1 class="title">
-		<a href="/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/">Definitely given up on my github-csharp-api project</a> <small>Thursday, 07 Nov, 2013</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/">Definitely given up on my github-csharp-api project</a>
+    </h1>
+    <h2>Thursday, 07 Nov, 2013</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/C#" title="C#">C#</a>
+            <a href="/category/Coding" title="Coding">Coding</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <p>Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.</p>
 
 <p>I will not work on it anymore.</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2013/07/04/custom-structuremap-dependency-resolver-for-reactiveui-5/">Custom Structuremap Dependency Resolver for ReactiveUI 5</a> <small>Thursday, 04 Jul, 2013</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2013/07/04/custom-structuremap-dependency-resolver-for-reactiveui-5/">Custom Structuremap Dependency Resolver for ReactiveUI 5</a>
+    </h1>
+    <h2>Thursday, 04 Jul, 2013</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2013/07/04/custom-structuremap-dependency-resolver-for-reactiveui-5/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <p><a title="ReactiveUI" href="http://reactiveui.net" target="_blank">ReactiveUI</a> 5 has just been released (although I've been playing with the -pre-release alpha for a while), and one of the shiny new things it brings is a simplified Service Location model. This is fine in the most part, for most applications. But, when you have some complicated dependencies between objects (ignoring the fact you might be heading towards a constructor over-injection anti-pattern), you may feel you need to use a full IoC container, like Structuremap, to do the heavy work.</p>
 
 <p>All we need to do first is implement {csharp}IMutableDependencyResolver{/csharp}, and replace the default implementation in ReactiveUi with our new one.</p>
@@ -140,92 +152,110 @@ RxApp.DependencyResolver = resolver;
 
 <p>The second line there is very important: ReactiveUi uses the DependecyResolver internally, so if you use your own, you need to initialise it with the default ReactiveUi types, or else The Bad Things� will happen.</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2013/06/21/temp/">temp</a> <small>Friday, 21 Jun, 2013</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2013/06/21/temp/">temp</a>
+    </h1>
+    <h2>Friday, 21 Jun, 2013</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2013/06/21/temp/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <p>this is a test while I move hosting</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2013/06/13/your-favourite-language-sucks/">Your favourite language sucks</a> <small>Thursday, 13 Jun, 2013</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/C#" title="C#">C#</a></li>
-			<li><a href="/category/Coding" title="Coding">Coding</a></li>
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2013/06/13/your-favourite-language-sucks/">Your favourite language sucks</a>
+    </h1>
+    <h2>Thursday, 13 Jun, 2013</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2013/06/13/your-favourite-language-sucks/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/C#" title="C#">C#</a>
+            <a href="/category/Coding" title="Coding">Coding</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <blockquote><a title="C# WTF" href="http://neildanson.wordpress.com/2013/06/12/c-wtf/" target="_blank">So next time you find yourself in a C# ivory tower, looking down on other less fortunate languages, just remember that someone, somewhere is looking down on you and C#, laughing at the simple mistakes that could be easily avoided if only you�d used their language.</a></blockquote>
 
 <p>I don't think these words are just limited to just C#</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2012/11/03/virtualbox-development-environment/">VirtualBox Development Environment</a> <small>Saturday, 03 Nov, 2012</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a></li>
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2012/11/03/virtualbox-development-environment/">VirtualBox Development Environment</a>
+    </h1>
+    <h2>Saturday, 03 Nov, 2012</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2012/11/03/virtualbox-development-environment/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/Uncategorized" title="Uncategorized">Uncategorized</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <p>In the past when doing web development, I would usually use something like <a title="WAMP Server" href="http://www.wampserver.com" target="_blank">WAMP</a> to get me a development environment to work locally. However these days with the proliferation of web development technologies, there are just too many tools to have running on your machine. I work in Windows, and having PHP, Ruby, Django, Node, Grails and whatever else all on my system path starts getting a little unwieldy.</p>
 
 <p>Enter virtualisation to the rescue. With VirtualBox and a Linux distro you can build yourself a self contained development environment with all your favourite tools. With a little work, you can customise it just how you like, including getting Git running.</p>
 
 <p>&nbsp;</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 
-  <!-- Pagination links -->
-  <div id="post-pagination" class="pagination">
-
-   
-      <p class="previous">
-        <a href="/page3">Previous Page</a>
-        </p>
+<!-- Pagination links -->
+<div id="post-pagination" class="pagination">
 
 
     <p class="previous">
-      <a href="/page5">Next Page</a>
+    <a href="/page3">Previous Page</a>
     </p>
 
-  </div>
+
+    <p class="previous">
+    <a href="/page5">Next Page</a>
+    </p>
+
+</div>
 
 
         
         <hr />
         <footer>
-            <p>&copy; temporalcohesion.co.uk 2014 | Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+            <p>&copy; temporalcohesion.co.uk 2014-15 | Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
         </footer>
 
     </div><!-- /.container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
 var _gaq = _gaq || [];
@@ -257,7 +287,16 @@ _gaq.push(['_trackPageview']);
       });
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
-
     <script src="/javascripts/cohesion.js"></script>
+<script type="text/javascript">
+var disqus_shortname = 'temporalcohesion'; 
+
+(function () {
+var s = document.createElement('script'); s.async = true;
+s.type = 'text/javascript';
+s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
 </body>
 </html>

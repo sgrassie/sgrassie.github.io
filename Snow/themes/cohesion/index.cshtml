@@ -1,68 +1,74 @@
 @inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Snow.ViewModels.ContentViewModel>
 @using System.Collections.Generic
 @{
-  Layout = "default.cshtml";
+Layout = "default.cshtml";
 }
 
 @foreach(var post in Model.PostsPaged) {
 <div class="post">
-	<h1 class="title">
-		<a href="@post.Url">@post.Title</a> <small>@post.Date.ToString("dddddd, dd MMM, yyyy")</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-	   	@foreach(var category in @post.Categories.ToList()) 
-		{
-			<li><a href="/category/@category" title="@category">@category</a></li>
-		}
-	   </ul>
-   </div>
-            
-   @Html.RenderSeries(post)
-   
-   @{
+    <h1 class="title">
+        <a href="@post.Url">@post.Title</a>
+    </h1>
+    <h2>@post.Date.ToString("dddddd, dd MMM, yyyy")</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk@(post.Url)">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            @foreach(var category in @post.Categories.ToList()) 
+            {
+            <a href="/category/@category" title="@category">@category</a>
+            }
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    @Html.RenderSeries(post)
+
+    @{
     if(!string.IsNullOrEmpty(post.ContentExcerpt))
     {
-     @Html.Raw(post.ContentExcerpt);
+    @Html.Raw(post.ContentExcerpt);
     }
     else
     {
-     @Html.Raw(post.Content);
-     @:<p><a href="@post.Url">Read more...</a></p>
+    @Html.Raw(post.Content);
+    @:<p><a href="@post.Url">Read more...</a></p>
     }
-   } 
-   <hr />
+    } 
+    <hr />
 </div><!--/.post-->
 }
 
-  <!-- Pagination links -->
-  <div id="post-pagination" class="pagination">
+<!-- Pagination links -->
+<div id="post-pagination" class="pagination">
 
-   
-     @if (Model.HasPreviousPage) {
-      if (Model.PreviousPage == 1) {
-      <p class="previous">
-        <a href="/">Previous Page</a>
-      </p>
-      }
-      else {
-      <p class="previous">
-        <a href="/page@(Model.PreviousPage)">Previous Page</a>
-        </p>
-      }
+
+    @if (Model.HasPreviousPage) {
+    if (Model.PreviousPage == 1) {
+    <p class="previous">
+    <a href="/">Previous Page</a>
+    </p>
+    }
+    else {
+    <p class="previous">
+    <a href="/page@(Model.PreviousPage)">Previous Page</a>
+    </p>
+    }
     }
 
     @if (!Model.HasPreviousPage) {
-    
-      <!--<a href="/">Previous Page</a>-->
-    
+
+    <!--<a href="/">Previous Page</a>-->
+
     }
 
     @if (Model.HasNextPage) {
     <p class="previous">
-      <a href="/page@(Model.NextPage)">Next Page</a>
+    <a href="/page@(Model.NextPage)">Next Page</a>
     </p>
     }
 
-  </div>
+</div>
 

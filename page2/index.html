@@ -12,9 +12,9 @@
 
     <!-- Bootstrap core CSS -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <!-- Optional theme -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
     <!-- Custom styles for this template -->
     <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
@@ -59,17 +59,23 @@
 	
 
 <div class="post">
-	<h1 class="title">
-		<a href="/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/">Learned so much about Vim that I should already know</a> <small>Sunday, 08 Mar, 2015</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/vim" title="vim">vim</a></li>
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/">Learned so much about Vim that I should already know</a>
+    </h1>
+    <h2>Sunday, 08 Mar, 2015</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/vim" title="vim">vim</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <p>I've been a user of Vim for several years now. I use it as my go-to standard editor. As I primarily write C# code, I obviously use Visual Studio, a lot, and I have the wonderful <a href="https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329">VsVim</a> extension installed, which provides a lot of the power of Vim, from within Visual Studio.</p>
 
 <p>I thought I was pretty good at using Vim, until the other day when I saw Vim being used in some screencasts and I immediately thought that I suck at using Vim.</p>
@@ -80,21 +86,27 @@
 
 <p>I wish that I had found these videos several years ago when I was first starting out with Vim, as watching them then would probably have saved me a lot of time over the last several years.</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2014/10/22/about-those-view-locator-conventions/">About those view locator conventions</a> <small>Wednesday, 22 Oct, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/prism" title="prism">prism</a></li>
-			<li><a href="/category/wpf" title="wpf">wpf</a></li>
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2014/10/22/about-those-view-locator-conventions/">About those view locator conventions</a>
+    </h1>
+    <h2>Wednesday, 22 Oct, 2014</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2014/10/22/about-those-view-locator-conventions/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/prism" title="prism">prism</a>
+            <a href="/category/wpf" title="wpf">wpf</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <p>As I mentioned in a previous post, I do not like some of the default PRISM view location conventions.</p>
 
 <p>As a refresher, these are:</p>
@@ -158,19 +170,25 @@ The trick with PRISM is that it is asking to resolve an <code>object</code> with
 
 <p>Then from the region manager, you can <code>RequestNavigate("AwesomeRegion", new Uri(typeof(MyAwesomeView)))</code>, or use the extension method in my previous post. </p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2014/10/20/a-useful-prism-extension-method/">A useful PRISM extension method</a> <small>Monday, 20 Oct, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-	   </ul>
-   </div>
-            
-   
-   
+    <h1 class="title">
+        <a href="/2014/10/20/a-useful-prism-extension-method/">A useful PRISM extension method</a>
+    </h1>
+    <h2>Monday, 20 Oct, 2014</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2014/10/20/a-useful-prism-extension-method/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    
+
 <p>I'm doing some work with Microsoft <a href="http://msdn.microsoft.com/en-us/library/gg406140.aspx">Prism</a> at the moment, and once again I've gotten annoyed that <code>RequestNavigate</code> doesn't have a generic overload.</p>
 
 <p>Naturally I had to write it, again:</p>
@@ -187,21 +205,27 @@ public static class RegionManagerExtensions
 
 <p>the <code>new Uri(typeof(TView)...)</code> works because of the view locator conventions I've implemented.</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2014/05/30/how-i-moved-my-blog-to-sandra-now-part2/">How I moved my blog to sandra snow, part two</a> <small>Friday, 30 May, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/blog" title="blog">blog</a></li>
-			<li><a href="/category/sandra.snow" title="sandra.snow">sandra.snow</a></li>
-	   </ul>
-   </div>
-            
-   <ul class="snow-series"><li><a href="/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/">How I moved my blog from wordpress to snow, part one</a></li><li>How I moved my blog to sandra snow, part two</li></ul>
-   
+    <h1 class="title">
+        <a href="/2014/05/30/how-i-moved-my-blog-to-sandra-now-part2/">How I moved my blog to sandra snow, part two</a>
+    </h1>
+    <h2>Friday, 30 May, 2014</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2014/05/30/how-i-moved-my-blog-to-sandra-now-part2/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/blog" title="blog">blog</a>
+            <a href="/category/sandra.snow" title="sandra.snow">sandra.snow</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    <ul class="snow-series"><li><a href="/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/">How I moved my blog from wordpress to snow, part one</a></li><li>How I moved my blog to sandra snow, part two</li></ul>
+
 <p>Once you have liberated your content from Wordpress, getting it generated by Snow is fairly trivial.</p>
 
 <ol>
@@ -224,21 +248,27 @@ cls
 
 <p>At this point, you should be ready to deploy your site somewhere.</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 <div class="post">
-	<h1 class="title">
-		<a href="/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/">How I moved my blog from wordpress to snow, part one</a> <small>Monday, 03 Mar, 2014</small>
-	</h1>
-   <div class="meta">
-	   <ul class="list-unstyled list-inline">
-			<li><a href="/category/blog" title="blog">blog</a></li>
-			<li><a href="/category/sandra.snow" title="sandra.snow">sandra.snow</a></li>
-	   </ul>
-   </div>
-            
-   <ul class="snow-series"><li>How I moved my blog from wordpress to snow, part one</li><li><a href="/2014/05/30/how-i-moved-my-blog-to-sandra-now-part2/">How I moved my blog to sandra snow, part two</a></li></ul>
-   
+    <h1 class="title">
+        <a href="/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/">How I moved my blog from wordpress to snow, part one</a>
+    </h1>
+    <h2>Monday, 03 Mar, 2014</h2>
+    <div class="disqus-comment-count pull-right" data-disqus-url="http://www.temporalcohesion.co.uk/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/">
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/blog" title="blog">blog</a>
+            <a href="/category/sandra.snow" title="sandra.snow">sandra.snow</a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <hr />
+
+    <ul class="snow-series"><li>How I moved my blog from wordpress to snow, part one</li><li><a href="/2014/05/30/how-i-moved-my-blog-to-sandra-now-part2/">How I moved my blog to sandra snow, part two</a></li></ul>
+
 <p>Wherein I show you how I moved my blog from Wordpress, to a statically generated html hosted on github. I will assume that you have a wordpress blog, hosted on either Wordpress.com or your own hosting. If you don't have a wordpress based blog, then that's ok, most of this will still apply.</p>
 
 <p>We can identify a pretty broad set of tasks straightaway:</p>
@@ -313,37 +343,37 @@ parser.VisitWith(new PostVisitor());
 
 <p>As this post is already getting fairly long, I will leave a discussion of the Visitor pattern to another time, but you can see the <code>PostVisitor</code> implementation in detail <a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Visitor.cs">in the repo on Github.com</a>.</p>
  
-   <hr />
+    <hr />
 </div><!--/.post-->
 
-  <!-- Pagination links -->
-  <div id="post-pagination" class="pagination">
-
-   
-      <p class="previous">
-        <a href="/">Previous Page</a>
-      </p>
+<!-- Pagination links -->
+<div id="post-pagination" class="pagination">
 
 
     <p class="previous">
-      <a href="/page3">Next Page</a>
+    <a href="/">Previous Page</a>
     </p>
 
-  </div>
+
+    <p class="previous">
+    <a href="/page3">Next Page</a>
+    </p>
+
+</div>
 
 
         
         <hr />
         <footer>
-            <p>&copy; temporalcohesion.co.uk 2014 | Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
+            <p>&copy; temporalcohesion.co.uk 2014-15 | Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
         </footer>
 
     </div><!-- /.container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
 var _gaq = _gaq || [];
@@ -375,7 +405,16 @@ _gaq.push(['_trackPageview']);
       });
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
-
     <script src="/javascripts/cohesion.js"></script>
+<script type="text/javascript">
+var disqus_shortname = 'temporalcohesion'; 
+
+(function () {
+var s = document.createElement('script'); s.async = true;
+s.type = 'text/javascript';
+s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
 </body>
 </html>
