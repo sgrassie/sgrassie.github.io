@@ -5,22 +5,16 @@ title: Refactor yourself
 category: console
 metadescription: Refactor yourself
 ---
-In my career so far as a software developer, I've noted many instances of the [Pareto principle](https://en.wikipedia.org/wiki/Pareto_principle). For example, you've probably heard of the Microsoft study that showed that fixing 20% of the most reported bugs fixed 80% of the associated errors and crashes in the system.
 
-Here are two that I've noted:
-
-1. 80% of programmers are overweight; 20% are fairly fit.
-2. 20% of programmers continue to learn and improve themselves after work; 80% are happy with what they know and just want to go home at five and vegitate.
-
-Pretty broad generalisations I know, but I think it is generally true, although there will definitely be exceptions. If I were to say "Most developers are overweight and only work 9-5, never on weekends, and never on side projects", would you disagree? 
-
-If you are in the practice of refactoring code when appropriate (and you should be), then I think you should also be in the practice of refactoring yourself. Or to put it another way: Realise that you are imperfect, and strive to improve. In the context of this post and the two examples of the Pareto principle I noted, I intend that to mean:
-
-## Refactor yourself
+If you are in the practice of refactoring code when appropriate (and you should be), then I think you should also be in the practice of refactoring yourself. Or to put it another way: Realise that you are imperfect, and strive to improve. 
 
 1. Lose weight and get fit.
 2. Learn _more_ about programming, and _practice_ your craft.
 
-It sounds easy, but it's not.
+It is my experience that the vast majority of programmers are (to varying degrees) overweight. After all, ours is a sedentary profession; we sit for eight or more hours a day in front of a glowing box. A lot of us have bad eyes; some of us have bad posture; and, most of us have hand and lower arm problems.
 
+We can have long working hours, and eating lunch sat at your desk still working is no uncommon. Pizza regularly shows up in the office; there's the leftovers on the buffet from entertaining clients that you just can't resist. All that coffee you drink, with it's sugary, milky, caffeinated goodness. It all adds up.
 
+Ours is an inherently unhealthy profession.
+
+This leads onto the second point: Most of us don't have the time or motivation to continue to learn, or to write on our technical blog, because we are that knackered from sitting down all day working, eating and drinking coffee, that we just can't be arsed to do it for another three to four hours when we eventually get home.
