@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,programming,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -59,6 +59,86 @@
     <div class="container">
 	
 
+<div class="post">
+    <h1 class="title">
+        <a href="/2015/03/17/fluent-npoco-mappings-with-structuremap/">Fluent NPoco mappings with StructureMap</a>
+    </h1>
+    <h2>Tuesday, 17 Mar, 2015</h2>
+    <div class="pull-right">
+        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/03/17/fluent-npoco-mappings-with-structuremap/">
+    </div>
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/npoco" title="npoco">npoco</a>
+            <a href="/category/structuremap" title="structuremap">structuremap</a>
+            </li>
+        </ul>
+    </div>
+    <hr />
+
+    
+
+<p>I like using <a href="https://github.com/schotime/NPoco">NPoco</a>, it's a really nice library that allows you stop having to write raw ADO.NET. Recently I just switched one of my projects at work to use the Fluent Mapping features, essentially so that my POCO's do not need to have the mapping attributes in them.</p>
+
+<p>I started wth the example on the <a href="https://github.com/schotime/NPoco/wiki/Fluent-mappings-including-conventional">NPoco wiki</a> of creating a database factory, and adding the mapping class to the fluent configuration. As the number of mapping classes has grown, this has quickly become unwieldy and a bit of a maintainance issue.</p>
+
+<p>As I already utilise Structuremap in the application, I wanted to configure it to automatically pick up my mapping classes and build the configuration object for me. This is easy to in the registry:</p>
+
+<pre><code>public DefaultRegistry()
+{
+    Scan(
+        scan =&gt;
+        {
+            scan.TheCallingAssembly();
+            scan.WithDefaultConventions();
+            scan.With(new ControllerConvention());
+            scan.AddAllTypesOf&lt;IMap&gt;();
+        });
+
+    For&lt;FluentConfig&gt;().Use(context =&gt; FluentMappingConfiguration.Configure(context.GetAllInstances&lt;IMap&gt;().ToArray()));
+    For&lt;DatabaseFactory&gt;().Singleton().Use&lt;DatabaseFactory&gt;();
+    For&lt;IDatabase&gt;().HttpContextScoped().Use(context =&gt; context.GetInstance&lt;DatabaseFactory&gt;().GetDatabase());
+}
+</code></pre>
+
+<p>The mapping classes must inherit from <code>Map&lt;T&gt;</code>, which itself inherits from <code>IMap</code>. Thus we can confidently add all types of <code>IMap</code> in the scan.</p>
+
+<p>Then an instance of <code>FluentConfig</code> must be registered, which can be done with an overload of <code>.Use</code>, from which we get the StructureMap context and pull out all the types of IMap which have been found and pass it to the static <code>.Configure</code> method of the <code>FluentMappingConfiguration</code>, which constructs the instance.</p>
+
+<p>The <code>DatabaseFactory</code> (see below) is then registered, and it accepts a 'FluentConfig' instance in its constructor. As per the original example on the NPoco wiki, it is marked as a singleton to ensure that only one instance is created, so that the mappings do not get registered more than once. I don't know what would happen if the mappings were to be registered more than once, but I assume that it would be a Bad Thing&trade;.</p>
+
+<p>Then, for the NPoco <code>IDatabase</code> instance that we register, we want to always create it using the instance of the <code>DatabaseFactory</code> that has already been registered, which again is accessible using the overload of <code>.Use</code> to get the Structuremap context. It's marked as <code>.HttpContextScoped()</code>, but I'm honestly not sure if that's required or not given that I'm using <code>Structuremap.MVC5</code> nested containers.</p>
+
+<p>For completeness, here is the <code>DatabaseFactory</code>:</p>
+
+<pre><code>public class DatabaseFactory
+{
+    private static NPoco.DatabaseFactory _internalFactory;
+
+    public DatabaseFactory(FluentConfig fluentConfig)
+    {
+        Configure(fluentConfig);
+    }
+
+    private static void Configure(FluentConfig fluentConfiguration)
+    {
+        _internalFactory = NPoco.DatabaseFactory.Config(x =&gt;
+        {
+            x.UsingDatabase(() =&gt; new Database("ConnectionString"));
+            x.WithFluentConfig(fluentConfiguration);
+        });
+    }
+
+    public NPoco.Database GetDatabase()
+    {
+        return _internalFactory.GetDatabase();
+    }
+}
+</code></pre>
+ 
+    <hr />
+</div><!--/.post-->
 <div class="post">
     <h1 class="title">
         <a href="/2015/03/08/learned-so-much-about-vim-that-i-should-already-know/">Learned so much about Vim that I should already know</a>
@@ -252,102 +332,6 @@ cls
 <p>Name the batch file <code>compile.snow.bat</code> so that Snow doesn't delete it when it compiles your site. When you now execute the batch file, Snow should compile your blog and fire it up in your default webbrowser, so you can check it out, and make sure it looks ok.</p>
 
 <p>At this point, you should be ready to deploy your site somewhere.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/">How I moved my blog from wordpress to snow, part one</a>
-    </h1>
-    <h2>Monday, 03 Mar, 2014</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2014/03/03/how-i-moved-my-blog-from-wordpress-to-snow/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/blog" title="blog">blog</a>
-            <a href="/category/sandra.snow" title="sandra.snow">sandra.snow</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    <ul class="snow-series"><li>How I moved my blog from wordpress to snow, part one</li><li><a href="/2014/05/30/how-i-moved-my-blog-to-sandra-now-part2/">How I moved my blog to sandra snow, part two</a></li></ul>
-
-<p>Wherein I show you how I moved my blog from Wordpress, to a statically generated html hosted on github. I will assume that you have a wordpress blog, hosted on either Wordpress.com or your own hosting. If you don't have a wordpress based blog, then that's ok, most of this will still apply.</p>
-
-<p>We can identify a pretty broad set of tasks straightaway:</p>
-
-<ol>
-<li>Export posts from wordpress into markdown.</li>
-<li>Configure Sandra.Snow to publish our markdown.</li>
-<li>Make it look nice.</li>
-<li>Setup github to publish our new site.</li>
-<li>Update our DNS settings.</li>
-</ol>
-
-<h2>Liberating content from Wordpress</h2>
-
-<p><img src="../../../../../images/wordpress-export.png" alt="Export wordpress content"></p>
-
-<p>Jekyll has some tooling that enables auto-exporting of your blog and its contents into markdown for you, but as it is still (relativly) early days for Sandra.Snow, there is no such tooling for us to leverage.</p>
-
-<p>Wordpress makes it fairly easy to export your blog posts, pages, comments and some other meta-information, packaging everything up into a single XML file, that depending on the number of blog post and other content you have, can be fairly large.</p>
-
-<p>When you click export, you'll be able to download the XML file containing your content. Now we just have to pull out what we want.</p>
-
-<h2>wp2md</h2>
-
-<p>I looked around for something that would do the conversion of my wordpress content into markdown, but I couldn't find one that I liked, or that worked exactly the way that I wanted it to. So <a href="https://github.com/sgrassie/wp2md.net">I wrote my own</a>.</p>
-
-<p>The export file format isn't documented anywhere that I could find online, there were a few bits and pieces here and there on blogs and on some forums, but, honestly, it's just an xml file, it's not all that difficult. The only thing that may trip you up is the number of xml namespaces it uses, although if like me you've had a job maintaining software which manages complex xml, then it's no big deal.</p>
-
-<p>I found it has a root <code>&lt;rss&gt;</code> element, followed by <code>&lt;channel&gt;</code> and then <code>&lt;item&gt;</code> where an item is a post, comment or even a page. An item is then broken down into further child elements which include things like the title of the post (or page, or comment), the url, publication date, actual content of the post, and various other pieces of meta data about the post. For example:</p>
-
-<pre><code>&lt;title&gt;Definitely given up on my github-csharp-api project&lt;/title&gt;
-&lt;link&gt;http://temporalcohesion.co.uk/2013/11/07/definitely-given-up-on-my-github-csharp-api-project/&lt;/link&gt;
-&lt;pubDate&gt;Thu, 07 Nov 2013 21:08:19 +0000&lt;/pubDate&gt;
-&lt;dc:creator&gt;&lt;![CDATA[stuart]]&gt;&lt;/dc:creator&gt;
-&lt;guid isPermaLink="false"&gt;http://temporalcohesion.co.uk/?p=394&lt;/guid&gt;
-&lt;description&gt;&lt;/description&gt;
-&lt;content:encoded&gt;&lt;![CDATA[Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.
-
-I will not work on it anymore.]]&gt;&lt;/content:encoded&gt;
-&lt;excerpt:encoded&gt;&lt;![CDATA[]]&gt;&lt;/excerpt:encoded&gt;
-&lt;wp:post_id&gt;394&lt;/wp:post_id&gt;
-&lt;wp:post_date&gt;2013-11-07 21:08:19&lt;/wp:post_date&gt;
-&lt;wp:post_date_gmt&gt;2013-11-07 21:08:19&lt;/wp:post_date_gmt&gt;
-......
-</code></pre>
-
-<p>So I defined a POCO <a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Item.cs"><code>Item.cs</code></a> model class to hold everything interesting about a post, and then parsed the document to get all of the items.</p>
-
-<pre><code>Items = (from item in _document.Root.Element("channel").Elements("item")
-  select new Item
-  {
-    Title = item.Element("title").Value,
-    PublicationDate = ParseDateTime(item.Element("pubDate").Value),
-    Author = item.Element(dc + "creator").Value,
-    ....
-  }).ToList()
-</code></pre>
-
-<p>Fairly standard Linq-to-Object parsing of the XML document. You can see the XML Namespace <code>dc</code> being used, that is just a static namespace member defined as <code>private static XNamespace dc = "http://purl.org/dc/elements/1.1/";</code> at the top of the class.</p>
-
-<p>Now that we have a whole bunch of <code>Items</code>, we can move on to generating the markdown.</p>
-
-<p>Markdown is really fairly simple. Before I embarked on this process, I'd never realised how powerfully simple it is. Our <code>Item</code> now contains the (mostly) encoded content of our post, so we don't have any worry about doing any escaped html removal. To my eyes, and someone correct me if I'm wrong, but it seems to me that Wordpress virtually converts our content into markdown when it generates the export. I could be wrong, but it's what it looks like to me.</p>
-
-<p>We can then use the Visitor pattern to control how we want our <code>Items</code> to be processed.</p>
-
-<pre><code>parser.Parse(document);
-parser.VisitWith(new PostVisitor());
-</code></pre>
-
-<p>I did not have very many pages on my wordpress blog, so I was not concerned with converting them. Similarly, I'd already converted my wordpress blog to use disqus comments, so I did not need to write a Visitor to handle converting the comments.</p>
-
-<p>As this post is already getting fairly long, I will leave a discussion of the Visitor pattern to another time, but you can see the <code>PostVisitor</code> implementation in detail <a href="https://github.com/sgrassie/wp2md.net/blob/master/wp2md/Visitor.cs">in the repo on Github.com</a>.</p>
  
     <hr />
 </div><!--/.post-->

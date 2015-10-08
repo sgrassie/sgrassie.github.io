@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,programming,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -59,6 +59,55 @@
     <div class="container">
 	
 
+<div class="post">
+    <h1 class="title">
+        <a href="/2015/10/08/yagni-in-action-ioc-library/">You don't always need an IOC library</a>
+    </h1>
+    <h2>Thursday, 08 Oct, 2015</h2>
+    <div class="pull-right">
+        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/10/08/yagni-in-action-ioc-library/">
+    </div>
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/programming" title="programming">programming</a>
+            </li>
+        </ul>
+    </div>
+    <hr />
+
+    
+
+<p>The principle of YAGNI should always apply, and I was recently reminded of that when I had to build a small application to give to a user for a small one off task. We're talking a single screen application with a single button on it. Idiot proof.</p>
+
+<p>So, <code>File &gt; New &gt; Winforms application</code> - doesn't have to be anything fancy. Then I caught myself: My first instinct was to add <a href="http://structuremap.github.io">StructureMap</a> to it. </p>
+
+<p>I thought to myself that it's only going to have a few classes, I mean just because it's a small winforms app doesn't mean I'm going to shit up the code behind with business logic and data access, so why bother with the overhead of adding a IOC library?</p>
+
+<p>It doesn't mean I don't have to use dependency injection. <a href="https://twitter.com/ploeh">Mark Seemann</a> calls this "Poor Man's DI".</p>
+
+<pre><code>static class Program
+{
+    [STAThread]
+    static void Main()
+    {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+
+        var service = new Service(new Database(), new Other());
+        Application.Run(new Main(service));
+    }
+}
+</code></pre>
+
+<p>It's short and sweet, and there is no IOC container configuration to worry about. Because I don't need to.</p>
+
+<p>What about when....</p>
+
+<p>Requirements change. "Can it just do this as well...?" More dependencies required, perhaps another form, maybe another service or two. I think I'd see how far I could push Poor Man's DI before I brought in a proper IOC container to help manage things.</p>
+ 
+    <hr />
+</div><!--/.post-->
 <div class="post">
     <h1 class="title">
         <a href="/2015/06/04/structuremap-and-signalr/">Configuring SignalR in StructureMap</a>
@@ -266,86 +315,6 @@ enabled: true
 <p>Q: Using ASP.Net MVC with Bootstrap 3, why won't my <code>&lt;input&gt;</code> stretch to the full width of a <code>&lt;div class="form-group"&gt;</code>, even though I am putting <code>form-control</code> on the css class?</p>
 
 <p>A: Because Microsoft override <code>input</code>, <code>select</code> and <code>textarea</code> to have <code>max-width: 280px</code> in the default <code>Site.css</code> which is added to new projects. Removing this will allow the 100% width from <code>form-control</code>.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2015/03/17/fluent-npoco-mappings-with-structuremap/">Fluent NPoco mappings with StructureMap</a>
-    </h1>
-    <h2>Tuesday, 17 Mar, 2015</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/03/17/fluent-npoco-mappings-with-structuremap/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/npoco" title="npoco">npoco</a>
-            <a href="/category/structuremap" title="structuremap">structuremap</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    
-
-<p>I like using <a href="https://github.com/schotime/NPoco">NPoco</a>, it's a really nice library that allows you stop having to write raw ADO.NET. Recently I just switched one of my projects at work to use the Fluent Mapping features, essentially so that my POCO's do not need to have the mapping attributes in them.</p>
-
-<p>I started wth the example on the <a href="https://github.com/schotime/NPoco/wiki/Fluent-mappings-including-conventional">NPoco wiki</a> of creating a database factory, and adding the mapping class to the fluent configuration. As the number of mapping classes has grown, this has quickly become unwieldy and a bit of a maintainance issue.</p>
-
-<p>As I already utilise Structuremap in the application, I wanted to configure it to automatically pick up my mapping classes and build the configuration object for me. This is easy to in the registry:</p>
-
-<pre><code>public DefaultRegistry()
-{
-    Scan(
-        scan =&gt;
-        {
-            scan.TheCallingAssembly();
-            scan.WithDefaultConventions();
-            scan.With(new ControllerConvention());
-            scan.AddAllTypesOf&lt;IMap&gt;();
-        });
-
-    For&lt;FluentConfig&gt;().Use(context =&gt; FluentMappingConfiguration.Configure(context.GetAllInstances&lt;IMap&gt;().ToArray()));
-    For&lt;DatabaseFactory&gt;().Singleton().Use&lt;DatabaseFactory&gt;();
-    For&lt;IDatabase&gt;().HttpContextScoped().Use(context =&gt; context.GetInstance&lt;DatabaseFactory&gt;().GetDatabase());
-}
-</code></pre>
-
-<p>The mapping classes must inherit from <code>Map&lt;T&gt;</code>, which itself inherits from <code>IMap</code>. Thus we can confidently add all types of <code>IMap</code> in the scan.</p>
-
-<p>Then an instance of <code>FluentConfig</code> must be registered, which can be done with an overload of <code>.Use</code>, from which we get the StructureMap context and pull out all the types of IMap which have been found and pass it to the static <code>.Configure</code> method of the <code>FluentMappingConfiguration</code>, which constructs the instance.</p>
-
-<p>The <code>DatabaseFactory</code> (see below) is then registered, and it accepts a 'FluentConfig' instance in its constructor. As per the original example on the NPoco wiki, it is marked as a singleton to ensure that only one instance is created, so that the mappings do not get registered more than once. I don't know what would happen if the mappings were to be registered more than once, but I assume that it would be a Bad Thing&trade;.</p>
-
-<p>Then, for the NPoco <code>IDatabase</code> instance that we register, we want to always create it using the instance of the <code>DatabaseFactory</code> that has already been registered, which again is accessible using the overload of <code>.Use</code> to get the Structuremap context. It's marked as <code>.HttpContextScoped()</code>, but I'm honestly not sure if that's required or not given that I'm using <code>Structuremap.MVC5</code> nested containers.</p>
-
-<p>For completeness, here is the <code>DatabaseFactory</code>:</p>
-
-<pre><code>public class DatabaseFactory
-{
-    private static NPoco.DatabaseFactory _internalFactory;
-
-    public DatabaseFactory(FluentConfig fluentConfig)
-    {
-        Configure(fluentConfig);
-    }
-
-    private static void Configure(FluentConfig fluentConfiguration)
-    {
-        _internalFactory = NPoco.DatabaseFactory.Config(x =&gt;
-        {
-            x.UsingDatabase(() =&gt; new Database("ConnectionString"));
-            x.WithFluentConfig(fluentConfiguration);
-        });
-    }
-
-    public NPoco.Database GetDatabase()
-    {
-        return _internalFactory.GetDatabase();
-    }
-}
-</code></pre>
  
     <hr />
 </div><!--/.post-->

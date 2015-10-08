@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,programming,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -59,6 +59,127 @@
     <div class="container">
 	
 
+<div class="post">
+    <h1 class="title">
+        <a href="/2009/10/26/a-psake-build-script-example/">A psake build script example</a>
+    </h1>
+    <h2>Monday, 26 Oct, 2009</h2>
+    <div class="pull-right">
+        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2009/10/26/a-psake-build-script-example/">
+    </div>
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/build script" title="build script">build script</a>
+            <a href="/category/C#" title="C#">C#</a>
+            <a href="/category/Coding" title="Coding">Coding</a>
+            <a href="/category/Powershell" title="Powershell">Powershell</a>
+            <a href="/category/psake" title="psake">psake</a>
+            </li>
+        </ul>
+    </div>
+    <hr />
+
+    
+
+<p>I have recently started using psake to do some build automation at work, and I've found that there is not a great deal of information about how to write a build script using psake available on the internet. It isn't all that amazingly difficult if truth be told, however there are a couple of 'gotchas', and I would like to share what I have learned in the hopes that it benefits someone.</p>
+
+<p>If you have not heard of it, <a title="psake project on Google Code" href="http://code.google.com/p/psake/" target="_blank">psake</a> is a"...build automation tool written in PowerShell", started by <a title="James Kovacs' blog" href="http://codebetter.com/blogs/james.kovacs/default.aspx" target="_blank">James Kovacs</a>. With it, you can write build scripts, with which you can automate the build and deployment of your .NET project. Recently the version <a title="psake 2.00 release annoucement" href="http://codebetter.com/blogs/james.kovacs/archive/2009/10/14/releasing-psake-v1-00-amp-psake-v2-00.aspx">1.00 and 2.0<strong> </strong>0 version were released</a>. Why two versions? Well, the 1.00 version is primarily for PowerShell 1.0, but psake 1.00 is being "retired". This article assumes the reader is using psake 2.01 and PowerShell 2.0.</p>
+
+<p>A quick note here, I should point out the primary example I based my first build script on is <a title="Ayende Rahien Rhino Mocks build script" href="http://ayende.com/Blog/archive/2009/08/30/on-psake.aspx" target="_blank">Ayende Rahien's build script for Rhino Mocks</a>.</p>
+
+<h2>Our first psake build script</h2>
+
+<p>First, I have to make two assumptions:</p>
+
+<ol>
+    <li>I have to assume that you have PowerShell installed, if you are running Vista/Windows 7 then it's installed by default, if you are on XP, then it is a manual install.</li>
+    <li>You have installed the psake module into Powershell - see the release announcement linked to above for details on how to do this.</li>
+</ol>
+
+<p>[caption id="attachment_120" align="alignleft" width="137" caption="Example solution"]<a href="http://temporalcohesion.co.uk/wp-content/uploads/2009/10/psake_example_solution.png"><img class="size-full wp-image-120    " title="psake_example_solution" src="http://temporalcohesion.co.uk/wp-content/uploads/2009/10/psake_example_solution.png" alt="Example solution" width="137" height="161" /></a>[/caption]</p>
+
+<p>With those assumptions out of the way, we are going to write a build script to automate the building of a simple C# solution, containing a Windows Forms application, and two class library assemblies.</p>
+
+<p>Hopefully this should be simple enough to easily follow along with what is happening in the build script, but complex enough that you can see how sophisticated your build scripts can be.</p>
+
+<p>You can see that I have already taken the liberty of adding an extra file to the solution, "build.ps1", this is our build script, with which we can command psake to do great things for us.</p>
+
+<p>With our solution setup, we can now write our first build script:</p>
+
+<pre class="lang:powershell decode:1 " >
+properties {
+ $base_dir = Resolve-Path .
+ $sln_file = &amp;quot;$base_dirWindowsFormsApplication.sln&amp;quot;
+}
+
+Task default -depends Compile
+
+Task Compile {
+ msbuild &amp;quot;$sln_file&amp;quot;
+}
+</pre>
+
+<p>Open a command prompt into the directory containing the .sln file, which is where your build.ps1 script
+should be, and run this command: invoke-psake .build.ps1 -taskList Compile</p>
+
+<p>[caption id="attachment_123" align="aligncenter" width="300" caption="psake Compile task output"]<a href="http://temporalcohesion.co.uk/wp-content/uploads/2009/10/psake_Compile.png"><img class="size-medium wp-image-123" title="psake_Compile" src="http://temporalcohesion.co.uk/wp-content/uploads/2009/10/psake_Compile-300x296.png" alt="psake Compile task output" width="300" height="296" /></a>[/caption]</p>
+
+<p>You should receive some output to the console window like the above.What the script does is to work out where on the file system the script is running, and gets the path to that folder, and builds the path to the specified solution file, and runs msbuild, passing the full path to the solution file as a parameter.</p>
+
+<p>The script as it is has some drawbacks though. In it's current form, msbuild will only build the default configuration of the solution. What if we want to build a Debug version, or a Release version, or some other configuration we've created? Additionally, it doesn't let us specify a directory to put the built binaries, they just get put in the default locations as specified in the projects contained in the solution - what if we want to put them in a custom location?</p>
+
+<p>If we modify our build script slightly, we can introduce this functionality. Firstly, we need to specify some additional properties:</p>
+
+<pre class="lang:powershell decode:1 " >
+properties {
+ $base_dir = Resolve-Path .
+ $build_dir = &amp;quot;$base_dirbuild&amp;quot;
+ $sln_file = &amp;quot;$base_dirWindowsFormsApplication.sln&amp;quot;
+ $debug_dir = &amp;quot;$build_dirDebug\&amp;quot;
+ $release_dir = &amp;quot;$build_dirRelease\&amp;quot;;
+}
+</pre>
+
+<p>Notice the double backslash, msbuild requires a trailing slash when paths are specified, and it seems to require the additional backslash as well, or else it doesn't work. With those additional properties in place, we can introduce two new tasks to our build script:</p>
+
+<pre class="lang:powershell decode:1 " >
+Task Clean {
+ remove-item -force -recurse $debug_dir -ErrorAction SilentlyContinue
+ remove-item -force -recurse $release_dir -ErrorAction SilentlyContinue
+}
+
+Task Init -depends Clean {
+ new-item $debug_dir -itemType directory
+ new-item $release_dir -itemType directory
+}
+</pre>
+
+<p>Powershell's easy to read syntax should make it easy to follow with what is happening now. In the Clean task, we forcefully and recursively remove any files and the folder from the specified path, and if there are any errors then they are not displayed. Now that we know that those folders are going to be cleaned and created, we can create two further tasks, where we can create Debug and Release versions of our solution:</p>
+
+<pre class="lang:powershell decode:1 " >
+Task Debug -depends Init {
+ msbuild $sln_file &amp;quot;/nologo&amp;quot; &amp;quot;/t:Rebuild&amp;quot; &amp;quot;/p:Configuration=Debug&amp;quot; &amp;quot;/p:OutDir=&amp;quot;&amp;quot;$debug_dir&amp;quot;&amp;quot;&amp;quot;
+}
+
+Task Release -depends Init {
+ msbuild $sln_file &amp;quot;/nologo&amp;quot; &amp;quot;/t:Rebuild&amp;quot; &amp;quot;/p:Configuration=Release&amp;quot; &amp;quot;/p:OutDir=&amp;quot;&amp;quot;$release_dir&amp;quot;&amp;quot;&amp;quot;
+</pre>
+
+<p>Again, the syntax here is relatively straightforward to follow along with, we execute msbuild, passing it the solution file to build, specify not to show the logo (suppressing the output of "copyright microsoft msbuild etc), tell it to execute the rebuild target and to build the Debug configuration, copying the output to the specified debug directory. Notice that that there are no spaces in the paramters that we pass to msbuild. For example, if we passed the parameters like this: "/p:Configuration=Release /p:OutDir=""$release_dir""", then it would fail and we would get a msbuild parse error saying it was invalid.</p>
+
+<p>[caption id="attachment_129" align="alignleft" width="196" caption="Build script output for Debug task"]<a href="http://temporalcohesion.co.uk/wp-content/uploads/2009/10/psake_example_debug.png"><img class="size-medium wp-image-129" title="psake_example_debug" src="http://temporalcohesion.co.uk/wp-content/uploads/2009/10/psake_example_debug-196x300.png" alt="Build script output for Debug task" width="196" height="300" /></a>[/caption]</p>
+
+<h2>Summary</h2>
+
+<p>In a relatively short amount of code, less than 30 lines, we have accomplished quite a lot. We can now issue the command: invoke-psake .build.ps1 -taskList Debug, and psake will automatically clean the output folders, do a full rebuild of the Debug configuration and copy the output to a custom location on our filesystem. What's more, the build script we have written is small, compact, easy to read, easy to maintain and easy to build/extend upon in the future.</p>
+
+<p>As this is getting a bit long already, I'm going to cut things short here, however, there are some additional things that you can do as part of the build script that are very nice, such as automatically versioning the assembly before you do the full build. If you take a look at <a title="Ayende Rahien Rhino Mocks build script" href="http://ayende.com/Blog/archive/2009/08/30/on-psake.aspx" target="_blank">Ayende Rahien's example</a> from Rhino Mocks, that is covered there.</p>
+
+<p>Also in the new version of psake, there are pre and post conditions and actions that you can add onto your tasks, although I haven't had the opportunity to use them yet. I'll try to cover those in a future blog post though.</p>
+ 
+    <hr />
+</div><!--/.post-->
 <div class="post">
     <h1 class="title">
         <a href="/2009/10/17/my-recommended-reading-list/">My recommended reading list</a>
@@ -292,80 +413,6 @@ Console.WriteLine("Log message");</pre>
 <p>The plugin framework I've written ensures that I don't have to worry about this the next time one of my pet projects needs a plugin system. The Editor will in fact have two types of plugins available, one to extend the types of data sources it can load in resources from, and another to provide additional functionality, like tools.</p>
 
 <p>I'm fairly pleased with the way that it has turned out, and it works quite well in practice.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2008/09/12/building-the-project-euler-framework-part-3/">Building the Project Euler framework, part 3</a>
-    </h1>
-    <h2>Friday, 12 Sep, 2008</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2008/09/12/building-the-project-euler-framework-part-3/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/Coding" title="Coding">Coding</a>
-            <a href="/category/Coding" title="Coding">Coding</a>
-            <a href="/category/Java" title="Java">Java</a>
-            <a href="/category/Java" title="Java">Java</a>
-            <a href="/category/Project Euler" title="Project Euler">Project Euler</a>
-            <a href="/category/Project Euler" title="Project Euler">Project Euler</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    
-
-<p>In part 2, I showed you an improved, although still pretty basic problem runner framework for Project Euler. I did leave out some things though, and I'm going to try and explain them now.</p>
-
-<p>Firstly, I haven't really shown how I use the Problem interface. You can see it in part 1 of this series of posts. In Eclipse, you can create a new class in a package, which should bring up the "New Java Class" dialog. Give the class a name - for Project Euler problems I've chosen to name them "One", "Two", "Three" etc. You can then add an interface that the class is to implement, click 'Add', and type in Problem. You can also choose some methods to stub out, tick 'public static void main(String[] args)'. Click Ok, and you should get something like this:</p>
-
-<pre lang="java">package co.uk.temporalcohesion.euler.problems;
-
-import co.uk.temporalcohesion.euler.interfaces.Problem;
-
-public class One implements Problem {
-
-    public String answer() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public int id() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    public double time() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
-    }
-
-}</pre>
-
-<p>I can hear you asking why am I including then main(String[] args) function if we already have a class that is capable of running the problems (the main Euler class)? Well, what I do to create is to create a Euler object in the problems main method, and get it to run the problem, like this:</p>
-
-<pre lang="java">        /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        new Euler().run(1, true);
-    }</pre>
-
-<p>So the problem class is running itself using the Euler object, which knows how to find the problem, instantiate it and run it. I find doing things this way is easier when working on the problem, as you can simply run the problem as a java application, and it will output the result in a standard format we are expecting to to the console in Eclipse.</p>
-
-<p>Thinking about it, you might be wondering - what's the point of all this, it seems a little excessive for something that can be done fairly easily? Well - I've done it like this because the whole point of me doing the problems on Project Euler, is to practice problem solving and become more comfortable in my use of Java. So I think what I've done is pretty valid in that regard.</p>
  
     <hr />
 </div><!--/.post-->

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,programming,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="programming" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -26,7 +26,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/category/exception/" />
+    <link rel="canonical" href="http://www.temporalcohesion.co.uk/2015/10/08/yagni-in-action-ioc-library/" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -59,19 +59,68 @@
     <div class="container">
 	
 
-  <header>
-  <div class="head-inner">
-    <h1><a href="/category/">Categories</a> - exception</h1>
-  </div>
-  </header>
+<div class="post">
+    <h1 class="title">You don't always need an IOC library</h1>
+    <h3>Thursday, 08, Oct 2015</h3>
 
-  <ul class="category-list fancy-container orange">
-      <li>
-        <a href="/2010/11/08/damn-you-empty-catch-block/" title="Damn you empty catch block">Damn you empty catch block</a> 
-        <small>(08 Nov 2010)</small>
-      </li>
-  </ul>
-  
+    
+        
+    <p>The principle of YAGNI should always apply, and I was recently reminded of that when I had to build a small application to give to a user for a small one off task. We're talking a single screen application with a single button on it. Idiot proof.</p>
+
+<p>So, <code>File &gt; New &gt; Winforms application</code> - doesn't have to be anything fancy. Then I caught myself: My first instinct was to add <a href="http://structuremap.github.io">StructureMap</a> to it. </p>
+
+<p>I thought to myself that it's only going to have a few classes, I mean just because it's a small winforms app doesn't mean I'm going to shit up the code behind with business logic and data access, so why bother with the overhead of adding a IOC library?</p>
+
+<p>It doesn't mean I don't have to use dependency injection. <a href="https://twitter.com/ploeh">Mark Seemann</a> calls this "Poor Man's DI".</p>
+
+<pre><code>static class Program
+{
+    [STAThread]
+    static void Main()
+    {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+
+        var service = new Service(new Database(), new Other());
+        Application.Run(new Main(service));
+    }
+}
+</code></pre>
+
+<p>It's short and sweet, and there is no IOC container configuration to worry about. Because I don't need to.</p>
+
+<p>What about when....</p>
+
+<p>Requirements change. "Can it just do this as well...?" More dependencies required, perhaps another form, maybe another service or two. I think I'd see how far I could push Poor Man's DI before I brought in a proper IOC container to help manage things.</p>
+
+
+    <div id="disqus_thread"></div>
+<script>
+    var reset_disqus = function(){
+        DISQUS.reset({
+            reload: true,
+            config: function () {
+                //this.page.identifier = '';
+                this.page.url = 'http://www.temporalcohesion.co.uk/2015/10/08/yagni-in-action-ioc-library/';
+                //this.page.title = '';
+            }
+        });
+    };
+
+    var disqus_shortname = 'temporalcohesion';
+    var disqus_url = 'http://www.temporalcohesion.co.uk/2015/10/08/yagni-in-action-ioc-library/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+
+    window.addEventListener('orientationchange', reset_disqus);
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div><!--/.post-->
 
         
         <hr />

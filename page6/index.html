@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Stuart Grassie's Blog">
     <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
+    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,programming,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
     <title>temporalcohesion.co.uk</title>
 
     <!-- Bootstrap core CSS -->
@@ -59,6 +59,86 @@
     <div class="container">
 	
 
+<div class="post">
+    <h1 class="title">
+        <a href="/2011/11/07/adding-authentication-on-the-fly-to-a-restsharp-client-request/">Adding authentication on the fly to a RestSharp client request</a>
+    </h1>
+    <h2>Monday, 07 Nov, 2011</h2>
+    <div class="pull-right">
+        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2011/11/07/adding-authentication-on-the-fly-to-a-restsharp-client-request/">
+    </div>
+    <div class="meta">
+        <ul class="list-unstyled list-inline">
+            <li><a href="/category">Categories:</a>
+            <a href="/category/C#" title="C#">C#</a>
+            <a href="/category/Coding" title="Coding">Coding</a>
+            <a href="/category/github-api" title="github-api">github-api</a>
+            </li>
+        </ul>
+    </div>
+    <hr />
+
+    
+
+<h1>The Basics</h1>
+
+<p>The typical way that you'd make a request with RestSharp:</p>
+
+<ol>
+    <li>Create a RestRequest</li>
+    <li>Create a RestClient</li>
+    <li>Execute the request with the client</li>
+    <li>Do something with the response.</li>
+</ol>
+
+<p>It's at the point that you get the client object that you may wish to add authentication. For example with a REST API such as Githubs, certain methods behave differently if the request is authenticated or not, so being able to magically turn on authentication is desirable.</p>
+
+<p>To authenticate a request with RestSharp, it is a simple case of creating a RestRequest, RestClient and an IAuthenticator instance for the authenticating mechanism you want to use. For example:</p>
+
+<pre class="brush:csharp">var client = new RestClient
+             {
+                 BaseUrl ="https://api.github.com",
+                 Authenticator = new HttpBasicAuthenticator(username, password)
+             };</pre>
+
+<p>This is pretty straightforward and standard RestSharp usage. You may have a class to encapsulate this functionality, with a method which returns the RestClient instance, probably in a base class in order to inherit this common functionality in other classes.</p>
+
+<pre class="brush:csharp">public abstract class BaseApi
+{
+    RestClient GetRestClient()
+    {
+        ...
+    }
+}</pre>
+
+<h1>Options</h1>
+
+<p>There are several methods which we can use to add authentication dynamically to the RestClient instance, ranging from the trivial to the more involved.</p>
+
+<p>The trivial solution is to add the IAuthenticator as a parameter to the method, which is then assigned to the RestClient when it is created. Easy. Also fairly easy is just make it abstract or virtual and override it in an inheriting class, although this breaks SRP.</p>
+
+<p>Alternatively, we can implement the Decorator pattern, and introduce the authentication in a class which is solely responsible for handing it. I'm not going to go into this in too much detail, there is a wealth of information on implementing this pattern already available on the web. Using a Decorator is valid in a lot of situations, particularly when re-factoring someone else's mess, as you can adhere to the same interface and not risk breaking some important business function. In other cases, it is better to intercept.</p>
+
+<h1>Interception</h1>
+
+<p>A pattern which lends itself to this is called Proxy, and if you spend any time with Google and search terms like "c# proxy pattern" you'll quickly end up finding a lot of information about implementing it. You'll also find interesting stuff about Castle.DynamicProxy, and you may quickly realise this is an excellent way of adding the ability to dynamically intercept a method to add additional functionality on the fly. I've implemented an interceptor in the Github API library, with the core magic being:</p>
+
+<pre class="brush:csharp">public void Intercept(IInvocation invocation)
+{
+    invocation.Proceed(); // let the RestClient be instantiated as normal.
+    var restClient = (RestClient)invocation.ReturnValue;
+    restClient.Authenticator = _authenticator; // add the authenticator
+    invocation.ReturnValue = restClient;
+ }</pre>
+
+<p>I then wrap the interception up in a static class, which is a technique I <a href="http://geekswithblogs.net/BlackRabbitCoder/archive/2010/05/06/c-why-decorate-when-you-can-intercept.aspx">saw on another website</a>, which I then wrap in a extension method which with a little bit of generics hangs off API classes in a fluent manner.</p>
+
+<pre class="brush:csharp">var api = new UserApi(GitHubUrl).WithAuthentication(authenticator);</pre>
+
+<p>I feel like it is the best way to do this sort of thing, and I will certainly starting using more of it, where necessary, in all my projects.</p>
+ 
+    <hr />
+</div><!--/.post-->
 <div class="post">
     <h1 class="title">
         <a href="/2011/10/31/github-api-handling-authentication/">Github API: Handling authentication</a>
@@ -219,64 +299,6 @@ catch(Exception)
 <p>I see it in several different languages almost daily. It really frustrates me that my colleagues and predecessors did this. I stamp it out ruthlessly.</p>
 
 <p><a href="http://blogs.msdn.com/b/clrteam/archive/2009/02/19/why-catch-exception-empty-catch-is-bad.aspx">Here is a great post</a> on why empty catch blocks are bad. Here is a <a href="http://stackoverflow.com/questions/183589/c-windows-forms-best-practice-exception-handling" target="_blank">great question and series of answers</a> on StackOverflow about best practices for exception handling.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2010/11/01/github-c-api-handling-the-response-with-restsharp/">Github C# API: Handling the response with RestSharp</a>
-    </h1>
-    <h2>Monday, 01 Nov, 2010</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2010/11/01/github-c-api-handling-the-response-with-restsharp/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/C#" title="C#">C#</a>
-            <a href="/category/Coding" title="Coding">Coding</a>
-            <a href="/category/RestSharp" title="RestSharp">RestSharp</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    
-
-<p>Once we make a request to Github.com with <a title="RestSharp.org" href="http://restsharp.org/" target="_blank">RestSharp</a>, we get a response, and RestSharp gives us a <a title="RestResponse class in RestSharp on github.com" href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestResponse.cs" target="_blank">RestResponse</a> object, with which we can do something with the content. The content will be in the format that we specified when we made the request, either JSON, XML or YAML.</p>
-
-<p>Oh crap, complicated string parsing...</p>
-
-<p>RestSharp to the rescue! We don't have to worry about parsing the response content, because RestSharp can do it for us.</p>
-
-<p>What we need to do, is model the response content into a POCO (Plain Old Clr Object):</p>
-
-<pre class="brush: csharp">public class User
-{
-    public virtual int Id { get; set; }
-    public virtual string Login { get; set; }
-    public virtual string Name { get; set;}
-
-    ...
-}</pre>
-
-<p>Note that in this <a title="User class in the csharp-github-api project" href="http://github.com/sgrassie/csharp-github-api/blob/master/csharp-github-api/Models/User.cs" target="_blank">User</a> class, I've made the properties virtual, this is not necessary for RestSharp to function correctly, it's more habit on my part from working with NHibernate; however it does mean you can reuse the same models with NHibernate (if you wanted to do something like store the response in a database, for example).</p>
-
-<p>Then we need to modify our client such that when we execute the request, we instruct RestSharp to construct an instance of the User object. Create the client in the usual way and also create the request in the usual way. The magic is in how the client executes the request:</p>
-
-<pre class="brush: csharp">var request = new RestRequest
-                  {
-                      Resource = string.Format("/user/show/{0}", username),
-                      RootElement = "user"
-                  };
-
-var response = client.Execute&lt;User&gt;(request);
-
-var user = response.Data;</pre>
-
-<p>As you can see, the Execute method has a generic overload. Internally, RestSharp detects that because we have used this overload, we want to deserialise the response content into an object of the given type, and it performs the deserialisation and constructs an instance of the object. The way that it does this is by looking at the Content-Type header in the response, and it uses the correct deserialiser depending upon the Content-Type. You can see more detail about this on <a href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestClient.cs" target="_blank">RestSharp's Github project pages</a>.</p>
-
-<p>It is really easy to work with the response from your REST request with RestSharp, you can access the raw string content of the response, or deserialise it into a POCO - it's up to you.</p>
  
     <hr />
 </div><!--/.post-->
