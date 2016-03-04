@@ -1,11 +1,11 @@
 # visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
 
-permalink: date
+permalink: /:year/:month/:day/:title/
 paginate: 10 # pagination based on number of posts
 paginate_path: "page:num"
 excerpt_separator: ""
 exclude: ["README.md"] # files to exclude
-highlighter: pygments
+highlighter: rouge
 markdown: kramdown
 disqus: temporalcohesion
 google_analytics: UA-9870754-1
