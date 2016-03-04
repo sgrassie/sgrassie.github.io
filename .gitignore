@@ -1,4 +1,4 @@
-_config.yml
+*.swp
 _site/*
 *Thumbs.db
 Gemfile.lock
