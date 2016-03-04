@@ -7,7 +7,7 @@ excerpt_separator: ""
 exclude: ["README.md"] # files to exclude
 highlighter: rouge
 markdown: kramdown
-#disqus: temporalcohesion
+disqus: temporalcohesion
 google_analytics: UA-9870754-1
 
 defaults:
@@ -16,7 +16,7 @@ defaults:
     path: "" # empty string for all files
     values:
     title: temporalcohesion.co.uk
-    disqus: temporalcohesion
+    comments: true
 
 description: Stylish Jekyll Theme
 author:
