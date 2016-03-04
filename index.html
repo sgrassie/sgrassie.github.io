@@ -1,391 +1,74 @@
+---
+layout: page
+tagline:
+---
 
-<!DOCTYPE html>
-<html dir="ltr" lang="en-US">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Stuart Grassie's Blog">
-    <meta name="author" content="Stuart Grassie">
-    <meta name="keywords" content="annoyance,asp.net,blog,Books,bootstrap,build script,C#,cathartic,Coding,delphi,design patterns,DI,Dropbox,editing,euler,exception,Git,github-api,IoC,Java,jenkins,jQuery,linux,log4net,Logging,msbuild,nancy,News,npoco,PHP,Plugin Manager,Powershell,prism,programming,Project Euler,psake,random,RestSharp,sandra.snow,self pity,SignalR,snow,Source Control,StructureMap,thoughts,Uncategorized,vim,winner,wpf" />
-    <title>temporalcohesion.co.uk</title>
+{% for post in paginator.posts %}
 
-    <!-- Bootstrap core CSS -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<article class="home">
 
-    <!-- Custom styles for this template -->
-    <link href="/stylesheets/custom-styles.css" rel="stylesheet" type="text/css">
+  <span class="post-date">
+    {% assign d = post.date | date: "%d" | plus:'0' %}
+    {{ post.date | date: "%B" }}
+    {% case d %}
+    {% when 1 or 21 or 31 %}{{ d }}st,
+    {% when 2 or 22 %}{{ d }}nd,
+    {% when 3 or 23 %}{{ d }}rd,
+    {% else %}{{ d }}th,
+    {% endcase %}
+    {{ post.date | date: "%Y" }}
+  </span>
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <h2>
+    <a href="{{ site.BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+  </h2>
 
-    <link rel="canonical" href="http://www.temporalcohesion.co.uk/" />
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">temporalcohesion.co.uk</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/archive">Archives</a></li>
-          </ul>
-	  <ul class="nav navbar-nav navbar-right">
-		  <li><a href="http://twitter.com/stugrassie"><img src="/images/twitter.png"></a></li>
-		  <li><a href="http://facebook.com/sgrassie"><img src="/images/facebook.png"></a></li>
-		  <li><a href="http://uk.linkedin.com/in/sgrassie/"><img src="/images/linkedin.png"></a></li>
-	  </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+  <div>
+    {% if post.fullview %}
+    {{ post.content }}
+    {% else %}
+    {% if post.shortinfo %}
+    {{ post.shortinfo }}
+    {% elsif post.description %}
+    {{ post.description }}
+    {% else %}
+    {{ post.excerpt }}
+    {% endif %}
+    {% endif %}
+  </div>
 
-    <div class="container">
-	
+</article>
+{% endfor %}
+<hr/>
 
-<div class="post">
-    <h1 class="title">
-        <a href="/2015/10/08/yagni-in-action-ioc-library/">You don't always need an IOC library</a>
-    </h1>
-    <h2>Thursday, 08 Oct, 2015</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/10/08/yagni-in-action-ioc-library/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/programming" title="programming">programming</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
+<ul class="pager"> 
 
-    
+  {% if paginator.previous_page %}
+  <li class="previous">
+    {% if paginator.previous_page == 1 %}
+    <a href="{{ site.BASE_PATH }}/">&larr; Newer</a>
+    {% else %}
+    <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.previous_page }}">&larr; Newer</a>
+    {% endif %}
+  </li>
+  {% else %}
+  <li class="previous disabled">
+    <a>&larr; Newer</a>
+  </li>
+  {% endif %}
+  
+  <li>
+    <span class="page_number">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+  </li>
 
-<p>The principle of YAGNI should always apply, and I was recently reminded of that when I had to build a small application to give to a user for a small one off task. We're talking a single screen application with a single button on it. Idiot proof.</p>
+  {% if paginator.next_page %}
+  <li class="next">
+    <a href="{{ site.BASE_PATH }}/{{ site.paginate_path | replace: ':num', paginator.next_page }}">Older &rarr;</a>
+  </li>
+  {% else %}
+  <li class="next disabled">
+    <a>Older &rarr;</a>        
+  </li>
+  {% endif %}
 
-<p>So, <code>File &gt; New &gt; Winforms application</code> - doesn't have to be anything fancy. Then I caught myself: My first instinct was to add <a href="http://structuremap.github.io">StructureMap</a> to it. </p>
-
-<p>I thought to myself that it's only going to have a few classes, I mean just because it's a small winforms app doesn't mean I'm going to shit up the code behind with business logic and data access, so why bother with the overhead of adding a IOC library?</p>
-
-<p>It doesn't mean I don't have to use dependency injection. <a href="https://twitter.com/ploeh">Mark Seemann</a> calls this "Poor Man's DI".</p>
-
-<pre><code>static class Program
-{
-    [STAThread]
-    static void Main()
-    {
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-
-        var service = new Service(new Database(), new Other());
-        Application.Run(new Main(service));
-    }
-}
-</code></pre>
-
-<p>It's short and sweet, and there is no IOC container configuration to worry about. Because I don't need to.</p>
-
-<p>What about when....</p>
-
-<p>Requirements change. "Can it just do this as well...?" More dependencies required, perhaps another form, maybe another service or two. I think I'd see how far I could push Poor Man's DI before I brought in a proper IOC container to help manage things.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2015/06/04/structuremap-and-signalr/">Configuring SignalR in StructureMap</a>
-    </h1>
-    <h2>Thursday, 04 Jun, 2015</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/06/04/structuremap-and-signalr/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/SignalR" title="SignalR">SignalR</a>
-            <a href="/category/StructureMap" title="StructureMap">StructureMap</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    
-
-<p>Configuring <a href="http://signalr.net/">SignalR</a> in ASP.NET MVC, using <a href="http://structuremap.github.io/structuremap/">StructureMap</a> as the IoC container is fairly straightforward, but not without some subtleties that caught me out.</p>
-
-<p>For the purposes of this post, I'm going to assume that you are familiar with both SignalR and StructureMap, and that you know how to configure them in an ASP.NET MVC application. I will also assume that through some google-fu you have seen the <a href="http://www.asp.net/signalr/overview/advanced/dependency-injection">Dependency Injection in SignalR</a> guidance, and have worked through it and got to the "Using IoC Containers in SignalR" section.</p>
-
-<p>I would assume, although I've not tested it, that much of this could also be applied to a self-hosted SignalR server.</p>
-
-<h2>Library versions used</h2>
-
-<p>This post is based on:</p>
-
-<ul>
-<li>Asp.Net MVC 5.2.3</li>
-<li>SignalR 2.2.0</li>
-<li>StructureMap 3.1.5.154</li>
-<li>StructureMap.MVC5 3.1.1.134</li>
 </ul>
-
-<p>Follow the guidance up to the section on using Ninject, at which point we now want to configure StructureMap.</p>
-
-<h2>Replace the SignalR Dependency Resolver</h2>
-
-<p>The implementation is nearly identical, with some obvious StructureMap specific differences:</p>
-
-<pre><code>public class StructureMapSignalRDependencyResolver : DefaultDependencyResolver
-{
-    private readonly IContainer _container;
-
-    public StructureMapSignalRDependencyResolver(IContainer container)
-    {
-        _container = container;
-    }
-
-    public override object GetService(Type serviceType)
-    {
-        return _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
-    }
-
-    public override IEnumerable&lt;object&gt; GetServices(Type serviceType)
-    {
-        var objects = _container.GetAllInstances(serviceType).Cast&lt;object&gt;();
-        return objects.Concat(base.GetServices(serviceType));
-    }
-}
-</code></pre>
-
-<p>The behaviour is fairly similar. <code>TryGetInstance</code> will attempt to resolve the type, and if it doesn't know about it, will return null, in which case we call the base resolver, which does.</p>
-
-<p>Register this with StructureMap:</p>
-
-<pre><code>For&lt;IDependencyResolver&gt;().Singleton().Use&lt;StructureMapSignalRDependencyResolver&gt;();
-</code></pre>
-
-<p>In your <code>Startup</code>, where you configure SignalR, we need to use this new resolver implementation:</p>
-
-<pre><code>var resolver = DependencyResolver.Current.GetService&lt;Microsoft.AspNet.SignalR.IDependencyResolver&gt;();
-
-var hubConfiguration = new HubConfiguration
-{
-    Resolver = resolver
-
-/* other options as required */
-};
-</code></pre>
-
-<p>Here, we are using the MVC DependencyResolver, which has already been replaced by StructureMap thanks to StructureMap.MVC5, to resolve an instance of the SignalR dependency resolver we've registered, which we then tell SignalR to use with a hub configuration object.</p>
-
-<p>Now we just need to configure the StructureMap registry, and teach it how to resolve <code>IHubConnectionContext&lt;dynamic&gt;</code>:</p>
-
-<pre><code>For&lt;IConnectionManager&gt;().Use&lt;ConnectionManager&gt;();
-For&lt;IStockTicker&gt;()
-    .Singleton()
-    .Use&lt;StockTicker&gt;()
-    .Ctor&lt;IHubConnectionContext&lt;dynamic&gt;&gt;()
-    .Is(ctx =&gt; ctx.GetInstance&lt;IDependencyResolver&gt;()
-        .Resolve&lt;IConnectionManager&gt;()
-        .GetHubContext&lt;StockTickerHub&gt;().Clients);
-</code></pre>
-
-<p>As in the guidance, we want the <code>StockTicker</code> instance to be a singleton, and we have specify how to resolve the <code>IHubConnectionContext&lt;dynamic&gt;</code> which the <code>StockTicker</code> requires. In the <code>Is</code>, I'm using the context to resolve the default SignalR connection manager we've registered. This isn't in the guidance, but I couldn't get it work without doing this.</p>
-
-<p>If anyone has comments/improvements on this, I'd love to hear them.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2015/04/17/msbuild-code-analysis-jenkins/">MSBuild Code Analysis (on a build server)</a>
-    </h1>
-    <h2>Friday, 17 Apr, 2015</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/04/17/msbuild-code-analysis-jenkins/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/c#" title="c#">c#</a>
-            <a href="/category/jenkins" title="jenkins">jenkins</a>
-            <a href="/category/msbuild" title="msbuild">msbuild</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    
-
-<p>It is possible to setup your build server to run code analysis on your solution/projects, without having to install VS on your build server.</p>
-
-<p>The answer is here: <a href="http://stackoverflow.com/a/21731245/3181">http://stackoverflow.com/a/21731245/3181</a></p>
-
-<p>I'm not going to reproduce the code here, there is no point. This post is just a reminder to myself as to where I found the solution to this.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2015/04/15/gitlab-active-directory/">Gitlab and Active Directory</a>
-    </h1>
-    <h2>Wednesday, 15 Apr, 2015</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/04/15/gitlab-active-directory/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/asp.net" title="asp.net">asp.net</a>
-            <a href="/category/bootstrap" title="bootstrap">bootstrap</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    
-
-<p><a href="http://www.gitlab.com">Gitlab</a> is an open source 'clone' of Github, although I don't think it's much of a clone anymore, to be fair. The Enterprise edition has full Active Directory support, and the Community edition does not. </p>
-
-<p>The integration with Active Directory is of great benefit. To get the most out of it, I think that you would need to upgrade to the Enterprise edition, as it adds a number of additonal integrations which look to be really usefull for larger organisations with multiple projects and development teams.</p>
-
-<p>It is possible to configure the Community edition to integrate with Active Directory, to the extent that you can restrict exactly who is allowed to login in. You have to manually configure the users permissions on groups/projects though. In the Enterprise edition, the tighter integration means that you can match up Active Directory groups with groups in Gitlab, and control access both to the server, and groups/projects, all through Active Directory.</p>
-
-<p>Here is the ldap section from my <code>gitlab.yml</code> (please be aware, I'm no Active Directory expert):</p>
-
-<pre><code>ldap:
-enabled: true
-  servers:
-    main:
-      label: 'domain'
-      host: 'ad.example.com'
-      port: 389 
-      uid: 'sAMAccountName'
-      method: 'plain' 
-      bind_dn: 'CN=Git Lab,OU=AB,OU=example,DC=example,DC=com'
-      password: 'secret'
-      allow_username_or_email_login: true
-      active_directory: true
-      base: 'OU=example,DC=example,DC=com'
-      user_filter: '(memberOf=cn=devs,ou=groups,dc=example,dc=com)'
-</code></pre>
-
-<p>The <code>bind_dn</code> is for a user called 'Git Lab', and you must suppoly the password. This user was expressly setup just for this, but you can use any user. The <code>base</code> is the level of Active Directory that Gitlab searches for users from. Finally, the <code>user_filter</code> states that users must members of <code>devs</code> in order to be able to login.</p>
- 
-    <hr />
-</div><!--/.post-->
-<div class="post">
-    <h1 class="title">
-        <a href="/2015/03/19/asp-net-bootstrap-form-control-width/">ASP.Net Bootstrap 3 form control width</a>
-    </h1>
-    <h2>Thursday, 19 Mar, 2015</h2>
-    <div class="pull-right">
-        <i class="fa fa-comment">&nbsp;</i><span class="disqus-comment-count" data-disqus-url="http://www.temporalcohesion.co.uk/2015/03/19/asp-net-bootstrap-form-control-width/">
-    </div>
-    <div class="meta">
-        <ul class="list-unstyled list-inline">
-            <li><a href="/category">Categories:</a>
-            <a href="/category/asp.net" title="asp.net">asp.net</a>
-            <a href="/category/bootstrap" title="bootstrap">bootstrap</a>
-            </li>
-        </ul>
-    </div>
-    <hr />
-
-    
-
-<p>Having just been stumped on this for longer than I care to admit, and only finding the answer to my problem buried in a <a href="http://stackoverflow.com/questions/11232627/perfect-100-width-of-parent-container-for-a-bootstrap-input#comment41021912_11232628">comment</a> on StackOverflow, I'm posting it here for my own future reference:</p>
-
-<p>Q: Using ASP.Net MVC with Bootstrap 3, why won't my <code>&lt;input&gt;</code> stretch to the full width of a <code>&lt;div class="form-group"&gt;</code>, even though I am putting <code>form-control</code> on the css class?</p>
-
-<p>A: Because Microsoft override <code>input</code>, <code>select</code> and <code>textarea</code> to have <code>max-width: 280px</code> in the default <code>Site.css</code> which is added to new projects. Removing this will allow the 100% width from <code>form-control</code>.</p>
- 
-    <hr />
-</div><!--/.post-->
-
-<!-- Pagination links -->
-<div id="post-pagination" class="pagination">
-
-
-
-    <!--<a href="/">Previous Page</a>-->
-
-    <p class="previous">
-    <a href="/page2">Next Page</a>
-    </p>
-
-</div>
-
-
-        
-        <hr />
-        <footer>
-            <p>&copy; temporalcohesion.co.uk 2014-15 | Powered by <a href="https://github.com/Sandra/Sandra.Snow" rel="generator">Sandra.Snow</a></p>
-        </footer>
-
-    </div><!-- /.container -->
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript">
-var _gaq = _gaq || [];
-
-_gaq.push(['_setAccount', 'UA-9870754-1']);
-_gaq.push(['_trackPageview']);
-        
-(function () {
-    var ga = document.createElement('script');
-    ga.type = 'text/javascript';
-    ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(ga, s);
-})();
-</script>
-
-    <script src="/javascripts/prettify.js"></script>
-    <script type='text/javascript'>
-      $(function () {
-        $("pre code").parent().each(function () {
-          if (!$(this).hasClass("prettyprint")) {
-            $(this).addClass("prettyprint");
-            a = true
-          }
-        });
-
-        prettyPrint();
-      });
-    </script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=sons-of-obsidian"></script>
-    <script src="/javascripts/cohesion.js"></script>
-<script type="text/javascript">
-var disqus_shortname = 'temporalcohesion'; 
-
-(function () {
-var s = document.createElement('script'); s.async = true;
-s.type = 'text/javascript';
-s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-}());
-</script>
-</body>
-</html>

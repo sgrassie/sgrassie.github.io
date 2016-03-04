@@ -1,2 +1,4 @@
-*.swo
-*.swp
+_config.yml
+_site/*
+*Thumbs.db
+Gemfile.lock
