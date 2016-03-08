@@ -13,6 +13,7 @@ I thought to myself that it's only going to have a few classes, I mean just beca
 
 It doesn't mean I don't have to use dependency injection. [Mark Seemann](https://twitter.com/ploeh) calls this "Poor Man's DI".
 
+{% highlight csharp %}
     static class Program
     {
         [STAThread]
@@ -25,6 +26,7 @@ It doesn't mean I don't have to use dependency injection. [Mark Seemann](https:/
             Application.Run(new Main(service));
         }
     }
+{% endhighlight %}
 
 It's short and sweet, and there is no IOC container configuration to worry about. Because I don't need to.
 

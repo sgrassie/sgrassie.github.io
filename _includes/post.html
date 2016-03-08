@@ -16,6 +16,7 @@
 	   {% endcase %}
 	   {{ page.date | date: "%Y" }}
 	 </span>
+         <span>{% include wordcount.html %}</span>
 	  <div class="article_body">
 	  {{ content }}
 	  </div>
