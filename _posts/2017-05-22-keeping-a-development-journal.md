@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Keeping a development journal
+category: general
 ---
 Since I started working as a programmer, I've always taken notes in meetings, and jotted things down during the day to remember, but these were all usually on an A4 notepad, which I've always used as a daily scratch pad, and until recently I have never kept a proper journal which I could refer back to at a later time.
 
