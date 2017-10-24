@@ -31,8 +31,8 @@ author:
   email_md5: 77b10422593a1c0b9b170f4513fb0c0c
 
 rss_path: feed.xml
-categories_path: categories.html
-tags_path: tags.html
+categories_path: categories/
+tags_path: tags/
 
 # set it as url of an image
 # sidebar_background_image: https://www.dropbox.com/s/g9h23zrycedxtk5/sky.png?raw=1
