@@ -26,56 +26,64 @@ Follow the guidance up to the section on using Ninject, at which point we now wa
 
 The implementation is nearly identical, with some obvious StructureMap specific differences:
 
-    public class StructureMapSignalRDependencyResolver : DefaultDependencyResolver
+{% highlight csharp %}
+public class StructureMapSignalRDependencyResolver : DefaultDependencyResolver
+{
+    private readonly IContainer _container;
+
+    public StructureMapSignalRDependencyResolver(IContainer container)
     {
-        private readonly IContainer _container;
-        
-        public StructureMapSignalRDependencyResolver(IContainer container)
-        {
-       	    _container = container;
-        }
-        
-        public override object GetService(Type serviceType)
-        {
-       	    return _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
-        }
-        
-        public override IEnumerable<object> GetServices(Type serviceType)
-        {
-       	    var objects = _container.GetAllInstances(serviceType).Cast<object>();
-       	    return objects.Concat(base.GetServices(serviceType));
-        }
+   	    _container = container;
     }
+    
+    public override object GetService(Type serviceType)
+    {
+        return _container.TryGetInstance(serviceType) ?? base.GetService(serviceType);
+    }
+    
+    public override IEnumerable<object> GetServices(Type serviceType)
+    {
+        var objects = _container.GetAllInstances(serviceType).Cast<object>();
+        return objects.Concat(base.GetServices(serviceType));
+    }
+}
+{% endhighlight %}    
 
 The behaviour is fairly similar. `TryGetInstance` will attempt to resolve the type, and if it doesn't know about it, will return null, in which case we call the base resolver, which does.
 
 Register this with StructureMap:
 
-    For<IDependencyResolver>().Singleton().Use<StructureMapSignalRDependencyResolver>();
+{% highlight csharp %}
+For<IDependencyResolver>().Singleton().Use<StructureMapSignalRDependencyResolver>();
+{% endhighlight %}    
 
 In your `Startup`, where you configure SignalR, we need to use this new resolver implementation:
 
-    var resolver = DependencyResolver.Current.GetService<Microsoft.AspNet.SignalR.IDependencyResolver>();
+{% highlight csharp %}
+var resolver = DependencyResolver.Current.GetService<Microsoft.AspNet.SignalR.IDependencyResolver>();
     
-    var hubConfiguration = new HubConfiguration
-    {
-        Resolver = resolver
+var hubConfiguration = new HubConfiguration
+{
+    Resolver = resolver
 
-	/* other options as required */
-    };
+    /* other options as required */
+};
+{% endhighlight %}    
 
 Here, we are using the MVC DependencyResolver, which has already been replaced by StructureMap thanks to StructureMap.MVC5, to resolve an instance of the SignalR dependency resolver we've registered, which we then tell SignalR to use with a hub configuration object.
 
 Now we just need to configure the StructureMap registry, and teach it how to resolve `IHubConnectionContext<dynamic>`:
 
-    For<IConnectionManager>().Use<ConnectionManager>();
-    For<IStockTicker>()
-        .Singleton()
-        .Use<StockTicker>()
-        .Ctor<IHubConnectionContext<dynamic>>()
-        .Is(ctx => ctx.GetInstance<IDependencyResolver>()
-            .Resolve<IConnectionManager>()
-            .GetHubContext<StockTickerHub>().Clients);
+{% highlight csharp %}
+For<IConnectionManager>().Use<ConnectionManager>();
+For<IStockTicker>()
+    .Singleton()
+    .Use<StockTicker>()
+    .Ctor<IHubConnectionContext<dynamic>>()
+    .Is(ctx => ctx.GetInstance<IDependencyResolver>()
+        .Resolve<IConnectionManager>()
+        .GetHubContext<StockTickerHub>().Clients);
+{% endhighlight %}    
 
 As in the guidance, we want the `StockTicker` instance to be a singleton, and we have specify how to resolve the `IHubConnectionContext<dynamic>` which the `StockTicker` requires. In the `Is`, I'm using the context to resolve the default SignalR connection manager we've registered. This isn't in the guidance, but I couldn't get it work without doing this.
 
