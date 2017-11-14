@@ -8,7 +8,7 @@ I thought Freecell would make a fine basis for talking about Test Driven Develop
 
 The rules are fairly simple:
 
-- The is one standard deck of cards, shuffled.
+- There is one standard deck of cards, shuffled.
 - There are four "Free" _Cell_ piles, which may each have any one card stored in it.
 - There are four _Foundation_ piles, one for each suit.
 - The cards are dealt face-up left-to-right into eight _cascades_
@@ -22,89 +22,9 @@ The rules are fairly simple:
 
 These rules will form the basis of a Frecell Rules Engine. Note that we're not interested in a UI at the moment.
 
-# Our first test
-Before we can write our first test, we need to set the project up. I'm writing this on a Mac, but thanks to the wonder of modern C#, things should work just the same on Linux, or even Windows.
+This post is a follow on from my previous post of how to setup a dotnet core environment for doing TDD.
 
-We need to new up two projects, one for our rules engine, and one for the tests.
-{% highlight bash %}
-nostromo:dev stuart$ mkdir freecell
-nostromo:dev stuart$ dotnet new classlib -o freecell/Freecell.Engine -n Freecell.Engine
-The template "Class library" was created successfully.
-
-Processing post-creation actions...
-Running 'dotnet restore' on freecell/Freecell.Engine/Freecell.Engine.csproj...
-  Restoring packages for /Users/stuart/dev/freecell/Freecell.Engine/Freecell.Engine.csproj...
-  Generating MSBuild file /Users/stuart/dev/freecell/Freecell.Engine/obj/Freecell.Engine.csproj.nuget.g.props.
-  Generating MSBuild file /Users/stuart/dev/freecell/Freecell.Engine/obj/Freecell.Engine.csproj.nuget.g.targets.
-  Restore completed in 133.35 ms for /Users/stuart/dev/freecell/Freecell.Engine/Freecell.Engine.csproj.
-
-
-Restore succeeded.
-
-nostromo:dev stuart$ dotnet new xunit -o freecell/Freecell.Engine.Tests -n Freecell.Engine.Tests
-The template "xUnit Test Project" was created successfully.
-
-Processing post-creation actions...
-Running 'dotnet restore' on freecell/Freecell.Engine.Tests/Freecell.Engine.Tests.csproj...
-  Restoring packages for /Users/stuart/dev/freecell/Freecell.Engine.Tests/Freecell.Engine.Tests.csproj...
-  Generating MSBuild file /Users/stuart/dev/freecell/Freecell.Engine.Tests/obj/Freecell.Engine.Tests.csproj.nuget.g.props.
-  Generating MSBuild file /Users/stuart/dev/freecell/Freecell.Engine.Tests/obj/Freecell.Engine.Tests.csproj.nuget.g.targets.
-  Restore completed in 1.43 sec for /Users/stuart/dev/freecell/Freecell.Engine.Tests/Freecell.Engine.Tests.csproj.
-
-
-Restore succeeded.
-
-nostromo:dev stuart$ cd freecell/
-nostromo:freecell stuart$ git init
-Initialized empty Git repository in /Users/stuart/dev/freecell/.git/
-nostromo:freecell stuart$ git add --all
-nostromo:freecell stuart$ git commit -m "Initial commit"
-[master (root-commit) 2cc150c] Initial commit
- 12 files changed, 6025 insertions(+)
- create mode 100644 Freecell.Engine.Tests/Freecell.Engine.Tests.csproj
- create mode 100644 Freecell.Engine.Tests/UnitTest1.cs
- create mode 100644 Freecell.Engine.Tests/obj/Freecell.Engine.Tests.csproj.nuget.cache
- create mode 100644 Freecell.Engine.Tests/obj/Freecell.Engine.Tests.csproj.nuget.g.props
- create mode 100644 Freecell.Engine.Tests/obj/Freecell.Engine.Tests.csproj.nuget.g.targets
- create mode 100644 Freecell.Engine.Tests/obj/project.assets.json
- create mode 100644 Freecell.Engine/Class1.cs
- create mode 100644 Freecell.Engine/Freecell.Engine.csproj
- create mode 100644 Freecell.Engine/obj/Freecell.Engine.csproj.nuget.cache
- create mode 100644 Freecell.Engine/obj/Freecell.Engine.csproj.nuget.g.props
- create mode 100644 Freecell.Engine/obj/Freecell.Engine.csproj.nuget.g.targets
- create mode 100644 Freecell.Engine/obj/project.assets.json
-nostromo:freecell stuart$ 
-{% endhighlight%}
-The command `dotnet new console` instructs the framework to create a new console application. The `-o` option allows an output directory to be specified and the `-n` allows the project name to be specified. You can see more details on the command on [Microsoft's documentation](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-new?tabs=netcore2x).
-
-As you can see, I also initialised a git repository and made an initial commit. We still have a little more to do before we can write our first test though. For our convenience, we should add a solution file, and then because we want to unit test our `Freecell.Engine`, we need to add it as a reference to the unit test project.
-{% highlight bash %}
-nostromo:freecell stuart$ dotnet new sln -n Freecell.Engine
-The template "Solution File" was created successfully.
-nostromo:freecell stuart$ dotnet sln add Freecell.Engine/Freecell.Engine.csproj 
-Project `Freecell.Engine/Freecell.Engine.csproj` added to the solution.
-nostromo:freecell stuart$ dotnet sln add Freecell.Engine.Tests/Freecell.Engine.Tests.csproj 
-Project `Freecell.Engine.Tests/Freecell.Engine.Tests.csproj` added to the solution.
-nostromo:freecell stuart$ git add .
-nostromo:freecell stuart$ git commit -m "Add solution file"
-[master b10cf9a] Add solution file
- 1 file changed, 48 insertions(+)
- create mode 100644 Freecell.Engine.sln
-nostromo:freecell stuart$ 
-nostromo:freecell stuart$ cd Freecell.Engine.Tests/
-nostromo:Freecell.Engine.Tests stuart$ dotnet add reference ../Freecell.Engine/Freecell.Engine.csproj 
-Reference `..\Freecell.Engine\Freecell.Engine.csproj` added to the project.
-nostromo:Freecell.Engine.Tests stuart$ 
-nostromo:Freecell.Engine.Tests stuart$ cd ..
-nostromo:freecell stuart$ git add .
-nostromo:freecell stuart$ git commit -m "Add reference to project under to test to unit test library"
-[master 727bfe9] Add reference to project under to test to unit test library
- 1 file changed, 19 insertions(+), 15 deletions(-)
-nostromo:freecell stuart$ 
-{% endhighlight %}
-We create a new solution file named `Freecell.Engine`, and then add both of the projects we've created to it. Moving into the test project folder, we add a reference to the project under test, and then moving back up to the parent folder we commit all our changes. And we still haven't written a unit test.
-
-# Actually writing our first test
+# red - first test
 We know from the rules that we need a standard deck of cards to work with, so our initial test could assert that we can create an array, of some type that is yet to be determined, which has a length of 51.
 {% highlight csharp %}
 [Fact]
@@ -116,77 +36,105 @@ public void Should_CreateAStandardDeckOfCards()
 {% endhighlight %}
 There! Our first test. It fails (by not compiling). We've obeyed [The 3 Laws of TDD](http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd): We've not written any production code and we've only written enough of the unit test to make it fail. We can make the test pass by creating a `Deck` class in the `Freecell.Engine` project. Time for another commit:
 
+# green - it passes
+It is trivial to make our first test pass, as all we need to do is create a new class in our `Freecell.Engine` project, and our test passes as it now compiles. We can prove this by instructing `dotnet` to run our unit tests for us:
 {% highlight bash %}
-nostromo:freecell stuart$ git status
-On branch master
-Changes not staged for commit:
-  (use "git add/rm <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-	deleted:    Freecell.Engine.Tests/UnitTest1.cs
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-	.vscode/
-	Freecell.Engine.Tests/DeckTests.cs
-	Freecell.Engine.Tests/obj/Debug/
-	Freecell.Engine/obj/Debug/
-
-no changes added to commit (use "git add" and/or "git commit -a")
-nostromo:freecell stuart$ 
+nostromo:Freecell.Engine.Tests stuart$ dotnet watch xunit
+watch : Started
+Detecting target frameworks in Freecell.Engine.Tests.csproj...
+Building for framework netcoreapp2.0...
+  Freecell.Engine -> /Users/stuart/dev/freecell/Freecell.Engine/bin/Debug/netstandard2.0/Freecell.Engine.dll
+  Freecell.Engine.Tests -> /Users/stuart/dev/freecell/Freecell.Engine.Tests/bin/Debug/netcoreapp2.0/Freecell.Engine.Tests.dll
+Running .NET Core 2.0.0 tests for framework netcoreapp2.0...
+xUnit.net Console Runner (64-bit .NET Core 4.6.00001.0)
+  Discovering: Freecell.Engine.Tests
+  Discovered:  Freecell.Engine.Tests
+  Starting:    Freecell.Engine.Tests
+  Finished:    Freecell.Engine.Tests
+=== TEST EXECUTION SUMMARY ===
+   Freecell.Engine.Tests  Total: 1, Errors: 0, Failed: 0, Skipped: 0, Time: 0.142s
+watch : Exited
+watch : Waiting for a file to change before restarting dotnet...
 {% endhighlight %}
-Something I forgot to do (and I nearly always forget this) is to create a `.gitignore` file, so folders and files that we don't care about don't get added to our repository. As it's C#, we can just use the [Visual Studio](https://github.com/github/gitignore/blob/master/VisualStudio.gitignore) file on github, which is fairly standard.
-{% highlight bash %}
-nostromo:freecell stuart$ wget -O .gitignore https://raw.githubusercontent.com/github/gitignore/master/VisualStudio.gitignore
---2017-11-07 21:45:09--  https://raw.githubusercontent.com/github/gitignore/master/VisualStudio.gitignore
-Resolving raw.githubusercontent.com... 151.101.16.133
-Connecting to raw.githubusercontent.com|151.101.16.133|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 2323 (2.3K) [text/plain]
-Saving to: '.gitignore'
+It is important to make sure to run `dotnet xunit` from within the test project folder, you can't pass the path to the test project like you can with `dotnet test`. As you can see, I've also started watching xunit, and the runner is now going to wait until I make and save a change before automatically compiling and running the tests.
 
-.gitignore          100%[===================>]   2.27K  --.-KB/s    in 0s      
+# red, green
+This first unit test still doesn't really test very much, and because we are obeying the 3 TDD rules, it forces us to think a little before we write any test code. When looking at the rules, I think we will probably want the ability to move through our deck of cards and have the ability to remove cards from the deck. So, with this in mind, the most logical thing to do is to make the `Deck` class enumerable. We could test that by checking a length property. Still in our first test, we can add this:
+{% highlight csharp %}
+var sut = new Deck();
 
-2017-11-07 21:45:14 (10.4 MB/s) - '.gitignore' saved [5070]
-
-nostromo:freecell stuart$ echo ".vscode" >> .gitignore 
-nostromo:freecell stuart$ git add --all
-nostromo:freecell stuart$ git status
-On branch master
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-	new file:   .gitignore
-	renamed:    Freecell.Engine.Tests/UnitTest1.cs -> Freecell.Engine.Tests/DeckTests.cs
-
-nostromo:freecell stuart$ 
+var length = sut.Length;
 {% endhighlight %}
-Using wget to download the file and renaming it on the fly to `.gitignore`, and then also appending another directory to it to ignore. We can then stage all our changes, using the `--all` option, which makes git understand that we renamed a file. We can `git commit` our staged changes, and all is well.
-
-Except we still need to make our first test pass. This is trivial, as all we need to do is create a new class in our `Freecell.Engine` project, and our test passes as it now compiles. We can prove this by instructing `dotnet` to run our unit tests for us:
+If I switch over to our `dotnet watch` window, we get the immediate feedback that this has failed:
 {% highlight bash %}
-nostromo:freecell stuart$ dotnet test Freecell.Engine.Tests/Freecell.Engine.Tests.csproj 
-Build started, please wait...
-Build completed.
+Detecting target frameworks in Freecell.Engine.Tests.csproj...
+Building for framework netcoreapp2.0...
+  Freecell.Engine -> /Users/stuart/dev/freecell/Freecell.Engine/bin/Debug/netstandard2.0/Freecell.Engine.dll
+DeckTests.cs(13,30): error CS1061: 'Deck' does not contain a definition for 'Length' and no extension method 'Length' accepting a first argument of type 'Deck' could be found (are you missing a using directive or an assembly reference?) [/Users/stuart/dev/freecell/Freecell.Engine.Tests/Freecell.Engine.Tests.csproj]
+Build failed!
+watch : Exited with error code 1
+watch : Waiting for a file to change before restarting dotnet...
+{% endhighlight %}
+We know that we have a pretty good idea that we're going to make the `Deck` class enumerable, and probably make it in implement `IEnumerable<>`, then we could add some sort of internal array to hold another type, probably a `Card` and then right a bunch more code that will make our test pass.
 
-Test run for /Users/stuart/dev/freecell/Freecell.Engine.Tests/bin/Debug/netcoreapp2.0/Freecell.Engine.Tests.dll(.NETCoreApp,Version=v2.0)
-Microsoft (R) Test Execution Command Line Tool Version 15.3.0-preview-20170628-02
-Copyright (c) Microsoft Corporation.  All rights reserved.
+But that would violate the 3rd rule, so instead, we simply add a `Length` property to the `Deck` class:
+{% highlight csharp %}
+public class Deck 
+{
+    public int Length {get;}
+}
+{% endhighlight %}
+This makes our test happy, because it compiles again. But it still doesn't assert anything. Let's fix that, and assert that the `Length` property actually has a length that we would expect a deck of cards to have, namely 52:
+{% highlight csharp %}
+var sut = new Deck();
 
-Starting test execution, please wait...
-[xUnit.net 00:00:00.6338560]   Discovering: Freecell.Engine.Tests
-[xUnit.net 00:00:00.7194760]   Discovered:  Freecell.Engine.Tests
-[xUnit.net 00:00:00.7610890]   Starting:    Freecell.Engine.Tests
-[xUnit.net 00:00:00.9166210]   Finished:    Freecell.Engine.Tests
+var length = sut.Length;
 
-Total tests: 1. Passed: 1. Failed: 0. Skipped: 0.
-Test Run Successful.
-Test execution time: 1.7611 Seconds
-nostromo:freecell stuart$ 
+length.Should().Be(51);
+{% endhighlight %}
+The last line of the test asserts through the use of [FluentAssertions](http://fluentassertions.com/) that the `Length` property should be 51. I like FluentAssertions, I think it looks a lot cleaner than writing something like `Assert.True(sut.Length, 51)`, and it's quite easy to read and understand: 'Length' should be 51. I love it. We can add it with the command `dotnet add package FluentAssertions`. Fix the using reference in the test class so that it compiles, and then check our watch window:
+{% highlight bash %}
+Detecting target frameworks in Freecell.Engine.Tests.csproj...
+Building for framework netcoreapp2.0...
+  Freecell.Engine -> /Users/stuart/dev/freecell/Freecell.Engine/bin/Debug/netstandard2.0/Freecell.Engine.dll
+  Freecell.Engine.Tests -> /Users/stuart/dev/freecell/Freecell.Engine.Tests/bin/Debug/netcoreapp2.0/Freecell.Engine.Tests.dll
+Running .NET Core 2.0.0 tests for framework netcoreapp2.0...
+xUnit.net Console Runner (64-bit .NET Core 4.6.00001.0)
+  Discovering: Freecell.Engine.Tests
+  Discovered:  Freecell.Engine.Tests
+  Starting:    Freecell.Engine.Tests
+    Freecell.Engine.Tests.DeckTests.Should_CreateAStandardDeckOfCards [FAIL]
+      Expected value to be 51, but found 0.
+      Stack Trace:
+           at FluentAssertions.Execution.XUnit2TestFramework.Throw(String message)
+           at FluentAssertions.Execution.AssertionScope.FailWith(String message, Object[] args)
+           at FluentAssertions.Numeric.NumericAssertions`1.Be(T expected, String because, Object[] becauseArgs)
+        /Users/stuart/dev/freecell/Freecell.Engine.Tests/DeckTests.cs(16,0): at Freecell.Engine.Tests.DeckTests.Should_CreateAStandardDeckOfCards()
+  Finished:    Freecell.Engine.Tests
+=== TEST EXECUTION SUMMARY ===
+   Freecell.Engine.Tests  Total: 1, Errors: 0, Failed: 1, Skipped: 0, Time: 0.201s
+watch : Exited with error code 1
+watch : Waiting for a file to change before restarting dotnet...
+{% endhighlight %}
+
+Now to make our test past, we could again just start implementing `IEnumerable<>`, but that's not TDD, and Uncle Bob might get upset at me. Instead, we will do the simplest thing that will make the test pass:
+{% highlight csharp %}
+public class Deck
+{
+    public int Length { get { return new string[51].Length; }}
+}
+{% endhighlight %}
+
+# refactor
+Now that we have a full test with an assertion that passes, we can about the refactor stage of the red/gree/refactor TDD cycle. As it stands, our simple classes passes our test but we can see right away that newing up an array in the getter of the `Length` property is not going to be something that is going to serve our interests well in the long run, so we should do something about that. Making it a member variable seems to be the most logical thing to do at the moment, so we'll do that. We don't need to make any changes to our test on the refactor stage. If we do, that's a design smell that would indicate that something is wrong.
+{% highlight csharp %}
+ublic class Deck
+{
+    private const int _size = 51;
+    private string[] _cards = new string[_size];
+    public int Length { get { return _cards.Length; }}
+}
 {% endhighlight %}
 
 # Conclusion
-In this post I reminded you of the rules of Freecell and demonstrated how to setup a dotnet core class library project, xunit test project and add them to a solution. I showed some simple git commands to initialise a new repository and get our project into source control, and how we can use `wget` to download a file for us (I could just have easily done `File > Save As` on the raw file in Firefox, but using `wget` is more fun).
-
-Next time, we'll concentrate more on writing unit tests to explore the API of our `Deck` class.
+In this post, we've fleshed out our `Deck` class a little more, and gone through the full red/green/refactor TDD cycle. I also introduced `FluentAssertions`, and showed the output from the watch window as it showed the test failing
