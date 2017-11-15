@@ -129,7 +129,7 @@ nostromo:Freecell.Engine.Tests stuart$
 {% endhighlight %}
 As you can see, we get much nicer output than if we just used the standard `dotnet test` command. Using this command also has the added benefit of being able to produce xml output which can be consumed by a CI server to show details about the unit tests, but that isn't somethin that I'm going to get into just yet.
 
-I'm also going to get rid of the xUnit Visual Studio runner now as well, as it is somthing the `dotnet new xunit` template installed for us, but it's just noise to me, and I personally don't use the test runner in VS anyway. Executing `dotnet remove package xunit.runner.visualstudio` does this for us.
+I'm also going to update the xUnit Visual Studio runner now as well, as it is required to make VS Code debug our tests, which will come in handy later on. Executing `dotnet add package xunit.runner.visualstudio` does this for us.
 
 # dotnet watch
 I am a big fan of [NCrunch](http://www.ncrunch.net), and the rapid and immediate feedback which it provides when coding in Visual Studio. Sadly, it's not available for Visual Studio Code, or indeed for macOS, so in order to replicate the functionality it provides, we can make a few tweaks to our test project and watch our code for changes which are then automatically compiled and the tests ran.  In order to get the _NCrunch_-like functionality, we need to add the `dotnet watch` cli command. This is fairly straightforward.
