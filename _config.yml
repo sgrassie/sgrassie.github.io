@@ -4,7 +4,7 @@ permalink:      /:year/:month/:day/:title/
 # Setup
 title:          temporalcohesion.co.uk
 description:    A blog about csharp, clean code, software design and line of business applications
-paginate:       5
+paginate:       20
 baseurl:        ""
 url:            "http://temporalcohesion.co.uk"
 rss_path:       feed.xml
@@ -16,6 +16,7 @@ sass:
 
 # Build settings
 markdown:       kramdown
+highlighter:    rouge
 disqus:         temporalcohesion
 google_analytics: UA-9870754-1
 

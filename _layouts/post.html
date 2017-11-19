@@ -1,38 +1,27 @@
+--- 
+layout: default 
 ---
-layout: default
----
-
-<div class="post">
-  <div class="post-info">
-    <span>Written by</span>
-    {% if page.author %}
-        {{ page.author }}
-    {% else %}
-        {{ site.author.name }}
-    {% endif %}
-
-    {% if page.date %}
-      <br>
-      <span>on&nbsp;</span><time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
-    {% endif %}
-  </div>
-
-  <h1 class="post-title">{{ page.title }}</h1>
-  <div class="post-line"></div>
-
+<article>
+  <header>
+    <h1 class="display-1">{{ page.title }}</h1>
+  </header>
+  {% if page.date %}
+  <time class="text-muted" datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
+  {% endif %} 
+  {% if page.description %}
+  <span class="text-muted">: {{ page.description }}</span>
+  {% endif %} 
+  
   {{ content }}
 
-</div>
+  <address class="text-muted">
+    Written by Stuart 
+    {% if page.date %}
+    <span>on&nbsp;</span>
+    <time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
+    {% endif %}
+  </address>
+  {% include disqus.html %}
+</article>
 
-{% include disqus.html %}
-
-<div class="pagination">
-  {% if page.next.url %}
-    <a href="{{ page.next.url | prepend: site.baseurl }}" class="left arrow">&#8592;</a>
-  {% endif %}
-  {% if page.previous.url %}
-    <a href="{{ page.previous.url | prepend: site.baseurl }}" class="right arrow">&#8594;</a>
-  {% endif %}
-
-  <a href="#" class="top">Top</a>
-</div>
+{% include page_pagination.html %}

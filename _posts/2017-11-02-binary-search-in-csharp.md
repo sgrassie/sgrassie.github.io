@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Binary search in C#
+description: An implementation of the classic Binary Search in C#
 ---
 # Introduction
 Binary search is the classic search algorithm, and I remember implementing it in C at University. As an experiment I'm going to implement it in C# to see if the line of business applications I usually build have rotted my brain.
@@ -90,7 +91,7 @@ class Program
 
 Here is the output:
 
-{% highlight bash %}
+{% highlight console %}
 nostromo:sandbox stuart$ dotnet run
 Found term 11 at position -1
 Found term 0 at position -1
