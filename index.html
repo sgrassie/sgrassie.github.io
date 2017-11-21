@@ -1,22 +1,24 @@
----
-layout: default
-title: Index
----
-     {% for post in paginator.posts %}
+--- 
+layout: default 
+title: Index 
+--- 
+{% for post in paginator.posts %}
+<section>
     <div class="row">
         <div class="col">
-                <a href="{{post.url | prepend: site.baseurl }}">
-                    <h1>{{ post.title }}</h1>
-                </a>
-                    <time class="text-muted" datetime="{{ post.date }}">{{ post.date | date: "%B %d, %Y" }}</time>
-                {% if post.description %}
+            <a href="{{post.url | prepend: site.baseurl }}">
+                <h1>{{ post.title }}</h1>
+            </a>
+            <time class="text-muted" datetime="{{ post.date }}">{{ post.date | date: "%B %d, %Y" }}</time>
+            {% if post.description %}
             <span class="text-muted">
                 : {{ post.description }}
             </span>
             {% endif %}
         </div>
-    </div>
-    {% endfor %}
+</section>
+{% endfor %}
+<section>
     <div class="row">
         <div class="col">
             {% if paginator.previous_page %}
@@ -32,3 +34,4 @@ title: Index
             {% endif %}
         </div>
     </div>
+</section>

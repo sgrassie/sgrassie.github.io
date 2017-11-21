@@ -8,20 +8,22 @@ layout: default
   {% if page.date %}
   <time class="text-muted" datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
   {% endif %} 
+  
   {% if page.description %}
   <span class="text-muted">: {{ page.description }}</span>
   {% endif %} 
   
   {{ content }}
 
-  <address class="text-muted">
-    Written by Stuart 
-    {% if page.date %}
-    <span>on&nbsp;</span>
-    <time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
-    {% endif %}
-  </address>
-  {% include disqus.html %}
+  <footer>
+    <address class="text-muted">
+      Written by Stuart {% if page.date %}
+      <span>on&nbsp;</span>
+      <time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
+      {% endif %}
+    </address>
+    {% include disqus.html %}
+  </footer>
 </article>
 
 {% include page_pagination.html %}
