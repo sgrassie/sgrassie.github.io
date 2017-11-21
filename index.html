@@ -2,22 +2,30 @@
 layout: default 
 title: Index 
 --- 
-{% for post in paginator.posts %}
 <section>
     <div class="row">
-        <div class="col">
-            <a href="{{post.url | prepend: site.baseurl }}">
-                <h1>{{ post.title }}</h1>
-            </a>
-            <time class="text-muted" datetime="{{ post.date }}">{{ post.date | date: "%B %d, %Y" }}</time>
-            {% if post.description %}
-            <span class="text-muted">
-                : {{ post.description }}
-            </span>
-            {% endif %}
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col">
+                {% for post in paginator.posts %}
+                    <div class="row">
+                        <div class="col">
+                            <h1>
+                                <a href="{{post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                            </h1>
+                            <time class="text-muted" datetime="{{ post.date }}">{{ post.date | date: "%B %d, %Y" }}</time>
+                            {% if post.description %}
+                            <span class="text-muted">: {{ post.description }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
         </div>
+        <div class="col"><aside></aside></div>
+    </div>
 </section>
-{% endfor %}
 <section>
     <div class="row">
         <div class="col">
