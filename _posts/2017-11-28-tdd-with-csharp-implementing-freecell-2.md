@@ -2,6 +2,7 @@
 layout: post
 title: "Test Driven Development: Implementing Freecell - part 2"
 description: Developing a Freecell rules engine, using Test Driven Development in csharp - part 2
+series: "TDD: Implementing Freecell"
 ---
 # Introduction
 In the previous post in this series, we had finished up with a very basic unit test, which didn't really test much, which we had ran using `dotnet xunit` in a console, and saw some lovely output.

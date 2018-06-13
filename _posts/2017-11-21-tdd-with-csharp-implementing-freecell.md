@@ -2,6 +2,7 @@
 layout: post
 title: "Test Driven Development: Implementing Freecell"
 description: Developing a Freecell rules engine, using Test Driven Development in csharp
+series: "TDD: Implementing Freecell"
 ---
 # Introduction
 I thought Freecell would make a fine basis for talking about Test Driven Development. It is a game which I enjoy playing. I have an app for it on my phone, and it's been available on Windows for as long as I can remember, although I'm writing this on a Mac, which does not by default have a Freecell game.
