@@ -8,6 +8,7 @@ paginate:       20
 baseurl:        ""
 url:            "http://temporalcohesion.co.uk"
 rss_path:       feed.xml
+remote_theme:    haacked/haackbar
 
 # Assets
 sass:
