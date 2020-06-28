@@ -2,11 +2,16 @@
 <html lang="en">
 {% include head.html %}
 <body>
-  {% include navigation.html %}
-  <main class="container">
-    {{ content }} 
+  <main class="container-fluid h-100">
+    <div class="row h-100">
+      <div class="col-3" id="sidebar">
+        {% include sidebar.html %}
+      </div>
+      <div class="col-9">
+           {{ content }} 
+      </div>
+    </div>
   </main>
-  {% include footer.html %}
   {% include javascripts.html %}
 </body>
 </html>

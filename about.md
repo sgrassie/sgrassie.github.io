@@ -5,7 +5,7 @@ author: "Stuart"
 permalink: /about/
 ---
 
-I am a software developer, residing in the North West of England. I contract my services through [FY7 Software](http://www.fy7softwarelimited.co.uk). I have a daughter, and inbetween spending time with her I support Liverpool Football Club and read a lot of books.
+I am a software developer, residing in the North West of England. I contract my services through [FY7 Software](http://www.fy7softwarelimited.co.uk). I have a daughter, and in between spending time with her I support Liverpool Football Club and read a lot of books.
 
 # Contact
 You can contact me in any of the following ways:
