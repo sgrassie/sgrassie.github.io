@@ -1,10 +1,12 @@
-<footer class="bg-light">
-    <span>
-        &copy;
-        <time datetime="{{ site.time }}">{{ site.time | date: '%Y' }}</time> {{ site.author.name }}. Powered by Jekyll on Github Pages, 
-        with hacked together bits and pieces and bootstrap 4.
-        <a href="{{ site.url }}/{{ site.rss_path }}">
-            <i class="fa fa-rss fa-sm"></i> 
-        </a>
-    </span>
-</footer>
+<footer id="colophon" class="site-footer">
+    <p class="site-info inner">
+        <a href="#">{{ site.name }}</a> &copy; {{ site.time | date: '%Y' }}. Royce theme by
+        <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>.
+        <br />
+        Powered by <a target="_blank" href="https://jekyllrb.com/">Jekyll</a>.
+    </p>
+    <a id="back-to-top" class="back-to-top" href="#page">
+        <span class="icon-arrow-up" aria-hidden="true"></span>
+        <span class="screen-reader-text">Back to top</span>
+    </a>
+</footer><!-- .site-footer -->

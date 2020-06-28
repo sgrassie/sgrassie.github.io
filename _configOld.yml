@@ -1,0 +1,58 @@
+# Permalinks
+permalink:      /:year/:month/:day/:title/
+
+# Setup
+title:          temporalcohesion.co.uk
+description:    A blog about csharp, clean code, software design and line of business applications
+paginate:       20
+baseurl:        ""
+url:            "http://temporalcohesion.co.uk"
+rss_path:       feed.xml
+
+# Assets
+sass:
+  sass_dir:     _sass
+  style:        :compressed
+
+# Build settings
+markdown:       kramdown
+highlighter:    rouge
+disqus:         temporalcohesion
+google_analytics: UA-9870754-1
+
+# About
+author:
+  name:         Stuart Grassie 
+  url:          http://grassie.info
+  email:        sgrassie@gmail.com
+  github:       sgrassie
+  twitter:      stugrassie
+  linkedin:     sgrassie
+  bio:          A software developer in the North of England.
+  email_md5:    77b10422593a1c0b9b170f4513fb0c0c
+  
+social:
+  name:         Stuart Grassie 
+  links:
+    - https://twitter.com/stugrassie
+    - https://facebook.com/sgrassie
+    - https://github.com/sgrassie
+    - https://linkedin.com/in/sgrassie  
+
+twitter:
+  username: stugrassie    
+
+google_site_verification:   
+
+lang: en_GB
+
+# Custom vars
+version:        1.3.0
+github:
+  repo:         https://github.com/sgrassie/sgrassie.github.io
+
+# Gems
+gems:
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-sitemap

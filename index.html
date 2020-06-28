@@ -1,45 +1,43 @@
---- 
-layout: default 
-title: Index 
---- 
-<section>
-    <div class="row">
-        <div class="col-sm-9">
-            <div class="row">
-                <div class="col">
-                {% for post in paginator.posts %}
-                    <div class="row">
-                        <div class="col">
-                            <h1>
-                                <a href="{{post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-                            </h1>
-                            <time class="text-muted" datetime="{{ post.date }}">{{ post.date | date: "%B %d, %Y" }}</time>
-                            {% if post.description %}
-                            <span class="text-muted">: {{ post.description }}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-        <div class="col"><aside></aside></div>
+---
+layout: default
+title: Home
+---
+<main id="main" class="site-main">
+
+{% if page.url == "/" %}
+<div class="hero inner">
+    <p class="hero-text">{{ site.author.greetings }}</p>
+</div>        
+{% endif %}
+
+{% if page.url == "/" %}
+<!-- Featured-->
+<div id="featured-posts" class="featured-posts">
+    {% for post in site.posts %}
+    {% if post.featured == true %}
+    {% include featuredbox.html %}
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% endif%}
+
+<!-- Posts Index -->
+<div class="post-feed inner">
+    {% if page.url == "/" %}
+    <div class="post-feed-title">Latest Articles</div>
+    {% endif %}
+    <div class="post-feed inner-wide">
+        {% for post in paginator.posts %}
+            {% include postbox.html %}
+        {% endfor %}
     </div>
-</section>
-<section>
-    <div class="row">
-        <div class="col">
-            {% if paginator.previous_page %}
-            <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}">Newer posts</a>
-            {% endif %}
-        </div>
-        <div class="col">
-            <span>{{ paginator.page }}</span>
-        </div>
-        <div class="col">
-            {% if paginator.next_page %}
-            <a href="{{ paginator.next_page_path | prepend: site.baseurl }}">Older posts ({{paginator.next_page}}/{{paginator.total_pages}})</a>
-            {% endif %}
-        </div>
-    </div>
-</section>
+</div>
+<!-- Pagination-->
+{% include pagination.html %}
+{% if site.mailchimp_url %}
+    {% include newsletter-box.html %}
+{% endif %}
+</main>
+
+

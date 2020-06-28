@@ -1,58 +1,68 @@
-# Permalinks
-permalink:      /:year/:month/:day/:title/
-
-# Setup
-title:          temporalcohesion.co.uk
-description:    A blog about csharp, clean code, software design and line of business applications
-paginate:       20
-baseurl:        ""
-url:            "http://temporalcohesion.co.uk"
-rss_path:       feed.xml
-
-# Assets
-sass:
-  sass_dir:     _sass
-  style:        :compressed
-
-# Build settings
-markdown:       kramdown
-highlighter:    rouge
-disqus:         temporalcohesion
-google_analytics: UA-9870754-1
-
-# About
+# Site setings
+name: 'temporalcohesion'
+description: 'Software development musings'
+meta_description: 'A blog about software development'
+logo:
+# Author image is used in site sidebar and greetings in the home page hero text
 author:
-  name:         Stuart Grassie 
-  url:          http://grassie.info
-  email:        sgrassie@gmail.com
-  github:       sgrassie
-  twitter:      stugrassie
-  linkedin:     sgrassie
-  bio:          A software developer in the North of England.
-  email_md5:    77b10422593a1c0b9b170f4513fb0c0c
-  
-social:
-  name:         Stuart Grassie 
-  links:
-    - https://twitter.com/stugrassie
-    - https://facebook.com/sgrassie
-    - https://github.com/sgrassie
-    - https://linkedin.com/in/sgrassie  
+  image: 'authorimage.jpg'
+  greetings: "Welcome! My name is Stuart Grassie. I'm a software developer based in the North West of England. It’s nice to meet you."
+favicon: 'assets/images/favicon.ico'
+baseurl: 
+production_url: https://temporalcohesion.co.uk
+disqus: 'temporalcohesion'
+mailchimp_url: 
+# Add your GA Tracking Id
+ga_analytics: UA-9870754-1
 
-twitter:
-  username: stugrassie    
+# Contact form setings
+email: sgrassie@gmail.com
+contact_page_description: "Horace theme comes with a contact form built-in. You can use this form with Formspree service and get up to 50 submissions for free. Also, you can easily switch to another service if you want."
+thankyou_page_description: "Your message has been successfully sent. We will contact you very soon!"
 
-google_site_verification:   
+# Social links
+twitter: 'stugrassie'
+facebook: 'sgrassie'
+github: 'sgrassie'
+codepen: 
+dribbble: 
+medium: 
+instagram: 
+pinterest: 
+linkedin: 'sgrassie'
+producthunt: 
+quora: 
 
-lang: en_GB
+# Navigation
+navigation:
+  - text: Home
+    url: /
+  - text: About
+    url: /about
+  - text: Style Guide
+    url: /style-guide
+  - text: Contact Me
+    url: /contact
+  - text: Search
+    url: /search
 
-# Custom vars
-version:        1.3.0
-github:
-  repo:         https://github.com/sgrassie/sgrassie.github.io
-
-# Gems
-gems:
+# Required Plugins
+plugins_dir:
   - jekyll-paginate
   - jekyll-seo-tag
   - jekyll-sitemap
+
+# Pagination
+paginate: 5
+paginate_path: /page:num/
+
+# Permalinks
+permalink: /:year/:month/:day/:title
+
+# Other
+markdown: kramdown
+
+# Sass
+sass:
+  sass_dir: _sass
+  style: compressed
