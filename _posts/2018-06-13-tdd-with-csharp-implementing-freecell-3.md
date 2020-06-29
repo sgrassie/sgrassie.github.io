@@ -10,8 +10,7 @@ In the last post we were left with some tests that exercised some very basic fun
 # Test Refactoring
 You can, and should, refactor your tests where appropriate. For instance, on the last test in the last post, we only asserted that we could get all the cards for a particular suit. What about the other three? With most modern test frameworks, that is very easy.
 
-{% highlight csharp%}
-Theory]
+{% highlight csharp %}
 [InlineData(Suit.Clubs)]
 [InlineData(Suit.Diamonds)]
 [InlineData(Suit.Hearts)]
