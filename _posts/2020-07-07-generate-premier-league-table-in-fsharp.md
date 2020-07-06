@@ -2,8 +2,8 @@
 layout: post
 title: 'Generating the Premier League Table in F#'
 tags: [F#]
-featured_image_thumbnail: assets/images/posts/2020/footballs-3597192_640.jpg
-featured_image: assets/images/posts/2020/footballs-3597192_1920.jpg
+featured_image_thumbnail: /assets/images/posts/2020/footballs-3597192_640.jpg
+featured_image: /assets/images/posts/2020/footballs-3597192_1920.jpg
 featured: false
 hidden: false
 ---
