@@ -49,6 +49,7 @@ plugins_dir:
   - jekyll-paginate
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-gist
 
 # Pagination
 paginate: 5

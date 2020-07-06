@@ -5,3 +5,6 @@ _site/*
 Gemfile.lock
 .sass-cache
 _drafts
+
+.fake
+.ionide
