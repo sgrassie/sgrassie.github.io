@@ -7,7 +7,7 @@ featured_image: /assets/images/posts/2020/footballs-3597192_1920.jpg
 featured: false
 hidden: false
 ---
-In the previous post, I displayed my fledgling understandin of F# by writing a script which can parse the CSV set of results of the English Premier League to generate the league table. The script does this primarily by using a mutable BCL `Dictionary`. F# is immutable by default, and whilst that is itself not immutable, you have to go out of your way to enable it. I'll try to save repeating [Scott Wlashin](https://fsharpforfunandprofit.com/posts/correctness-immutability/).
+In the previous post, I displayed my fledgling understanding of F# by writing a script which can parse the CSV set of results of the English Premier League to generate the league table. The script does this primarily by using a mutable BCL `Dictionary`. F# is immutable by default, and whilst that is itself not immutable, you have to go out of your way to enable it. I'll try to save repeating [Scott Wlashin](https://fsharpforfunandprofit.com/posts/correctness-immutability/).
 
 There are some improvements that can be made to the script. I'll highlight them here and then link to the full script as a gist.
 
@@ -57,3 +57,5 @@ This again replaces the BCL Dictionary with the Map, and simply passes the leagu
 {% endhighlight %}
 
 This makes the script much more 'the way of things' in F#, which is to say it's using an immutable data structure.
+
+{% gist f4838399edbc27891f7a6ff1057a7fd5 generatepremierleaguetable-immutable.fsx %}
