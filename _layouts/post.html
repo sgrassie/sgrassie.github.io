@@ -42,7 +42,7 @@ post_class: post-template
                     href="https://www.facebook.com/sharer/sharer.php?u={{ site.production_url }}{{ page.url | remove_first: '/' }}">Facebook</a>
             </div><!-- .share-post -->
         </footer>
-        {% include disqus.html %}
+        {% include utterances.html %}
     </article>
     {% if site.mailchimp_url %}
     {% include newsletter-box.html %}
