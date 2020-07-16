@@ -1,9 +1,7 @@
 ---
 layout: post 
-published: 04/06/2015
 title: Configuring SignalR in StructureMap
-category: SignalR, StructureMap
-metadescription: Configuring SignalR in StructureMap
+tags: [SignalR, StructureMap]
 ---
 Configuring [SignalR](http://signalr.net/) in ASP.NET MVC, using [StructureMap](http://structuremap.github.io/structuremap/) as the IoC container is fairly straightforward, but not without some subtleties that caught me out.
 
