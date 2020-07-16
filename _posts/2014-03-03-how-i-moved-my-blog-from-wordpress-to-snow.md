@@ -1,14 +1,7 @@
 ---
-title: How I moved my blog from wordpress to snow, part one
-published: 2014/03/03
+title: "How I moved my blog from wordpress to snow, part one"
 layout: post
-category: blog, sandra.snow
-series:
-    name: 201403003
-    current: 1
-    part: How I moved my blog from wordpress to snow, part one
-    part: How I moved my blog to sandra snow, part two
-metadescription: How I moved by blog from wordpress to snow, part one
+tags: [blog, sandra.snow]
 ---
 
 Wherein I show you how I moved my blog from Wordpress, to a statically generated html hosted on github. I will assume that you have a wordpress blog, hosted on either Wordpress.com or your own hosting. If you don't have a wordpress based blog, then that's ok, most of this will still apply.
