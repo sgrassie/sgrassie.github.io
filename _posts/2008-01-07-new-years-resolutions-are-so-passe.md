@@ -1,8 +1,7 @@
 ---
 layout: post
 title: New Years Resolutions are so passé
-date: 2008-01-07
-categories: Uncategorized
+tags: [life]
 ---
 It's true, New Years resolutions are passé. Every year, you look at what is wrong in your life and triumphantly decide that you are going to resolve these problems by issuing a bold and sweeping set of statements, or edicts.
 <ul>

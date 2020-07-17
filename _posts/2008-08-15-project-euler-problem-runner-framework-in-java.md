@@ -1,9 +1,7 @@
 ---
 title: Project Euler problem runner framework in Java
-published: 15/08/2008
 layout: post
-category: Coding,Coding,Java,Java,Project Euler,Project Euler
-metadescription: project-euler-problem-runner-framework-in-java
+tags: [Coding,Java,Project Euler]
 ---
 Recently, I've been working on the problems on <a title="Projec Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>, and I've done the first 16 problems (in Java), although I will freely admit that I had help on two of the most difficult ones. I do intend on continuing to do the problems, and I am currently working on problem 17, however I paused to write the problem runner framework I'm going to talk about in this post.
 
@@ -15,6 +13,7 @@ Thus, my problem runner framework was born, and whilst fairly simple, it does em
 
 The output of the problem runner framework looks like this:
 
+{% highlight console %}
 C:development&gt;java -jar euler.jar -noanswers
 Project Euler : Problem Runner - http://projecteuler.net/
 
@@ -34,6 +33,7 @@ Problem: 13. Time: 0.0s
 Problem: 14. Time: 21.717s
 Problem: 15. Time: 0.0s
 Problem: 16. Time: 0.0010s
+{% endhighlight %}
 
 As you can see, I have output a list of the problems, and the time taken to solve the problem, but I haven't shown the answer.
 

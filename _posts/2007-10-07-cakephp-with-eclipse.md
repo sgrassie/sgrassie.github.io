@@ -1,11 +1,8 @@
 ---
 title: cakePHP with Eclipse
-published: 07/10/2007
 layout: post
-category: PHP
-metadescription: cakephp-with-eclipse
+tags: [PHP]
 ---
-<a href="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.png" title="cakePHP development in Eclipse"><img src="http://temporalcohesion.co.uk/wp-content/uploads/2007/10/php_dev_in_eclipse.thumbnail.png" title="cakePHP development in Eclipse" alt="cakePHP development in Eclipse" align="left" height="223" hspace="20" width="295" /></a>
 
 After chatting with one of my friends who is earning loads of cash doing php web development, I've decided that I'm going  relearn PHP, not because I want a change of career, I'm happy where I am, but because... I just want to.
 
@@ -23,7 +20,7 @@ All this functionality is pretty easy to set up, and there is a pretty good guid
 Firstly, I don't believe that you need to set up cakePHP as a project in order to get the code completion to work. If you expand your project, and right click on your project include paths, you should be on the PHP Include path dialog, in the projects properties. If you add an external folder, and browse to the cake core directory (for me: C:xampphtdocscake), and click ok, you should now have code completion and all the associated awesomeness in your project, with the added benefit that for any different projects in your workspace, you can set up different versions of cakePHP or (I haven't tried this though) a different framework such as <a href="http://www.symfony-project.com">Symfony</a>.
 
 Secondly, for code completion in Models, you just have to do something like this:
-<pre lang="PHP">
+{% highlight php %}
 class PostsController extends AppController{var $name = 'Posts';
 
 /**
@@ -36,5 +33,7 @@ var $Post;
 
 ...code
 
-}</pre>
+}
+{% endhighlight %}
+
 Hope this is of use to somebody :)

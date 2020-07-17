@@ -1,9 +1,7 @@
 ---
 title: Hello world!
-published: 20/07/2007
 layout: post
-category: News
-metadescription: hello-world-2
+tags: [News]
 ---
 Welcome to my new website, and my new blog. I'd kind of outgrown the old site, which I've now turned into a kind of "here's my CV" sort of site. Although I am happy in my job.
 

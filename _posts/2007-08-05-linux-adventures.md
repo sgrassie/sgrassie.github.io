@@ -1,9 +1,7 @@
 ---
 title: linux adventures
-published: 05/08/2007
 layout: post
-category: linux
-metadescription: linux-adventures
+tags: [linux]
 ---
 I spent much of the weekend fucking around installing linux on my laptop. I like linux, it's free, and there's loads of cool software available. I tried:
 <ul>
