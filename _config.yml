@@ -38,6 +38,14 @@ linkedin: 'sgrassie'
 producthunt: 
 quora: 
 
+social:
+  name: Stuart Grassie
+  links:
+    - https://twitter.com/stugrassie
+    - https://www.facebook.com/sgrassie
+    - https://www.linkedin.com/in/sgrassie
+    - https://github.com/sgrassie
+
 # Navigation
 navigation:
   - text: Home
