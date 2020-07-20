@@ -1,7 +1,9 @@
 ---
 layout: post
 title: 'Switching comments from Disqus to utteranc.es and importing to Github with F#'
+description: 'Shows how to export blog comments from Disqus into Github Issues and integrate utterance.es'
 tags: [blog, f#]
+image: /assets/images/posts/2020/conversation-3513843_1920.jpg
 featured_image_thumbnail: 
 featured_image: /assets/images/posts/2020/conversation-3513843_1920.jpg
 featured: false

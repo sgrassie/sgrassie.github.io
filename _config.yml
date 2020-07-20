@@ -1,10 +1,13 @@
 # Site setings
 name: 'Stuart Grassie: TemporalCohesion'
-description: 'Software development musings'
+title: 'Stuart Grassie: TemporalCohesion'
+tagline: "A blog about software development"
+description: 'A blog about software development, by Stuart Grassie'
 meta_description: 'A blog about software development'
 logo:
 # Author image is used in site sidebar and greetings in the home page hero text
 author:
+  twitter: stugrassie
   image: 'me1280x.jpg'
   greetings: "Welcome! My name is Stuart Grassie. I'm a software developer based in the North West of England. It’s nice to meet you."
 favicon: 'assets/images/favicon.ico'
@@ -21,7 +24,9 @@ contact_page_description: "Horace theme comes with a contact form built-in. You 
 thankyou_page_description: "Your message has been successfully sent. We will contact you very soon!"
 
 # Social links
-twitter: 'stugrassie'
+twitter: 
+   username: 'stugrassie'
+   card: summary
 facebook: 'sgrassie'
 github: 'sgrassie'
 codepen: 
@@ -45,7 +50,7 @@ navigation:
     url: /search
 
 # Required Plugins
-plugins_dir:
+plugins:
   - jekyll-paginate
   - jekyll-seo-tag
   - jekyll-sitemap
