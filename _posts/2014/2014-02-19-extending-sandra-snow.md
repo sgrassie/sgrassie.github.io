@@ -1,5 +1,5 @@
 ---
-title: 'Extending Sandra.Snow'
+title: Extending Sandra.Snow
 layout: post
 category: snow
 ---

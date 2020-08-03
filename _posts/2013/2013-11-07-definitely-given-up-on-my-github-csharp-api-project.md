@@ -1,6 +1,5 @@
 ---
 title: Definitely given up on my github-csharp-api project
-published: 07/11/2013
 layout: post
 category: C#,Coding
 metadescription: definitely-given-up-on-my-github-csharp-api-project

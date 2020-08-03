@@ -1,6 +1,5 @@
 ---
 title: A psake build script example
-published: 26/10/2009
 layout: post
 category: build script,C#,Coding,Powershell,psake
 metadescription: a-psake-build-script-example
