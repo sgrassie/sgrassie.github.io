@@ -156,7 +156,7 @@ toImport |> Seq.iter (fun post -> printfn "%s - %s - comments: %d" post.Title po
 
 Running that will give you an idea of what blog posts are going to be imported, and the number of comments. The first time I ran this, I found some of the blog posts in the Disqus XML import did not have the posts title set, so I was getting duplicated post titles. As there were only three instances of this error, I just manually corrected the XML and re-reran the script to check I had everything correct.
 
-##Uploading to GitHub
+## Uploading to GitHub
 So far, so good. Now comes the fun part and something I've yet to do in F#, which is interop with a C# library. It turns out that it's not so hard, but that makes perfect sense when you understand that F# is a .net language, just like C#. A long time ago I started to write an API library for GitHub, but I gave it up in favour of Octokit.net.
 
 {% include warning.html content="The F# which follows looks horrible, and I am certain there must be a cleaner way of doing what I'm about to show, but I don't know what it is." %}
