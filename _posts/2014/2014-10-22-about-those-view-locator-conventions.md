@@ -1,9 +1,11 @@
 ---
-layout: post 
-published: true
+layout: post
 title: About those view locator conventions
-category: wpf, prism
-metadescription: PRISM view locator conventions
+description: PRISM view locator conventions
+tags: ['wpf','prism']
+hidden: False
+published: 22/10/2014
+ispublished: True
 ---
 As I mentioned in a previous post, I do not like some of the default PRISM view location conventions.
 

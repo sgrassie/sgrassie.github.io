@@ -1,7 +1,10 @@
 ---
-title: source control systems
 layout: post
+title: source control systems
 tags: [Coding]
+hidden: False
+published: 20/08/2007
+ispublished: True
 ---
 The other day, I watched the Linus Torvalds <a href="http://www.youtube.com/watch?v=4XpnKHJAok8" title="Linus Torvald's tech talk on git" target="_blank">tech talk</a> at google, which he gave on source control systems. It was mostly (biased) about how great <a href="http://git.or.cz/" target="_blank">git</a> is, and how other source control systems, with a few exceptions, have mostly got it wrong. This all got me thinking about source control systems I have used.
 

@@ -1,8 +1,10 @@
 ---
-title: Adding logging to an application
-published: 25/07/2009
 layout: post
-categories: C#,Coding,log4net,Logging
+title: Adding logging to an application
+tags: ['C#','Coding','log4net','Logging']
+hidden: False
+published: 25/07/2009
+ispublished: True
 ---
 Nearly every application I have ever used has produced some sort of log output, usually to record details of exactly what the application was doing when an error was encountered. To be perfectly truthful, it is not something that I have ever really given very much consideration to in either my own or work applications, there have always been more pressing things to attend to, such as meeting (unrealistic) deadlines, or implementing some interesting new feature. I've used log4j before in a work application, mostly because someone else had already done all the configuration.
 

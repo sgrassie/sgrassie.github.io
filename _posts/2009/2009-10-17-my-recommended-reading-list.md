@@ -1,8 +1,10 @@
 ---
-title: My recommended reading list
-published: 17/10/2009
 layout: post
-categories: Books,Books,Coding
+title: My recommended reading list
+tags: ['Books','Books','Coding']
+hidden: False
+published: 17/10/2009
+ispublished: True
 ---
 Love him or hate him, several years ago, Jeff Atwood (of Codinghorror.com infamy and the really rather awesome StackOverflow.com) <a title="Recommended reading on codinghorror.com" href="http://www.codinghorror.com/blog/archives/000020.html" target="_blank">posted on his blog</a> a recommended reading list for developers. He has since become a sort of mini internet programming celebrity. Since imitation is the greatest form of flattery, I present to you my own list of recommended reading.
 <p style="text-align: left;"></p>

@@ -1,9 +1,11 @@
 ---
 layout: post
-published: 10/08/2015
 title: You don't always need an IOC library
-category: programming
-metadescription: A brief discussion about not always needing an IOC library
+description: A brief discussion about not always needing an IOC library
+tags: ['programming']
+hidden: False
+published: 08/10/2015
+ispublished: True
 ---
 The principle of YAGNI should always apply, and I was recently reminded of that when I had to build a small application to give to a user for a small one off task. We're talking a single screen application with a single button on it. Idiot proof.
 

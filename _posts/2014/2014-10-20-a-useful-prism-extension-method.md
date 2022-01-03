@@ -1,8 +1,11 @@
 ---
 layout: post
 title: A useful PRISM extension method
-metadescription: Why isn't this included by default?
-tags: [prism, C#, mvvm]
+description: Why isn't this included by default?
+tags: [prism,C#,mvvm]
+hidden: False
+published: 20/10/2014
+ispublished: True
 ---
 I'm doing some work with Microsoft [Prism](http://msdn.microsoft.com/en-us/library/gg406140.aspx) at the moment, and once again I've gotten annoyed that ```RequestNavigate``` doesn't have a generic overload.
 

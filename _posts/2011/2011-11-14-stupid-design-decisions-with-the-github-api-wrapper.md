@@ -1,9 +1,11 @@
 ---
-title: Stupid design decisions with the Github API wrapper
-published: 14/11/2011
 layout: post
-category: C#,github-api
-metadescription: stupid-design-decisions-with-the-github-api-wrapper
+title: Stupid design decisions with the Github API wrapper
+description: stupid-design-decisions-with-the-github-api-wrapper
+tags: ['C#','github-api']
+hidden: False
+published: 14/11/2011
+ispublished: True
 ---
 Whilst writing some blog posts about the authentication which I've been implementing, I've come to the realization, almost as an after thought, that even though I've still not got a lot of the main Github API implemented, the way I've envisioned the API working, from a user point of view, is sort of a bit shit.
 <pre class="brush:applescript">var userApi = new UserApi();

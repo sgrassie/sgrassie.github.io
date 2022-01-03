@@ -2,6 +2,9 @@
 layout: post
 title: Binary search in C#
 description: An implementation of the classic Binary Search in C#
+hidden: False
+published: 02/11/2017
+ispublished: True
 ---
 # Introduction
 Binary search is the classic search algorithm, and I remember implementing it in C at University. As an experiment I'm going to implement it in C# to see if the line of business applications I usually build have rotted my brain.

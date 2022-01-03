@@ -1,7 +1,10 @@
 ---
-title: Extending Sandra.Snow
 layout: post
-category: snow
+title: Extending Sandra.Snow
+tags: ['snow']
+hidden: False
+published: 19/02/2014
+ispublished: True
 ---
 After switching my blog over to use [Sandra.Snow](https://github.com/Sandra/Sandra.Snow), I noticed that in at least one feed aggregator that my blog shows up in, it wasn't displaying correct. The escaped html in the feed generator from the markdown by Snow wasn't getting rendered in the aggregator correctly. After a little digging it was apparant to me that the ```RssResponse``` in Snow was not correctly setting it's content type.
 

@@ -1,9 +1,11 @@
 ---
-title: Damn you empty catch block
-published: 08/11/2010
 layout: post
-category: annoyance,C#,C#,Coding,exception
-metadescription: damn-you-empty-catch-block
+title: Damn you empty catch block
+description: damn-you-empty-catch-block
+tags: ['annoyance','C#','C#','Coding','exception']
+hidden: False
+published: 08/11/2010
+ispublished: True
 ---
 In the code I help maintain in my day job, I see a lot of the following code:
 <pre class="brush:csharp">

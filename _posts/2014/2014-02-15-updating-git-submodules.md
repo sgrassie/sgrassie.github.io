@@ -1,9 +1,11 @@
 ---
+layout: post
 title: Updating git submodules
+description: updating git submodules
+tags: ['git']
+hidden: False
 published: 15/02/2014
-layout: post 
-category: git
-metadescription: updating git submodules
+ispublished: True
 ---
 I'm writing this up mostly for my own benefit so that I don't have to go searching for it again in future.
 

@@ -2,10 +2,12 @@
 layout: post
 title: 'Generating the Premier League Table in F#'
 tags: [F#]
-featured_image_thumbnail: /assets/images/posts/2020/footballs-3597192_640.jpg
 featured_image: /assets/images/posts/2020/footballs-3597192_1920.jpg
-featured: false
-hidden: false
+featured_image_thumbnail: /assets/images/posts/2020/footballs-3597192_640.jpg
+featured: False
+hidden: False
+published: 07/07/2020
+ispublished: True
 ---
 During lockdown, I've made another effort at learning F#. This time I think I've had a bit more success. Processing data is something that we as developers do on a weekly or even daily basis, so it seems quite natural to practice that in F#. As a big football fan, I've decided to use the English Premier League results for season 2019/2020, as it's a dataset I implicitly understand.
 

@@ -1,7 +1,10 @@
 ---
-title: Source control using Dropbox
 layout: post
+title: Source control using Dropbox
 tags: [Coding,scm]
+hidden: False
+published: 29/08/2008
+ispublished: True
 ---
 Everyone developer should use some form of <a title="Wikipedia entry on source control" href="http://en.wikipedia.org/wiki/Source_control" target="_blank">source control</a>. It's like an unwritten law, if you don't use it, then you should - as long as it isn't <a title="Jeff Atwood on why you shouldn't use sourcesafe" href="http://www.codinghorror.com/blog/archives/000660.html" target="_blank">sourcesafe</a>.
 

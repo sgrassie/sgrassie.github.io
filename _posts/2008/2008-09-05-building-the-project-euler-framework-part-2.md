@@ -1,7 +1,10 @@
 ---
-title: Building the Project Euler framework, part 2
 layout: post
+title: Building the Project Euler framework, part 2
 tags: [Coding,Java,Project Euler]
+hidden: False
+published: 05/09/2008
+ispublished: True
 ---
 In Part 1, I showed a basic problem runner framework for Project Euler, however there are a number of ways in which we can improve it. For example:
 <ul>

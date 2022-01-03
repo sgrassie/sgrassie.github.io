@@ -1,7 +1,10 @@
 ---
-title: Hello world!
 layout: post
+title: Hello world!
 tags: [News]
+hidden: False
+published: 20/07/2007
+ispublished: True
 ---
 Welcome to my new website, and my new blog. I'd kind of outgrown the old site, which I've now turned into a kind of "here's my CV" sort of site. Although I am happy in my job.
 

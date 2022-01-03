@@ -3,11 +3,13 @@ layout: post
 title: 'Interview Coding Test Solution'
 description: 'An interview coding test and solution'
 tags: [csharp]
+featured_image: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
 image: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
 featured_image_thumbnail: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
-featured_image: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
-featured: false
-hidden: false
+featured: False
+hidden: False
+published: 27/07/2020
+ispublished: True
 ---
 Many years ago, after working in my first programming job for a couple of years the company was taken over, and coding tests for new hires were introduced. The incumbent developers all decided to take the test, and it was seen as a fun diversion for a couple of hours. 
 

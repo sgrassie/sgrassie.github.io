@@ -1,10 +1,12 @@
 ---
 layout: post
 title: 'Dynamic port assignment in Octopus Deploy'
-tags: ['build tools', 'octopus deploy']
+tags: ['build tools','octopus deploy']
 featured_image: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
-featured: false
-hidden: false
+featured: False
+hidden: False
+published: 26/10/2021
+ispublished: True
 ---
 Recently we realised that we had quite a few applications being deployed through Octopus Deploy, and that we had a number of Environments, and a number of Channels, and that managing the ports being used in Dev/QA/UAT across different servers/channels was becoming... problematic.
 

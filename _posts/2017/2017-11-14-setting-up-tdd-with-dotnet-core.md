@@ -2,6 +2,9 @@
 layout: post
 title: Setting up a TDD environment in dotnet core
 description: A tutorial on how to setup a TDD environment in dotnet core
+hidden: False
+published: 14/11/2017
+ispublished: True
 ---
 # Introduction
 In a future post, I'm going to write about Test Driven Development, with the aim of writing a Freecell clone. In this post I'll walk through setting up a dotnet core solution with a class library which will hold the Freecell rules engine, a class library for our unit tests and show to set up an environment for immediate feedback, which is one of the key benefits of TDD. I'll also demonstrate using some basic git commands to setup our source control.

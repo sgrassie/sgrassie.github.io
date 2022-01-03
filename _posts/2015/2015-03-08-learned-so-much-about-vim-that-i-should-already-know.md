@@ -1,9 +1,11 @@
 ---
-layout: post 
-published: true
+layout: post
 title: Learned so much about Vim that I should already know
-category: vim 
-metadescription: sucking less at using Vim
+description: sucking less at using Vim
+tags: ['vim']
+hidden: False
+published: 08/03/2015
+ispublished: True
 ---
 I've been a user of Vim for several years now. I use it as my go-to standard editor. As I primarily write C# code, I obviously use Visual Studio, a lot, and I have the wonderful [VsVim](https://visualstudiogallery.msdn.microsoft.com/59ca71b3-a4a3-46ca-8fe1-0e90e3f79329) extension installed, which provides a lot of the power of Vim, from within Visual Studio.
 

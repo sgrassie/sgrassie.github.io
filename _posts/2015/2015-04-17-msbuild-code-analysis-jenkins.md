@@ -1,9 +1,11 @@
 ---
-layout: post 
-published: 17/04/2015
+layout: post
 title: MSBuild Code Analysis (on a build server)
-category: c#, msbuild, jenkins
-metadescription: MSBuild Code Analysis (on a build server)
+description: MSBuild Code Analysis (on a build server)
+tags: ['c#','msbuild','jenkins']
+hidden: False
+published: 17/04/2015
+ispublished: True
 ---
 It is possible to setup your build server to run code analysis on your solution/projects, without having to install VS on your build server.
 

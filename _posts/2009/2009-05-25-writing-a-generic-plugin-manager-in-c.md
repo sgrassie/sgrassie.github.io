@@ -1,9 +1,11 @@
 ---
-title: Writing a generic plugin manager in C#
-published: 25/05/2009
 layout: post
-category: C#,C#,Coding,Plugin Manager
-metadescription: writing-a-generic-plugin-manager-in-c
+title: Writing a generic plugin manager in C#
+description: writing-a-generic-plugin-manager-in-c
+tags: ['C#','C#','Coding','Plugin Manager']
+hidden: False
+published: 25/05/2009
+ispublished: True
 ---
 <h4>Update:</h4>
 I have written another post on this subject with some code examples  here: <a title="More on the generic plugin manager" href="http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/" target="_self">http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/</a>

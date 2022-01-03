@@ -1,9 +1,11 @@
 ---
-title: More on the generic plugin manager
-published: 02/11/2009
 layout: post
-category: C#,Coding,Plugin Manager
-metadescription: more-on-the-generic-plugin-manager
+title: More on the generic plugin manager
+description: more-on-the-generic-plugin-manager
+tags: ['C#','Coding','Plugin Manager']
+hidden: False
+published: 02/11/2009
+ispublished: True
 ---
 <h4>Update:</h4>
 I've written some more about what I've learned whilst working on my plugin manager here: <a href="http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/" target="_self">http://temporalcohesion.co.uk/2010/03/17/even-more-on-the-generic-plugin-manager/</a>

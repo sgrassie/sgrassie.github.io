@@ -1,9 +1,11 @@
 ---
-title: Notes on Vim
-published: 29/10/2012
 layout: post
-category: Coding,editing,vim
-metadescription: Notes on Vim
+title: Notes on Vim
+description: Notes on Vim
+tags: ['Coding','editing','vim']
+hidden: False
+published: 29/10/2012
+ispublished: True
 ---
 Usually the default text editor I installed after re-installing Windows was Notepad++, however, I have recently become a <a title="VIM.org" href="http://www.vim.org/" target="_blank">Vim</a> convert.
 

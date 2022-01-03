@@ -1,9 +1,11 @@
 ---
-layout: post 
-published: 17/03/2015
+layout: post
 title: Fluent NPoco mappings with StructureMap
-category: npoco, structuremap
-metadescription: npoco, structuremap, ioc
+description: npoco, structuremap, ioc
+tags: ['npoco','structuremap']
+hidden: False
+published: 17/03/2015
+ispublished: True
 ---
 I like using [NPoco](https://github.com/schotime/NPoco), it's a really nice library that allows you stop having to write raw ADO.NET. Recently I just switched one of my projects at work to use the Fluent Mapping features, essentially so that my POCO's do not need to have the mapping attributes in them.
 

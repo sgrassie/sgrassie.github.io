@@ -1,7 +1,10 @@
 ---
-title: "Building the Project Euler framework, part 1"
 layout: post
+title: "Building the Project Euler framework, part 1"
 tags: [Coding,Java,Project Euler]
+hidden: False
+published: 22/08/2008
+ispublished: True
 ---
 As promised, here is the first part of the series of posts I hope to write demonstrating how I wrote my problem runner framework for <a title="Project Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>.
 

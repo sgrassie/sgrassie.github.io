@@ -1,7 +1,10 @@
 ---
-title: Limitations in Delphi
 layout: post
+title: Limitations in Delphi
 tags: [delphi]
+hidden: False
+published: 23/07/2007
+ispublished: True
 ---
 One of the things in Delphi that frustrates me is the inability to match on strings in case statements. For those people who haven't done delphi before, case statements are very similar to c++ switch statements, and only opererate on ordinal types.. Now I've not done any Java, but as I understand it you can't switch on strings in that language either. You can in c# though.
 

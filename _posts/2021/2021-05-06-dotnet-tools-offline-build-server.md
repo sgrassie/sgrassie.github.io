@@ -2,10 +2,12 @@
 layout: post
 title: dotnet tools on an offline build server
 description: A brief guide for running builds with dotnet tools on an offline build server
-tags: ['dotnet', 'devops']
+tags: ['dotnet','devops']
 featured_image: /assets/images/posts/2020/conversation-3513843_1920.jpg
-featured: false
-hidden: false
+featured: False
+hidden: False
+published: 06/05/2021
+ispublished: True
 ---
 If you found this because you have a build server which is 'offline', without any external internet access because of _reasons_, and you can't get your build to work because dotnet fails to restore the tool you require for your build process because of said lack of external internet access, then this is for you.
 

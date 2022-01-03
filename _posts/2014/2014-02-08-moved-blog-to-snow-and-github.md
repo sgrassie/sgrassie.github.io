@@ -1,9 +1,11 @@
 ---
-title: Moved blog to snow and github
-published: 08/02/2014
 layout: post
-category: blog, nancy, sandra.snow
-metadescription: Moved blog to snow and github
+title: Moved blog to snow and github
+description: Moved blog to snow and github
+tags: ['blog','nancy','sandra.snow']
+hidden: False
+published: 08/02/2014
+ispublished: True
 ---
 # No longed bound to wordpress
 For most of the time I've been blogging, I've used Wordpress. It's very good software, but kind of requires

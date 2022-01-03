@@ -1,7 +1,10 @@
 ---
-title: Project Euler problem runner framework in Java
 layout: post
+title: Project Euler problem runner framework in Java
 tags: [Coding,Java,Project Euler]
+hidden: False
+published: 15/08/2008
+ispublished: True
 ---
 Recently, I've been working on the problems on <a title="Projec Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>, and I've done the first 16 problems (in Java), although I will freely admit that I had help on two of the most difficult ones. I do intend on continuing to do the problems, and I am currently working on problem 17, however I paused to write the problem runner framework I'm going to talk about in this post.
 

@@ -1,9 +1,11 @@
 ---
-title: You don't have to kneel at the altar of the cult of Apple
-published: 07/03/2010
 layout: post
-category: Uncategorized
-metadescription: you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple
+title: You don't have to kneel at the altar of the cult of Apple
+description: you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple
+tags: ['Uncategorized']
+hidden: False
+published: 07/03/2010
+ispublished: True
 ---
 <h1>Unless you've been living under a rock</h1>
 You will have seen, heard and read the buzz about the Apple <a title="ipad on Apple.com" href="http://www.apple.com/ipad/" target="_blank">iPad</a>. What it is, what it does and why you should buy it. This post is not about all that - it's covered in excruciating detail elsewhere on your favourite tech site. Ever since the iPad was just a rumour, and since it was officially announced, we have been arguing about it at work. Whose going to buy one? Who is an idiot for wanting to buy one? Who is an idiot for not wanting to buy one?

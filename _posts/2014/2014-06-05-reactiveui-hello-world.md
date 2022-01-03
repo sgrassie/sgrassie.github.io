@@ -1,9 +1,11 @@
 ---
-title: ReactiveUI - Hello, World!
-published: draft
 layout: post
-category: wpf, c#, reactiveui, mvvm
-metadescription: wpf, c#, reactiveui, mvvm
+title: ReactiveUI - Hello, World!
+description: wpf, c#, reactiveui, mvvm
+tags: ['wpf','c#','reactiveui','mvvm']
+hidden: False
+published: 05/06/2014
+ispublished: True
 ---
 > ReactiveUI is an MVVM framework. I'm going to mess around with it and see if I
 can make it do something useful, and maybe get shouted at for Doing It Wrong&#8482;

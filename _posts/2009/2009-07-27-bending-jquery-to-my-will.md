@@ -1,9 +1,11 @@
 ---
-title: Bending jQuery to my will
-published: 27/07/2009
 layout: post
-category: Coding,jQuery
-metadescription: bending-jquery-to-my-will
+title: Bending jQuery to my will
+description: bending-jquery-to-my-will
+tags: ['Coding','jQuery']
+hidden: False
+published: 27/07/2009
+ispublished: True
 ---
 Like many people, I have a vanity domain name, www.stuart-grassie.co.uk. Many moons ago I used to host my blog on there, but for a variety of reasons I bought this domain and switched my blog here. So I put up a basic index page, listing a few interesting factoids about me, and what I do. When I say a "basic" page, I mean basic - black text on a white background, almost as if it was just few words typed into a text file - although there was semantically correct and valid xhtml behind it.
 

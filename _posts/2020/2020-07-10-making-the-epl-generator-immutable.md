@@ -2,10 +2,12 @@
 layout: post
 title: 'Making the English Premier League Generator immutable'
 tags: [F#]
-featured_image_thumbnail: /assets/images/posts/2020/footballs-3597192_640.jpg
 featured_image: /assets/images/posts/2020/footballs-3597192_1920.jpg
-featured: false
-hidden: false
+featured_image_thumbnail: /assets/images/posts/2020/footballs-3597192_640.jpg
+featured: False
+hidden: False
+published: 10/07/2020
+ispublished: True
 ---
 In the previous post, I displayed my fledgling understanding of F# by writing a script which can parse the CSV set of results of the English Premier League to generate the league table. The script does this primarily by using a mutable BCL `Dictionary`. F# is immutable by default, and whilst that is itself not immutable, you have to go out of your way to enable it. I'll try to save repeating [Scott Wlashin](https://fsharpforfunandprofit.com/posts/correctness-immutability/).
 

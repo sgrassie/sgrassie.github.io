@@ -1,8 +1,10 @@
 ---
-title: Is this thing on?
-published: 26/09/2011
 layout: post
-categories: Uncategorized
+title: Is this thing on?
+tags: ['Uncategorized']
+hidden: False
+published: 26/09/2011
+ispublished: True
 ---
 Despite many months of not posting anything on this blog (OK, nearly a year) I am returning with another post about my on/off project to write a C# library to access the Github REST API. Much like my blogging schedule, which can arguably be said to be none-existent, my pet-projects suffer from the same cruel lack of... habit.
 

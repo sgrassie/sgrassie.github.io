@@ -1,8 +1,10 @@
 ---
-title: Learning ReactiveUI for fun and profit&#58; Hello, World!
-published: 17/11/2013
 layout: post
-categories: ReactiveUI
+title: Learning ReactiveUI for fun and profit&#58; Hello, World!
+tags: ['ReactiveUI']
+hidden: False
+published: 17/11/2013
+ispublished: True
 ---
 # Introduction
 I want to start learning how to use ReactiveUI to develop a WPF desktop application, and I have experience with building MVVM applications with Prism and Caliburn.Micro, so the challenge for me is learning RxUi's opinions and how to do stuff in an asynchronous fashion. I'm going to assume that anyone reading this has some understanding of WPF, XAML, MVVM and some familiarity with C#.

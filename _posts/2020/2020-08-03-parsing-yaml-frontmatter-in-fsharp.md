@@ -2,12 +2,14 @@
 layout: post
 title: 'Parsing Yaml Frontmatter in F#'
 description: 'Using F# to parse Yaml frontmatter block from a Jekyll blog using YamlDotNet'
-tags: [F#, Jekyll, Yaml]
+tags: [F#,Jekyll,Yaml]
+featured_image: /headerimagetemplate/code-2620118_1920.jpg
 image: /headerimagetemplate/code-2620118_1920.jpg
 featured_image_thumbnail: 
-featured_image: /headerimagetemplate/code-2620118_1920.jpg
-featured: false
-hidden: false
+featured: False
+hidden: False
+published: 03/08/2020
+ispublished: True
 ---
 As part of modernisng, updating and generally overhauling my blog, I thought it would be nice to add some consistancy to the Yaml front matter used by Jekyll. For those who do not know, Jekyll uses Yaml front matter blocks to process any file which contains one as a special file. The front matter can contain variables in the form `foo: value`. Jekyll itself defines some predefined globabl variables and variables for posts, but anything else is valid and can be use in Liquid tags.
 

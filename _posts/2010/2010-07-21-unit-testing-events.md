@@ -1,8 +1,10 @@
 ---
-title: Unit Testing Events
-published: 21/07/2010
 layout: post
-categories: C#,Coding
+title: Unit Testing Events
+tags: ['C#','Coding']
+hidden: False
+published: 21/07/2010
+ispublished: True
 ---
 Recently I have had to unit test some events in an application I work on. I came up with a workable solution, but I didnt really like the way it was working, and it just looked ugly. So I did a little digging on Google, and <a href="http://stackoverflow.com/questions/248989/unit-testing-that-an-event-is-raised-in-c">found this helpful question on StackOverflow</a>.
 

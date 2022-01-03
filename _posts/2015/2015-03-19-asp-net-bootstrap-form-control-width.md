@@ -1,9 +1,11 @@
 ---
-layout: post 
-published: 19/03/2015
+layout: post
 title: ASP.Net Bootstrap 3 form control width
-category: asp.net, bootstrap 
-metadescription: asp.net, bootstrap, form-control, width
+description: asp.net, bootstrap, form-control, width
+tags: ['asp.net','bootstrap']
+hidden: False
+published: 19/03/2015
+ispublished: True
 ---
 Having just been stumped on this for longer than I care to admit, and only finding the answer to my problem buried in a [comment](http://stackoverflow.com/questions/11232627/perfect-100-width-of-parent-container-for-a-bootstrap-input#comment41021912_11232628) on StackOverflow, I'm posting it here for my own future reference:
 

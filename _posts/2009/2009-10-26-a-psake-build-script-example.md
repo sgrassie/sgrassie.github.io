@@ -1,8 +1,11 @@
 ---
-title: A psake build script example
 layout: post
-category: build script,C#,Coding,Powershell,psake
-metadescription: a-psake-build-script-example
+title: A psake build script example
+description: a-psake-build-script-example
+tags: ['build script','C#','Coding','Powershell','psake']
+hidden: False
+published: 26/10/2009
+ispublished: True
 ---
 I have recently started using psake to do some build automation at work, and I've found that there is not a great deal of information about how to write a build script using psake available on the internet. It isn't all that amazingly difficult if truth be told, however there are a couple of 'gotchas', and I would like to share what I have learned in the hopes that it benefits someone.
 

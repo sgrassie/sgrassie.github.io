@@ -1,9 +1,11 @@
 ---
-layout: post 
-published: 15/04/2015
+layout: post
 title: Gitlab and Active Directory
-category: asp.net, bootstrap 
-metadescription: Gitlab and Active Directory
+description: Gitlab and Active Directory
+tags: ['asp.net','bootstrap']
+hidden: False
+published: 15/04/2015
+ispublished: True
 ---
 [Gitlab](http://www.gitlab.com) is an open source 'clone' of Github, although I don't think it's much of a clone anymore, to be fair. The Enterprise edition has full Active Directory support, and the Community edition does not. 
 

@@ -1,8 +1,10 @@
 ---
-title: Learning ReactiveUI for fun and profit
-published: 16/11/2013
 layout: post
-categories: ReactiveUI
+title: Learning ReactiveUI for fun and profit
+tags: ['ReactiveUI']
+hidden: False
+published: 16/11/2013
+ispublished: True
 ---
 [http://www.reactiveui.net](ReactiveUI) is a C# library which combines the MVVM architectural pattern for UI development, and the <a title="Reactive Extensions" href="http://rx.codeplex.com/" target="_blank">Reactive Extensions</a> for asynchronous and event-based programming.
 

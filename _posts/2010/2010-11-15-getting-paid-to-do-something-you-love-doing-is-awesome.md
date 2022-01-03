@@ -1,8 +1,10 @@
 ---
-title: Getting paid to do something you love doing is awesome!
-published: 15/11/2010
 layout: post
-categories: Coding,Coding,thoughts
+title: Getting paid to do something you love doing is awesome!
+tags: ['Coding','Coding','thoughts']
+hidden: False
+published: 15/11/2010
+ispublished: True
 ---
 A lot of people who work, don't like their job. It's a fact. If you were at a party and you asked people if they like the job they get paid to do, the response would be largely negative. That you are reading this, on this blog, indicates that you are probably a programmer. Then, on the assumption that you are in some capacity employed as a programmer, I can say to you that you are a lucky person.
 

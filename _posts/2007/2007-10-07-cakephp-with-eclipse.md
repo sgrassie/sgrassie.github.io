@@ -1,7 +1,10 @@
 ---
-title: cakePHP with Eclipse
 layout: post
+title: cakePHP with Eclipse
 tags: [PHP]
+hidden: False
+published: 07/10/2007
+ispublished: True
 ---
 
 After chatting with one of my friends who is earning loads of cash doing php web development, I've decided that I'm going  relearn PHP, not because I want a change of career, I'm happy where I am, but because... I just want to.

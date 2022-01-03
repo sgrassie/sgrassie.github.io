@@ -1,9 +1,11 @@
 ---
-title: Even more on the generic plugin manager
-published: 17/03/2010
 layout: post
-category: C#,Coding,DI,IoC,Plugin Manager
-metadescription: even-more-on-the-generic-plugin-manager
+title: Even more on the generic plugin manager
+description: even-more-on-the-generic-plugin-manager
+tags: ['C#','Coding','DI','IoC','Plugin Manager']
+hidden: False
+published: 17/03/2010
+ispublished: True
 ---
 I've <a title="Writing a generic plugin manager in C# @ Temporal Cohesion" href="http://temporalcohesion.co.uk/2009/05/25/writing-a-generic-plugin-manager-in-c/" target="_self">written </a><a title="More on the generic plugin manager" href="http://temporalcohesion.co.uk/2009/11/02/more-on-the-generic-plugin-manager/" target="_self">previously</a> about writing your own generic plugin manager/framework.
 

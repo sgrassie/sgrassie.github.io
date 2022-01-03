@@ -1,8 +1,10 @@
 ---
-title: Why do I procrastinate?
-published: 27/08/2012
 layout: post
-categories: cathartic,random,self pity,Uncategorized
+title: Why do I procrastinate?
+tags: ['cathartic','random','self pity','Uncategorized']
+hidden: False
+published: 27/08/2012
+ispublished: True
 ---
 <blockquote>Never put off until tomorrow what you can do the day after tomorrow. - Mark Twain</blockquote>
 Procrastination is defined as: <em>The action of delaying or postponing something.</em>  It is something with which I am unfortunately very familiar with. I have suffered from it, or been guilty of it, for as long as I can remember.

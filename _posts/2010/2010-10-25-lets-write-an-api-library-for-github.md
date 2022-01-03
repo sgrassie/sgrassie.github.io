@@ -1,9 +1,11 @@
 ---
-title: Let's write an API library for Github
-published: 25/10/2010
 layout: post
-category: C#,Coding
-metadescription: lets-write-an-api-library-for-github
+title: Let's write an API library for Github
+description: lets-write-an-api-library-for-github
+tags: ['C#','Coding']
+hidden: False
+published: 25/10/2010
+ispublished: True
 ---
 Let's write a C# API library for <a title="Github.com" href="http://www.github.com">github.com</a>.
 

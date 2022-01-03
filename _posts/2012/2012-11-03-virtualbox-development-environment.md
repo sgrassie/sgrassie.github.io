@@ -1,9 +1,11 @@
 ---
-title: VirtualBox Development Environment
-published: 03/11/2012
 layout: post
-category: Uncategorized
-metadescription: VirtualBox Development Environment
+title: VirtualBox Development Environment
+description: VirtualBox Development Environment
+tags: ['Uncategorized']
+hidden: False
+published: 03/11/2012
+ispublished: True
 ---
 In the past when doing web development, I would usually use something like <a title="WAMP Server" href="http://www.wampserver.com" target="_blank">WAMP</a> to get me a development environment to work locally. However these days with the proliferation of web development technologies, there are just too many tools to have running on your machine. I work in Windows, and having PHP, Ruby, Django, Node, Grails and whatever else all on my system path starts getting a little unwieldy.
 

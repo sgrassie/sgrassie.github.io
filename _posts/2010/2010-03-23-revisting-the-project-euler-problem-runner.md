@@ -1,8 +1,10 @@
 ---
-title: Revisting the Project Euler problem runner
-published: 23/03/2010
 layout: post
-categories: design patterns,euler,Java,Java,Project Euler
+title: Revisting the Project Euler problem runner
+tags: ['design patterns','euler','Java','Java','Project Euler']
+hidden: False
+published: 23/03/2010
+ispublished: True
 ---
 I'm sure that you must have heard about <a title="Project Euler website" href="http://projecteuler.net/" target="_blank">Project Euler</a>, which "is a series of challenging mathematical/computer programming problems that  will require more than just mathematical insights to solve". I have blogged about tackling the Project Euler problems <a href="http://temporalcohesion.co.uk/2008/08/22/building-the-project-euler-framework-part-1/">before</a>, and at the time, I developed a simple program to try to automate running the problems.
 

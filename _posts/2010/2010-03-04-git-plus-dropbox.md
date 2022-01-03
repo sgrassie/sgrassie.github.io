@@ -1,8 +1,10 @@
 ---
-title: Git plus dropbox
-published: 04/03/2010
 layout: post
-categories: Dropbox,Git,Git,Source Control
+title: Git plus dropbox
+tags: ['Dropbox','Git','Git','Source Control']
+hidden: False
+published: 04/03/2010
+ispublished: True
 ---
 <a title="Link to earlier blog post." href="http://temporalcohesion.co.uk/2008/08/29/source-control-using-dropbox/" target="_self">Some time ago</a>, I wrote about using <a title="Link to dropbox.com" href="https://www.dropbox.com/" target="_blank">Dropbox </a>as a version control system. I now realise how naive  and short-sighted that thought was. At the time, it was my belief that a dropbox account could be suitable for maintaining version history, and after a fashion, it can be, because using the web client to view your files, you can see previous versions of  the files in your dropbox.
 

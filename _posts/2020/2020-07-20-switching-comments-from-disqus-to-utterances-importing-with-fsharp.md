@@ -2,12 +2,14 @@
 layout: post
 title: 'Switching comments from Disqus to utteranc.es and importing to Github with F#'
 description: 'Shows how to export blog comments from Disqus into Github Issues and integrate utterance.es'
-tags: [blog, f#]
+tags: [blog,f#]
+featured_image: /assets/images/posts/2020/conversation-3513843_1920.jpg
 image: /assets/images/posts/2020/conversation-3513843_1920.jpg
 featured_image_thumbnail: 
-featured_image: /assets/images/posts/2020/conversation-3513843_1920.jpg
-featured: false
-hidden: false
+featured: False
+hidden: False
+published: 20/07/2020
+ispublished: True
 ---
 There are lots of blog comment systems, and this blog has used Disqus as the comment system for a long time. I'm not going to go into all the reasons to move away from Disqus, but page load times and wanting more control over your data and being able to respect your readers privacy figure highly. 
 

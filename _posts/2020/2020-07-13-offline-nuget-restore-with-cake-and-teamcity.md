@@ -1,11 +1,13 @@
 ---
 layout: post
 title: 'Offline NuGet restore with Cake and TeamCity'
-tags: [cake, teamcity, devops]
-featured_image_thumbnail: 
+tags: [cake,teamcity,devops]
 featured_image: /assets/images/posts/2020/blur-1869227_1920.jpg
-featured: false
-hidden: false
+featured_image_thumbnail: 
+featured: False
+hidden: False
+published: 13/07/2020
+ispublished: True
 ---
 I've been upgrading part of our build infrastructure to handle the ongoing upgrade to .net core, and as part of that, I've had to update the Cake build script to handle doing the restore in an offline environment, on the build server.
 
