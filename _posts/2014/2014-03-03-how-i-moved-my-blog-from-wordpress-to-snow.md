@@ -1,7 +1,9 @@
 ---
 layout: post
 title: "How I moved my blog from wordpress to snow, part one"
-tags: [blog,sandra.snow]
+description: 
+tags: [Blog,Sandra.Snow]
+featured_image: 
 hidden: False
 published: 03/03/2014
 ispublished: True

@@ -2,7 +2,8 @@
 layout: post
 title: ReactiveUI - Hello, World!
 description: wpf, c#, reactiveui, mvvm
-tags: ['wpf','c#','reactiveui','mvvm']
+tags: ['Wpf','C#','Reactiveui','Mvvm']
+featured_image: 
 hidden: False
 published: 05/06/2014
 ispublished: True

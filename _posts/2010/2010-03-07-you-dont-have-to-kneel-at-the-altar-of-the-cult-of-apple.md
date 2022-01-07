@@ -3,6 +3,7 @@ layout: post
 title: You don't have to kneel at the altar of the cult of Apple
 description: you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple
 tags: ['Uncategorized']
+featured_image: 
 hidden: False
 published: 07/03/2010
 ispublished: True

@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Learning ReactiveUI for fun and profit&#58; Hello, World!
-tags: ['ReactiveUI']
+description: 
+tags: ['Reactiveui']
+featured_image: 
 hidden: False
 published: 17/11/2013
 ispublished: True

@@ -2,7 +2,8 @@
 layout: post
 title: Writing a generic plugin manager in C#
 description: writing-a-generic-plugin-manager-in-c
-tags: ['C#','C#','Coding','Plugin Manager']
+tags: ['C#','Coding','Plugin Manager']
+featured_image: 
 hidden: False
 published: 25/05/2009
 ispublished: True

@@ -2,7 +2,8 @@
 layout: post
 title: Damn you empty catch block
 description: damn-you-empty-catch-block
-tags: ['annoyance','C#','C#','Coding','exception']
+tags: ['Annoyance','C#','Coding','Exception']
+featured_image: 
 hidden: False
 published: 08/11/2010
 ispublished: True

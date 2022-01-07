@@ -2,7 +2,8 @@
 layout: post
 title: MSBuild Code Analysis (on a build server)
 description: MSBuild Code Analysis (on a build server)
-tags: ['c#','msbuild','jenkins']
+tags: ['C#','Msbuild','Jenkins']
+featured_image: 
 hidden: False
 published: 17/04/2015
 ispublished: True

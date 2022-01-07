@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Well I certainly didn't know that Word could do this
+description: 
 tags: ['Uncategorized']
+featured_image: 
 hidden: False
 published: 31/03/2010
 ispublished: True

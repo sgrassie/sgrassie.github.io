@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Project Euler problem runner framework in Java
+description: 
 tags: [Coding,Java,Project Euler]
+featured_image: 
 hidden: False
 published: 15/08/2008
 ispublished: True

@@ -1,7 +1,9 @@
 ---
 layout: post
 title: New Years Resolutions are so passé
-tags: [life]
+description: 
+tags: [Life]
+featured_image: 
 hidden: False
 published: 07/01/2008
 ispublished: True

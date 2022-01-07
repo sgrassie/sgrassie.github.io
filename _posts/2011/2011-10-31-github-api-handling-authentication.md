@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Github API - Handling authentication
-tags: ['C#','Coding','github-api']
+description: 
+tags: ['C#','Coding','Github-Api']
+featured_image: 
 hidden: False
 published: 31/10/2011
 ispublished: True

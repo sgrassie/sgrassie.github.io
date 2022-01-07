@@ -2,7 +2,8 @@
 layout: post
 title: About those view locator conventions
 description: PRISM view locator conventions
-tags: ['wpf','prism']
+tags: ['Wpf','Prism']
+featured_image: 
 hidden: False
 published: 22/10/2014
 ispublished: True

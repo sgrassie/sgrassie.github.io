@@ -2,6 +2,8 @@
 layout: post
 title: Binary search in C#
 description: An implementation of the classic Binary Search in C#
+tags: []
+featured_image: 
 hidden: False
 published: 02/11/2017
 ispublished: True

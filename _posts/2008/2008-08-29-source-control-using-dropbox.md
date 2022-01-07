@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Source control using Dropbox
-tags: [Coding,scm]
+description: 
+tags: [Coding,Scm]
+featured_image: 
 hidden: False
 published: 29/08/2008
 ispublished: True

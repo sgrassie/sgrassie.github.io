@@ -1,7 +1,9 @@
 ---
 layout: post
 title: source control systems
+description: 
 tags: [Coding]
+featured_image: 
 hidden: False
 published: 20/08/2007
 ispublished: True

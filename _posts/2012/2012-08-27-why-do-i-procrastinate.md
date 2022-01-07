@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Why do I procrastinate?
-tags: ['cathartic','random','self pity','Uncategorized']
+description: 
+tags: ['Cathartic','Random','Self Pity','Uncategorized']
+featured_image: 
 hidden: False
 published: 27/08/2012
 ispublished: True

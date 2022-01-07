@@ -2,7 +2,8 @@
 layout: post
 title: I won a free Typemock t-shirt via Twitter!
 description: i-won-a-free-typemock-t-shirt-via-twitter
-tags: ['Uncategorized','winner']
+tags: ['Uncategorized','Winner']
+featured_image: 
 hidden: False
 published: 17/02/2010
 ispublished: True

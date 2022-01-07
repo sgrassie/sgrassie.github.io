@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Extending Sandra.Snow
-tags: ['snow']
+description: 
+tags: ['Snow']
+featured_image: 
 hidden: False
 published: 19/02/2014
 ispublished: True

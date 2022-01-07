@@ -3,6 +3,7 @@ layout: post
 title: Let's write an API library for Github
 description: lets-write-an-api-library-for-github
 tags: ['C#','Coding']
+featured_image: 
 hidden: False
 published: 25/10/2010
 ispublished: True

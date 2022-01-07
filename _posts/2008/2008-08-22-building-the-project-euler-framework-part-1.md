@@ -1,7 +1,9 @@
 ---
 layout: post
 title: "Building the Project Euler framework, part 1"
+description: 
 tags: [Coding,Java,Project Euler]
+featured_image: 
 hidden: False
 published: 22/08/2008
 ispublished: True

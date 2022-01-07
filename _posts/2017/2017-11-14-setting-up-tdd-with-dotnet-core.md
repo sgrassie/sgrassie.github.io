@@ -2,6 +2,8 @@
 layout: post
 title: Setting up a TDD environment in dotnet core
 description: A tutorial on how to setup a TDD environment in dotnet core
+tags: []
+featured_image: 
 hidden: False
 published: 14/11/2017
 ispublished: True

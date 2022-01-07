@@ -2,7 +2,8 @@
 layout: post
 title: Stupid design decisions with the Github API wrapper
 description: stupid-design-decisions-with-the-github-api-wrapper
-tags: ['C#','github-api']
+tags: ['C#','Github-Api']
+featured_image: 
 hidden: False
 published: 14/11/2011
 ispublished: True

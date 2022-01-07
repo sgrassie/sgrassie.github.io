@@ -2,7 +2,8 @@
 layout: post
 title: Moved blog to snow and github
 description: Moved blog to snow and github
-tags: ['blog','nancy','sandra.snow']
+tags: ['Blog','Nancy','Sandra.Snow']
+featured_image: 
 hidden: False
 published: 08/02/2014
 ispublished: True

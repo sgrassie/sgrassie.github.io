@@ -1,7 +1,9 @@
 ---
 layout: post
 title: linux adventures
-tags: [linux]
+description: 
+tags: [Linux]
+featured_image: 
 hidden: False
 published: 05/08/2007
 ispublished: True

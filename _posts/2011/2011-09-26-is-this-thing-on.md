@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Is this thing on?
+description: 
 tags: ['Uncategorized']
+featured_image: 
 hidden: False
 published: 26/09/2011
 ispublished: True

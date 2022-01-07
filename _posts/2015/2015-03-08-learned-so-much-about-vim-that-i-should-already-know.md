@@ -2,7 +2,8 @@
 layout: post
 title: Learned so much about Vim that I should already know
 description: sucking less at using Vim
-tags: ['vim']
+tags: ['Vim']
+featured_image: 
 hidden: False
 published: 08/03/2015
 ispublished: True

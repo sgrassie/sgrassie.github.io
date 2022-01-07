@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Revisting the Project Euler problem runner
-tags: ['design patterns','euler','Java','Java','Project Euler']
+description: 
+tags: ['Design Patterns','Euler','Java','Project Euler']
+featured_image: 
 hidden: False
 published: 23/03/2010
 ispublished: True

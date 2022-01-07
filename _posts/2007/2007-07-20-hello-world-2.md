@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Hello world!
+description: 
 tags: [News]
+featured_image: 
 hidden: False
 published: 20/07/2007
 ispublished: True

@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Getting paid to do something you love doing is awesome!
-tags: ['Coding','Coding','thoughts']
+description: 
+tags: ['Coding','Thoughts']
+featured_image: 
 hidden: False
 published: 15/11/2010
 ispublished: True

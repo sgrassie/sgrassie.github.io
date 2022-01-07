@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Git plus dropbox
-tags: ['Dropbox','Git','Git','Source Control']
+description: 
+tags: ['Dropbox','Git','Source Control']
+featured_image: 
 hidden: False
 published: 04/03/2010
 ispublished: True

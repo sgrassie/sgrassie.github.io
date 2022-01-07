@@ -1,7 +1,9 @@
 ---
 layout: post
 title: cakePHP with Eclipse
+description: 
 tags: [PHP]
+featured_image: 
 hidden: False
 published: 07/10/2007
 ispublished: True

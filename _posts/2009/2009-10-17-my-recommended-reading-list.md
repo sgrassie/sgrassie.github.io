@@ -1,7 +1,9 @@
 ---
 layout: post
 title: My recommended reading list
-tags: ['Books','Books','Coding']
+description: 
+tags: ['Books','Coding']
+featured_image: 
 hidden: False
 published: 17/10/2009
 ispublished: True

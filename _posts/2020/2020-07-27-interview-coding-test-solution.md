@@ -2,7 +2,7 @@
 layout: post
 title: 'Interview Coding Test Solution'
 description: 'An interview coding test and solution'
-tags: [csharp]
+tags: [Csharp]
 featured_image: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
 image: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
 featured_image_thumbnail: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg

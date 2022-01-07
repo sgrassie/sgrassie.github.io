@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Probably giving up my CSharp Github API
+description: 
 tags: ['C#','Coding']
+featured_image: 
 hidden: False
 published: 12/12/2011
 ispublished: True

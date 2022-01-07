@@ -1,7 +1,9 @@
 ---
 layout: post
 title: "How I moved my blog to sandra snow, part two"
-tags: ['blog','sandra.snow']
+description: 
+tags: ['Blog','Sandra.Snow']
+featured_image: 
 hidden: False
 published: 30/05/2014
 ispublished: True

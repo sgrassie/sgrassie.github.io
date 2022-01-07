@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Limitations in Delphi
-tags: [delphi]
+description: 
+tags: [Delphi]
+featured_image: 
 hidden: False
 published: 23/07/2007
 ispublished: True

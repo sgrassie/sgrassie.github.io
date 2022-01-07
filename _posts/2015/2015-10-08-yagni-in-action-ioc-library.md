@@ -2,7 +2,8 @@
 layout: post
 title: You don't always need an IOC library
 description: A brief discussion about not always needing an IOC library
-tags: ['programming']
+tags: ['Programming']
+featured_image: 
 hidden: False
 published: 08/10/2015
 ispublished: True

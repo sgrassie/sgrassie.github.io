@@ -3,6 +3,7 @@ layout: post
 title: VirtualBox Development Environment
 description: VirtualBox Development Environment
 tags: ['Uncategorized']
+featured_image: 
 hidden: False
 published: 03/11/2012
 ispublished: True

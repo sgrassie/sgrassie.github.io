@@ -2,7 +2,8 @@
 layout: post
 title: Notes on Vim
 description: Notes on Vim
-tags: ['Coding','editing','vim']
+tags: ['Coding','Editing','Vim']
+featured_image: 
 hidden: False
 published: 29/10/2012
 ispublished: True
