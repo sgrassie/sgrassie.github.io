@@ -50,6 +50,8 @@ social:
 navigation:
   - text: Home
     url: /
+  - text: Archives 
+    url: /archives
   - text: About
     url: /about
   - text: Contact Me
