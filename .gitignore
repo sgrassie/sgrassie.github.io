@@ -8,3 +8,5 @@ _drafts
 
 .fake
 .ionide
+.jekyll-cache
+.jekyll-metadata
