@@ -3,7 +3,8 @@ layout: post
 title: dotnet tools on an offline build server
 description: A brief guide for running builds with dotnet tools on an offline build server
 tags: ['Dotnet','Devops']
-featured_image: /assets/images/posts/2020/conversation-3513843_1920.jpg
+featured_image: /assets/images/2021-05-06-dotnet-tools-offline-build-server.png
+image: /assets/images/2021-05-06-dotnet-tools-offline-build-server.png
 featured: False
 hidden: False
 published: 06/05/2021

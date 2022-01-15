@@ -3,7 +3,8 @@ layout: post
 title: My recommended reading list
 description: 
 tags: ['Books','Coding']
-featured_image: 
+featured_image: /assets/images/2009-10-17-my-recommended-reading-list.png
+image: /assets/images/2009-10-17-my-recommended-reading-list.png
 hidden: False
 published: 17/10/2009
 ispublished: True

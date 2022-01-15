@@ -3,7 +3,8 @@ layout: post
 title: Getting paid to do something you love doing is awesome!
 description: 
 tags: ['Coding','Thoughts']
-featured_image: 
+featured_image: /assets/images/2010-11-15-getting-paid-to-do-something-you-love-doing-is-awesome.png
+image: /assets/images/2010-11-15-getting-paid-to-do-something-you-love-doing-is-awesome.png
 hidden: False
 published: 15/11/2010
 ispublished: True

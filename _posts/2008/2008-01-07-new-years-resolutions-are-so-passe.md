@@ -3,7 +3,8 @@ layout: post
 title: New Years Resolutions are so passé
 description: 
 tags: [Life]
-featured_image: 
+featured_image: /assets/images/2008-01-07-new-years-resolutions-are-so-passe.png
+image: /assets/images/2008-01-07-new-years-resolutions-are-so-passe.png
 hidden: False
 published: 07/01/2008
 ispublished: True

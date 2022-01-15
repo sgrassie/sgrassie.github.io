@@ -3,7 +3,8 @@ layout: post
 title: 'Configuring SignalR in StructureMap'
 description: 
 tags: [Signalr,Structuremap]
-featured_image: 
+featured_image: /assets/images/2015-06-04-structuremap-and-signalr.png
+image: /assets/images/2015-06-04-structuremap-and-signalr.png
 hidden: False
 published: 04/06/2015
 ispublished: True

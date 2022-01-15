@@ -3,7 +3,8 @@ layout: post
 title: 'Offline VS Build Tools still tries to download?'
 description: 
 tags: ['Build Tools']
-featured_image: /assets/images/posts/2020/artem-sapegin-b18TRXc8UPQ-unsplash.jpg
+featured_image: /assets/images/2021-04-01-offline-vs-build-tools-still-tries-to-download.png
+image: /assets/images/2021-04-01-offline-vs-build-tools-still-tries-to-download.png
 featured: False
 hidden: False
 published: 01/04/2021

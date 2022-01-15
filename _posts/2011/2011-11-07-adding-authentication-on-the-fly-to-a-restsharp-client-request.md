@@ -3,7 +3,8 @@ layout: post
 title: Adding authentication on the fly to a RestSharp client request
 description: adding-authentication-on-the-fly-to-a-restsharp-client-request
 tags: ['C#','Coding','Github-Api']
-featured_image: 
+featured_image: /assets/images/2011-11-07-adding-authentication-on-the-fly-to-a-restsharp-client-request.png
+image: /assets/images/2011-11-07-adding-authentication-on-the-fly-to-a-restsharp-client-request.png
 hidden: False
 published: 07/11/2011
 ispublished: True

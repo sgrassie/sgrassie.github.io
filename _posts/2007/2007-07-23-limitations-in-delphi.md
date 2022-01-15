@@ -3,7 +3,8 @@ layout: post
 title: Limitations in Delphi
 description: 
 tags: [Delphi]
-featured_image: 
+featured_image: /assets/images/2007-07-23-limitations-in-delphi.png
+image: /assets/images/2007-07-23-limitations-in-delphi.png
 hidden: False
 published: 23/07/2007
 ispublished: True

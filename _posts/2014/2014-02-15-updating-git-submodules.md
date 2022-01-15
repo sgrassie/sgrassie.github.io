@@ -3,7 +3,8 @@ layout: post
 title: Updating git submodules
 description: updating git submodules
 tags: ['Git']
-featured_image: 
+featured_image: /assets/images/2014-02-15-updating-git-submodules.png
+image: /assets/images/2014-02-15-updating-git-submodules.png
 hidden: False
 published: 15/02/2014
 ispublished: True

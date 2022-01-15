@@ -3,7 +3,8 @@ layout: post
 title: Extending Sandra.Snow
 description: 
 tags: ['Snow']
-featured_image: 
+featured_image: /assets/images/2014-02-19-extending-sandra-snow.png
+image: /assets/images/2014-02-19-extending-sandra-snow.png
 hidden: False
 published: 19/02/2014
 ispublished: True

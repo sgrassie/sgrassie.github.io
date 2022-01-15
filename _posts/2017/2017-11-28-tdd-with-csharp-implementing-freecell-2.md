@@ -3,7 +3,8 @@ layout: post
 title: "Test Driven Development: Implementing Freecell - Part 2"
 description: Developing a Freecell rules engine, using Test Driven Development in csharp - Part 2
 tags: []
-featured_image: 
+featured_image: /assets/images/2017-11-28-tdd-with-csharp-implementing-freecell-2.png
+image: /assets/images/2017-11-28-tdd-with-csharp-implementing-freecell-2.png
 hidden: False
 published: 28/11/2017
 ispublished: True

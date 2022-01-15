@@ -3,8 +3,8 @@ layout: post
 title: 'Parsing Yaml Frontmatter in F#'
 description: 'Using F# to parse Yaml frontmatter block from a Jekyll blog using YamlDotNet'
 tags: [F#,Jekyll,Yaml]
-featured_image: /headerimagetemplate/code-2620118_1920.jpg
-image: /headerimagetemplate/code-2620118_1920.jpg
+featured_image: /assets/images/2020-08-03-parsing-yaml-frontmatter-in-fsharp.png
+image: /assets/images/2020-08-03-parsing-yaml-frontmatter-in-fsharp.png
 featured_image_thumbnail: 
 featured: False
 hidden: False

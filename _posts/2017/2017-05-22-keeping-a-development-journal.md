@@ -3,7 +3,8 @@ layout: post
 title: Keeping a development journal
 description: If it isn't written down, it didn't happen
 tags: ['Musings']
-featured_image: 
+featured_image: /assets/images/2017-05-22-keeping-a-development-journal.png
+image: /assets/images/2017-05-22-keeping-a-development-journal.png
 hidden: False
 published: 22/05/2017
 ispublished: True

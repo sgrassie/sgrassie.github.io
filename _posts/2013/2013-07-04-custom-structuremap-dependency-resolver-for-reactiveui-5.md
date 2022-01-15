@@ -3,7 +3,8 @@ layout: post
 title: Custom Structuremap Dependency Resolver for ReactiveUI 5
 description: custom-structuremap-dependency-resolver-for-reactiveui-5
 tags: ['Uncategorized']
-featured_image: 
+featured_image: /assets/images/2013-07-04-custom-structuremap-dependency-resolver-for-reactiveui-5.png
+image: /assets/images/2013-07-04-custom-structuremap-dependency-resolver-for-reactiveui-5.png
 hidden: False
 published: 04/07/2013
 ispublished: True

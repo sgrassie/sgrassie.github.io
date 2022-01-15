@@ -3,7 +3,8 @@ layout: post
 title: Damn you empty catch block
 description: damn-you-empty-catch-block
 tags: ['Annoyance','C#','Coding','Exception']
-featured_image: 
+featured_image: /assets/images/2010-11-08-damn-you-empty-catch-block.png
+image: /assets/images/2010-11-08-damn-you-empty-catch-block.png
 hidden: False
 published: 08/11/2010
 ispublished: True

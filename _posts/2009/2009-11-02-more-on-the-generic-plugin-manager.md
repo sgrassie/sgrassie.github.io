@@ -3,7 +3,8 @@ layout: post
 title: More on the generic plugin manager
 description: more-on-the-generic-plugin-manager
 tags: ['C#','Coding','Plugin Manager']
-featured_image: 
+featured_image: /assets/images/2009-11-02-more-on-the-generic-plugin-manager.png
+image: /assets/images/2009-11-02-more-on-the-generic-plugin-manager.png
 hidden: False
 published: 02/11/2009
 ispublished: True

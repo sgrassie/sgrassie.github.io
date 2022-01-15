@@ -3,7 +3,8 @@ layout: post
 title: 'Making the English Premier League Generator immutable'
 description: 
 tags: [F#]
-featured_image: /assets/images/posts/2020/footballs-3597192_1920.jpg
+featured_image: /assets/images/2020-07-10-making-the-epl-generator-immutable.png
+image: /assets/images/2020-07-10-making-the-epl-generator-immutable.png
 featured_image_thumbnail: /assets/images/posts/2020/footballs-3597192_640.jpg
 featured: False
 hidden: False

@@ -3,7 +3,8 @@ layout: post
 title: Definitely given up on my github-csharp-api project
 description: definitely-given-up-on-my-github-csharp-api-project
 tags: ['C#','Coding']
-featured_image: 
+featured_image: /assets/images/2013-11-07-definitely-given-up-on-my-github-csharp-api-project.png
+image: /assets/images/2013-11-07-definitely-given-up-on-my-github-csharp-api-project.png
 hidden: False
 published: 07/11/2013
 ispublished: True
