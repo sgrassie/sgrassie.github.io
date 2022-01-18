@@ -25,9 +25,10 @@ post_class: post-template
         </header><!-- .post-header -->
 
         {% if page.featured_image %}
-        <div class="post-thumbnail">
+        <picture class="post-thumbnail">
+            <source srcset="{{ site.baseurl }}{{ page.featured_image }}" type="image/png" >
             <img src="{{ site.baseurl }}{{ page.featured_image }}" alt="{{ page.title }}">
-        </div>
+        </picture>
         {% endif %}
         <div class="post-content">
             {% include series.html %}
