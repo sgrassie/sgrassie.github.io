@@ -3,8 +3,8 @@ layout: post
 title: Hello world!
 description: 
 tags: [News]
-featured_image: /assets/images/2007-07-20-hello-world-2.png
-image: /assets/images/2007-07-20-hello-world-2.png
+featured_image: /assets/images/2007-07-20-hello-world-2.webp
+image: /assets/images/2007-07-20-hello-world-2.webp
 hidden: False
 published: 20/07/2007
 ispublished: True

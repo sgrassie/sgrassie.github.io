@@ -3,8 +3,8 @@ layout: post
 title: Github C# API&#58; Handling the response with RestSharp
 description: github-c-api-handling-the-response-with-restsharp
 tags: ['C#','Coding','Restsharp']
-featured_image: /assets/images/2010-11-01-github-c-api-handling-the-response-with-restsharp.png
-image: /assets/images/2010-11-01-github-c-api-handling-the-response-with-restsharp.png
+featured_image: /assets/images/2010-11-01-github-c-api-handling-the-response-with-restsharp.webp
+image: /assets/images/2010-11-01-github-c-api-handling-the-response-with-restsharp.webp
 hidden: False
 published: 01/11/2010
 ispublished: True

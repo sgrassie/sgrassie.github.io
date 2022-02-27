@@ -3,8 +3,8 @@ layout: post
 title: Git plus dropbox
 description: 
 tags: ['Dropbox','Git','Source Control']
-featured_image: /assets/images/2010-03-04-git-plus-dropbox.png
-image: /assets/images/2010-03-04-git-plus-dropbox.png
+featured_image: /assets/images/2010-03-04-git-plus-dropbox.webp
+image: /assets/images/2010-03-04-git-plus-dropbox.webp
 hidden: False
 published: 04/03/2010
 ispublished: True

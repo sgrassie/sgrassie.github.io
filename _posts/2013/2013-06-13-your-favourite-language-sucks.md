@@ -3,8 +3,8 @@ layout: post
 title: Your favourite language sucks
 description: your-favourite-language-sucks
 tags: ['C#','Coding']
-featured_image: /assets/images/2013-06-13-your-favourite-language-sucks.png
-image: /assets/images/2013-06-13-your-favourite-language-sucks.png
+featured_image: /assets/images/2013-06-13-your-favourite-language-sucks.webp
+image: /assets/images/2013-06-13-your-favourite-language-sucks.webp
 hidden: False
 published: 13/06/2013
 ispublished: True

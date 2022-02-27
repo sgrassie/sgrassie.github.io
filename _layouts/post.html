@@ -26,7 +26,7 @@ post_class: post-template
 
         {% if page.featured_image %}
         <picture class="post-thumbnail">
-            <source srcset="{{ site.baseurl }}{{ page.featured_image }}" type="image/png" >
+            <source srcset="{{ site.baseurl }}{{ page.featured_image }}" type="image/webp" >
             <img src="{{ site.baseurl }}{{ page.featured_image }}" alt="{{ page.title }}">
         </picture>
         {% endif %}

@@ -3,8 +3,8 @@ layout: post
 title: A useful PRISM extension method
 description: Why isn't this included by default?
 tags: [Prism,C#,Mvvm]
-featured_image: /assets/images/2014-10-20-a-useful-prism-extension-method.png
-image: /assets/images/2014-10-20-a-useful-prism-extension-method.png
+featured_image: /assets/images/2014-10-20-a-useful-prism-extension-method.webp
+image: /assets/images/2014-10-20-a-useful-prism-extension-method.webp
 hidden: False
 published: 20/10/2014
 ispublished: True

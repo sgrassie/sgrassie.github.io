@@ -3,8 +3,8 @@ layout: post
 title: Even more on the generic plugin manager
 description: even-more-on-the-generic-plugin-manager
 tags: ['C#','Coding','DI','Ioc','Plugin Manager']
-featured_image: /assets/images/2010-03-17-even-more-on-the-generic-plugin-manager.png
-image: /assets/images/2010-03-17-even-more-on-the-generic-plugin-manager.png
+featured_image: /assets/images/2010-03-17-even-more-on-the-generic-plugin-manager.webp
+image: /assets/images/2010-03-17-even-more-on-the-generic-plugin-manager.webp
 hidden: False
 published: 17/03/2010
 ispublished: True

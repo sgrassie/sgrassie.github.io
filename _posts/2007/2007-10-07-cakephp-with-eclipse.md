@@ -3,8 +3,8 @@ layout: post
 title: cakePHP with Eclipse
 description: 
 tags: [PHP]
-featured_image: /assets/images/2007-10-07-cakephp-with-eclipse.png
-image: /assets/images/2007-10-07-cakephp-with-eclipse.png
+featured_image: /assets/images/2007-10-07-cakephp-with-eclipse.webp
+image: /assets/images/2007-10-07-cakephp-with-eclipse.webp
 hidden: False
 published: 07/10/2007
 ispublished: True

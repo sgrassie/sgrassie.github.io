@@ -3,8 +3,8 @@ layout: post
 title: Binary search in C#
 description: An implementation of the classic Binary Search in C#
 tags: []
-featured_image: /assets/images/2017-11-02-binary-search-in-csharp.png
-image: /assets/images/2017-11-02-binary-search-in-csharp.png
+featured_image: /assets/images/2017-11-02-binary-search-in-csharp.webp
+image: /assets/images/2017-11-02-binary-search-in-csharp.webp
 hidden: False
 published: 02/11/2017
 ispublished: True

@@ -3,8 +3,8 @@ layout: post
 title: A psake build script example
 description: a-psake-build-script-example
 tags: ['Build Script','C#','Coding','Powershell','Psake']
-featured_image: /assets/images/2009-10-26-a-psake-build-script-example.png
-image: /assets/images/2009-10-26-a-psake-build-script-example.png
+featured_image: /assets/images/2009-10-26-a-psake-build-script-example.webp
+image: /assets/images/2009-10-26-a-psake-build-script-example.webp
 hidden: False
 published: 26/10/2009
 ispublished: True

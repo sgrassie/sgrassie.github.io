@@ -3,8 +3,8 @@ layout: post
 title: Revisting the Project Euler problem runner
 description: 
 tags: ['Design Patterns','Euler','Java','Project Euler']
-featured_image: /assets/images/2010-03-23-revisting-the-project-euler-problem-runner.png
-image: /assets/images/2010-03-23-revisting-the-project-euler-problem-runner.png
+featured_image: /assets/images/2010-03-23-revisting-the-project-euler-problem-runner.webp
+image: /assets/images/2010-03-23-revisting-the-project-euler-problem-runner.webp
 hidden: False
 published: 23/03/2010
 ispublished: True

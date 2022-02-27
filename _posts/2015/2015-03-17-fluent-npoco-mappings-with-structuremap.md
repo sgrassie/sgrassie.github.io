@@ -3,8 +3,8 @@ layout: post
 title: Fluent NPoco mappings with StructureMap
 description: npoco, structuremap, ioc
 tags: ['Npoco','Structuremap']
-featured_image: /assets/images/2015-03-17-fluent-npoco-mappings-with-structuremap.png
-image: /assets/images/2015-03-17-fluent-npoco-mappings-with-structuremap.png
+featured_image: /assets/images/2015-03-17-fluent-npoco-mappings-with-structuremap.webp
+image: /assets/images/2015-03-17-fluent-npoco-mappings-with-structuremap.webp
 hidden: False
 published: 17/03/2015
 ispublished: True

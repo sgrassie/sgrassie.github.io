@@ -3,8 +3,8 @@ layout: post
 title: source control systems
 description: 
 tags: [Coding]
-featured_image: /assets/images/2007-08-20-source-control-systems.png
-image: /assets/images/2007-08-20-source-control-systems.png
+featured_image: /assets/images/2007-08-20-source-control-systems.webp
+image: /assets/images/2007-08-20-source-control-systems.webp
 hidden: False
 published: 20/08/2007
 ispublished: True

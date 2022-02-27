@@ -3,8 +3,8 @@ layout: post
 title: linux adventures
 description: 
 tags: [Linux]
-featured_image: /assets/images/2007-08-05-linux-adventures.png
-image: /assets/images/2007-08-05-linux-adventures.png
+featured_image: /assets/images/2007-08-05-linux-adventures.webp
+image: /assets/images/2007-08-05-linux-adventures.webp
 hidden: False
 published: 05/08/2007
 ispublished: True

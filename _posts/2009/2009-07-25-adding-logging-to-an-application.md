@@ -3,8 +3,8 @@ layout: post
 title: Adding logging to an application
 description: 
 tags: ['C#','Coding','Log4net','Logging']
-featured_image: /assets/images/2009-07-25-adding-logging-to-an-application.png
-image: /assets/images/2009-07-25-adding-logging-to-an-application.png
+featured_image: /assets/images/2009-07-25-adding-logging-to-an-application.webp
+image: /assets/images/2009-07-25-adding-logging-to-an-application.webp
 hidden: False
 published: 25/07/2009
 ispublished: True

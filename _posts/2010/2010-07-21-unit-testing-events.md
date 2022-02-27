@@ -3,8 +3,8 @@ layout: post
 title: Unit Testing Events
 description: 
 tags: ['C#','Coding']
-featured_image: /assets/images/2010-07-21-unit-testing-events.png
-image: /assets/images/2010-07-21-unit-testing-events.png
+featured_image: /assets/images/2010-07-21-unit-testing-events.webp
+image: /assets/images/2010-07-21-unit-testing-events.webp
 hidden: False
 published: 21/07/2010
 ispublished: True

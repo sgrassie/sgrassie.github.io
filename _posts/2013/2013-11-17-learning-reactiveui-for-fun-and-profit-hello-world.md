@@ -3,8 +3,8 @@ layout: post
 title: Learning ReactiveUI for fun and profit&#58; Hello, World!
 description: 
 tags: ['Reactiveui']
-featured_image: /assets/images/2013-11-17-learning-reactiveui-for-fun-and-profit-hello-world.png
-image: /assets/images/2013-11-17-learning-reactiveui-for-fun-and-profit-hello-world.png
+featured_image: /assets/images/2013-11-17-learning-reactiveui-for-fun-and-profit-hello-world.webp
+image: /assets/images/2013-11-17-learning-reactiveui-for-fun-and-profit-hello-world.webp
 hidden: False
 published: 17/11/2013
 ispublished: True

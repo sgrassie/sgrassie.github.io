@@ -3,8 +3,8 @@ layout: post
 title: Why do I procrastinate?
 description: 
 tags: ['Cathartic','Random','Self Pity','Uncategorized']
-featured_image: /assets/images/2012-08-27-why-do-i-procrastinate.png
-image: /assets/images/2012-08-27-why-do-i-procrastinate.png
+featured_image: /assets/images/2012-08-27-why-do-i-procrastinate.webp
+image: /assets/images/2012-08-27-why-do-i-procrastinate.webp
 hidden: False
 published: 27/08/2012
 ispublished: True

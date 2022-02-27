@@ -3,8 +3,8 @@ layout: post
 title: 'Offline NuGet restore with Cake and TeamCity'
 description: 
 tags: [Cake,Teamcity,Devops]
-featured_image: /assets/images/2020-07-13-offline-nuget-restore-with-cake-and-teamcity.png
-image: /assets/images/2020-07-13-offline-nuget-restore-with-cake-and-teamcity.png
+featured_image: /assets/images/2020-07-13-offline-nuget-restore-with-cake-and-teamcity.webp
+image: /assets/images/2020-07-13-offline-nuget-restore-with-cake-and-teamcity.webp
 featured_image_thumbnail: 
 featured: False
 hidden: False

@@ -3,8 +3,8 @@ layout: post
 title: VirtualBox Development Environment
 description: VirtualBox Development Environment
 tags: ['Uncategorized']
-featured_image: /assets/images/2012-11-03-virtualbox-development-environment.png
-image: /assets/images/2012-11-03-virtualbox-development-environment.png
+featured_image: /assets/images/2012-11-03-virtualbox-development-environment.webp
+image: /assets/images/2012-11-03-virtualbox-development-environment.webp
 hidden: False
 published: 03/11/2012
 ispublished: True

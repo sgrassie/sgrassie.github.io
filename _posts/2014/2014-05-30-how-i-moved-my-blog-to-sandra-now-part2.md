@@ -3,8 +3,8 @@ layout: post
 title: "How I moved my blog to sandra snow, part two"
 description: 
 tags: ['Blog','Sandra.Snow']
-featured_image: /assets/images/2014-05-30-how-i-moved-my-blog-to-sandra-now-part2.png
-image: /assets/images/2014-05-30-how-i-moved-my-blog-to-sandra-now-part2.png
+featured_image: /assets/images/2014-05-30-how-i-moved-my-blog-to-sandra-now-part2.webp
+image: /assets/images/2014-05-30-how-i-moved-my-blog-to-sandra-now-part2.webp
 hidden: False
 published: 30/05/2014
 ispublished: True

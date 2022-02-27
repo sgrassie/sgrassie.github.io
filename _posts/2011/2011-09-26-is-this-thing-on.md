@@ -3,8 +3,8 @@ layout: post
 title: Is this thing on?
 description: 
 tags: ['Uncategorized']
-featured_image: /assets/images/2011-09-26-is-this-thing-on.png
-image: /assets/images/2011-09-26-is-this-thing-on.png
+featured_image: /assets/images/2011-09-26-is-this-thing-on.webp
+image: /assets/images/2011-09-26-is-this-thing-on.webp
 hidden: False
 published: 26/09/2011
 ispublished: True

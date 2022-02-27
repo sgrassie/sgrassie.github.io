@@ -3,8 +3,8 @@ layout: post
 title: Source control using Dropbox
 description: 
 tags: [Coding,Scm]
-featured_image: /assets/images/2008-08-29-source-control-using-dropbox.png
-image: /assets/images/2008-08-29-source-control-using-dropbox.png
+featured_image: /assets/images/2008-08-29-source-control-using-dropbox.webp
+image: /assets/images/2008-08-29-source-control-using-dropbox.webp
 hidden: False
 published: 29/08/2008
 ispublished: True
