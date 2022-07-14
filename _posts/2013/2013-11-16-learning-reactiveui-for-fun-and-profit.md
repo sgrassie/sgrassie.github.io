@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Learning ReactiveUI for fun and profit
-description: 
 tags: ['Reactiveui']
 featured_image: /assets/images/2013-11-16-learning-reactiveui-for-fun-and-profit.webp
 image: /assets/images/2013-11-16-learning-reactiveui-for-fun-and-profit.webp

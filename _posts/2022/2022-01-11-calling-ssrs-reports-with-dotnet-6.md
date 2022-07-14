@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Calling SSRS Reports with dotnet 6
-description: 
 tags: [ssrs,dotnet,svcutil]
 featured_image: /assets/images/2022-01-11-calling-ssrs-reports-with-dotnet-6.webp
 image: /assets/images/2022-01-11-calling-ssrs-reports-with-dotnet-6.webp

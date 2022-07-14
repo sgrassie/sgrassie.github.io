@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Vim in a corporate environment
-description: 
 tags: [vim]
-featured_image: 
+featured_image: /assets/images/2022-03-11-vim-in-a-corporate-environment.webp
+image: /assets/images/2022-03-11-vim-in-a-corporate-environment.webp
 featured: False
 hidden: False
 published: 11/03/2022

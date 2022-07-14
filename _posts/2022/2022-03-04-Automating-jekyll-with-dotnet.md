@@ -1,10 +1,9 @@
 ---
 layout: post
 title: Automating jekyll with dotnet
-description: 
 tags: [blog,jekyll,c#,markdown]
-featured_image: /assets/images/Automating-jekyll-with-dotnet.webp
-image: /assets/images/Automating-jekyll-with-dotnet.webp
+featured_image: /assets/images/2022-03-04-Automating-jekyll-with-dotnet.webp
+image: /assets/images/2022-03-04-Automating-jekyll-with-dotnet.webp
 featured: False
 hidden: False
 published: 04/03/2022

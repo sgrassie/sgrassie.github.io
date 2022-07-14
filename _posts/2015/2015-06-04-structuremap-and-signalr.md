@@ -1,7 +1,6 @@
 ---
 layout: post
 title: 'Configuring SignalR in StructureMap'
-description: 
 tags: [Signalr,Structuremap]
 featured_image: /assets/images/2015-06-04-structuremap-and-signalr.webp
 image: /assets/images/2015-06-04-structuremap-and-signalr.webp
