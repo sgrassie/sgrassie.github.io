@@ -54,4 +54,9 @@
         {% include icons/quora.html %}
     </a>
     {% endif %}
+    {% if site.mastodon %}
+    <a rel="me" href="https://mastodonapp.uk/@{{ site.mastodon }}" target="_blank">
+        {% include icons/mastodon.html %}
+    </a>
+    {% endif %}
 </p>
