@@ -2,8 +2,8 @@
 layout: post
 title: build dotnet 8 in an offline build server
 tags: [dotnet,build server]
-featured_image: /assets/images/build-dotnet-8-in-an-offline-build-server.webp
-image: /assets/images/build-dotnet-8-in-an-offline-build-server.webp
+featured_image: /assets/images/2024-11-04-build-dotnet-8-in-an-offline-build-server.webp
+image: /assets/images/2024-11-04-build-dotnet-8-in-an-offline-build-server.webp
 featured: False
 hidden: False
 published: 04/11/2024
