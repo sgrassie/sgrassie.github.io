@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Automating jekyll with dotnet
-tags: [blog,jekyll,c#,markdown]
+tags: [blog, jekyll, csharp, markdown]
 featured_image: /assets/images/2022-03-04-Automating-jekyll-with-dotnet.webp
 image: /assets/images/2022-03-04-Automating-jekyll-with-dotnet.webp
 featured: False

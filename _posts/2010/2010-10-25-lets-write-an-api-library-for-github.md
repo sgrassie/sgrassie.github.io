@@ -2,7 +2,7 @@
 layout: post
 title: Let's write an API library for Github
 description: lets-write-an-api-library-for-github
-tags: ['C#','Coding']
+tags: [csharp, coding]
 featured_image: /assets/images/2010-10-25-lets-write-an-api-library-for-github.webp
 image: /assets/images/2010-10-25-lets-write-an-api-library-for-github.webp
 hidden: False

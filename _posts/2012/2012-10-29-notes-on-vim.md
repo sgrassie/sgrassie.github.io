@@ -2,7 +2,7 @@
 layout: post
 title: Notes on Vim
 description: Notes on Vim
-tags: ['Coding','Editing','Vim']
+tags: [coding, editing, vim]
 featured_image: /assets/images/2012-10-29-notes-on-vim.webp
 image: /assets/images/2012-10-29-notes-on-vim.webp
 hidden: False

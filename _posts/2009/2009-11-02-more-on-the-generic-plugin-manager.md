@@ -2,7 +2,7 @@
 layout: post
 title: More on the generic plugin manager
 description: more-on-the-generic-plugin-manager
-tags: ['C#','Coding','Plugin Manager']
+tags: [csharp, coding, plugin manager]
 featured_image: /assets/images/2009-11-02-more-on-the-generic-plugin-manager.webp
 image: /assets/images/2009-11-02-more-on-the-generic-plugin-manager.webp
 hidden: False

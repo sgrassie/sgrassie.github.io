@@ -2,7 +2,7 @@
 layout: post
 title: Why do I procrastinate?
 description: 
-tags: ['Cathartic','Random','Self Pity','Uncategorized']
+tags: [cathartic, random, self pity, uncategorized]
 featured_image: /assets/images/2012-08-27-why-do-i-procrastinate.webp
 image: /assets/images/2012-08-27-why-do-i-procrastinate.webp
 hidden: False

@@ -2,7 +2,7 @@
 layout: post
 title: Limitations in Delphi
 description: 
-tags: [Delphi]
+tags: [delphi]
 featured_image: /assets/images/2007-07-23-limitations-in-delphi.webp
 image: /assets/images/2007-07-23-limitations-in-delphi.webp
 hidden: False

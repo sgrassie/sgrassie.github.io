@@ -2,7 +2,7 @@
 layout: post
 title: linux adventures
 description: 
-tags: [Linux]
+tags: [linux]
 featured_image: /assets/images/2007-08-05-linux-adventures.webp
 image: /assets/images/2007-08-05-linux-adventures.webp
 hidden: False

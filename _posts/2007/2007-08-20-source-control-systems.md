@@ -2,7 +2,7 @@
 layout: post
 title: source control systems
 description: 
-tags: [Coding]
+tags: [coding]
 featured_image: /assets/images/2007-08-20-source-control-systems.webp
 image: /assets/images/2007-08-20-source-control-systems.webp
 hidden: False

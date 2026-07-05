@@ -9,12 +9,12 @@ hidden: False
 published: 14/11/2017
 ispublished: True
 ---
-# Introduction
+## Introduction
 In a future post, I'm going to write about Test Driven Development, with the aim of writing a Freecell clone. In this post I'll walk through setting up a dotnet core solution with a class library which will hold the Freecell rules engine, a class library for our unit tests and show to set up an environment for immediate feedback, which is one of the key benefits of TDD. I'll also demonstrate using some basic git commands to setup our source control.
 
 As you'll notice from the command line output below, I'm doing all this on a Mac, but things should not be any different if you are following along on Linux. Or even Windows.
 
-# dotnet new
+## dotnet new
 We need to new up two projects: one for our rules engine; one for the tests. It is a good idea to keep the unit tests separate from the code under test - in a real world application you _really_ do not want test data to get mixed in with production code.
 {% highlight console %}
 nostromo:dev stuart$ mkdir freecell
@@ -74,7 +74,7 @@ nostromo:freecell stuart$ git commit -m "Initial commit"
 nostromo:freecell stuart$ 
 {% endhighlight%}
 
-# dotnet new sln
+## dotnet new sln
 Although it doesn't matter to me as I'm coding this on a Mac using Visual Studio Code, for everyone's convenience, we should add a solution file. This will also help later on when it comes to talking about build scripts and using Continuous Integration, as it's usually easier to target a single solution file for building all the projects.
 {% highlight console %}
 nostromo:freecell stuart$ dotnet new sln -n Freecell.Engine
@@ -85,7 +85,7 @@ nostromo:freecell stuart$ dotnet sln add Freecell.Engine.Tests/Freecell.Engine.T
 Project `Freecell.Engine.Tests/Freecell.Engine.Tests.csproj` added to the solution.
 {% endhighlight %}
 
-# dotnet xUnit
+## dotnet xUnit
 I'm going also going to start using the `dotnet xunit` command which is available to us, but this isn't (currently) as straight forward as it perhaps will become. Firstly we need to update the version of `xUnit` which the `dotnet new xunit` command installed into the project, as it's still `2.2.0`, and to use `dotnet xunit` it needs to be the same version. Secondly, there isn't yet a `dotnet-cli` command to update packages. But you can achieve this by adding an already existing package, which if you don't specify a version will update it to the latest version. Why they don't just add a `dotnet update package --all` command beats me.
 
 If version numbers have changed since this post was written/published, don't worry. All you need to do is make sure that the xUnit package and the dotnet xUnit command package are the same verisons. You can't really go wrong as the `dotnet xunit` command will tell you if there is a version mismatch.
@@ -137,7 +137,7 @@ As you can see, we get much nicer output than if we just used the standard `dotn
 
 I'm also going to update the xUnit Visual Studio runner now as well, as it is required to make VS Code debug our tests, which will come in handy later on. Executing `dotnet add package xunit.runner.visualstudio` does this for us.
 
-# dotnet watch
+## dotnet watch
 I am a big fan of [NCrunch](http://www.ncrunch.net), and the rapid and immediate feedback which it provides when coding in Visual Studio. Sadly, it's not available for Visual Studio Code, or indeed for macOS, so in order to replicate the functionality it provides, we can make a few tweaks to our test project and watch our code for changes which are then automatically compiled and the tests ran.  In order to get the _NCrunch_-like functionality, we need to add the `dotnet watch` cli command. This is fairly straightforward.
 {% highlight console %}
 nostromo:Freecell.Engine.Tests stuart$ dotnet add package Microsoft.DotNet.Watcher.Tools
@@ -180,5 +180,5 @@ watch : Exited
 watch : Waiting for a file to change before restarting dotnet...
 {% endhighlight %}
 
-# Conclusion
+## Conclusion
 In this post I have walked through setting up a class library and unit test library using dotnet core, how to create a solution file and add the projects to it and how an immediate feedback cycle for TDD can be setup in a fairly easy and straightforward manner. I also demonstrated some basic git usage and initialised a repository for the code.

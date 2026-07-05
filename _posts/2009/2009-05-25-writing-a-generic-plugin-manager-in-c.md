@@ -2,7 +2,7 @@
 layout: post
 title: Writing a generic plugin manager in C#
 description: writing-a-generic-plugin-manager-in-c
-tags: ['C#','Coding','Plugin Manager']
+tags: [csharp, coding, plugin manager]
 featured_image: /assets/images/2009-05-25-writing-a-generic-plugin-manager-in-c.webp
 image: /assets/images/2009-05-25-writing-a-generic-plugin-manager-in-c.webp
 hidden: False

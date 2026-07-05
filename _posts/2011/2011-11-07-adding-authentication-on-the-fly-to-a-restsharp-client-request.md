@@ -2,14 +2,14 @@
 layout: post
 title: Adding authentication on the fly to a RestSharp client request
 description: adding-authentication-on-the-fly-to-a-restsharp-client-request
-tags: ['C#','Coding','Github-Api']
+tags: [csharp, coding, github-api]
 featured_image: /assets/images/2011-11-07-adding-authentication-on-the-fly-to-a-restsharp-client-request.webp
 image: /assets/images/2011-11-07-adding-authentication-on-the-fly-to-a-restsharp-client-request.webp
 hidden: False
 published: 07/11/2011
 ispublished: True
 ---
-<h1>The Basics</h1>
+## The Basics
 The typical way that you'd make a request with RestSharp:
 <ol>
 	<li>Create a RestRequest</li>
@@ -33,13 +33,13 @@ This is pretty straightforward and standard RestSharp usage. You may have a clas
         ...
     }
 }</pre>
-<h1>Options</h1>
+## Options
 There are several methods which we can use to add authentication dynamically to the RestClient instance, ranging from the trivial to the more involved.
 
 The trivial solution is to add the IAuthenticator as a parameter to the method, which is then assigned to the RestClient when it is created. Easy. Also fairly easy is just make it abstract or virtual and override it in an inheriting class, although this breaks SRP.
 
 Alternatively, we can implement the Decorator pattern, and introduce the authentication in a class which is solely responsible for handing it. I'm not going to go into this in too much detail, there is a wealth of information on implementing this pattern already available on the web. Using a Decorator is valid in a lot of situations, particularly when re-factoring someone else's mess, as you can adhere to the same interface and not risk breaking some important business function. In other cases, it is better to intercept.
-<h1>Interception</h1>
+## Interception
 A pattern which lends itself to this is called Proxy, and if you spend any time with Google and search terms like "c# proxy pattern" you'll quickly end up finding a lot of information about implementing it. You'll also find interesting stuff about Castle.DynamicProxy, and you may quickly realise this is an excellent way of adding the ability to dynamically intercept a method to add additional functionality on the fly. I've implemented an interceptor in the Github API library, with the core magic being:
 <pre class="brush:csharp">public void Intercept(IInvocation invocation)
 {

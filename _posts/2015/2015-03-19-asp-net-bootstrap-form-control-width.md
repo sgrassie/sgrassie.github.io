@@ -2,7 +2,7 @@
 layout: post
 title: ASP.Net Bootstrap 3 form control width
 description: asp.net, bootstrap, form-control, width
-tags: ['Asp.Net','Bootstrap']
+tags: [asp.net, bootstrap]
 featured_image: /assets/images/2015-03-19-asp-net-bootstrap-form-control-width.webp
 image: /assets/images/2015-03-19-asp-net-bootstrap-form-control-width.webp
 hidden: False

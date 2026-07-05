@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How I moved my blog from wordpress to snow, part one"
-tags: [Blog,Sandra.Snow]
+tags: [blog, sandra.snow]
 featured_image: /assets/images/2014-03-03-how-i-moved-my-blog-from-wordpress-to-snow.webp
 image: /assets/images/2014-03-03-how-i-moved-my-blog-from-wordpress-to-snow.webp
 hidden: False

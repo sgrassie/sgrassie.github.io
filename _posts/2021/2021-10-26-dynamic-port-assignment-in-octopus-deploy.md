@@ -2,7 +2,7 @@
 layout: post
 title: 'Dynamic port assignment in Octopus Deploy'
 description: 
-tags: ['Build Tools','Octopus Deploy']
+tags: [build tools, octopus deploy]
 featured_image: /assets/images/2021-10-26-dynamic-port-assignment-in-octopus-deploy.webp
 image: /assets/images/2021-10-26-dynamic-port-assignment-in-octopus-deploy.webp
 featured: False

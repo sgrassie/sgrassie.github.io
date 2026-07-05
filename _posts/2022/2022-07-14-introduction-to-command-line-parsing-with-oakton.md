@@ -2,7 +2,7 @@
 layout: post
 title: Introduction to command line parsing with Oakton
 description: Starting a jekyll blog automation too and parsing the command line with Oakton
-tags: [c#,oakton,command line]
+tags: [csharp, oakton, command line]
 featured_image: /assets/images/introduction-to-command-line-parsing-with-oakton.webp
 image: /assets/images/introduction-to-command-line-parsing-with-oakton.webp
 featured: False

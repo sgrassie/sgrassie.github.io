@@ -10,7 +10,7 @@ published: 21/11/2017
 ispublished: True
 series: "TDD: Implementing Freecell"
 ---
-# Introduction
+## Introduction
 I thought Freecell would make a fine basis for talking about Test Driven Development. It is a game which I enjoy playing. I have an app for it on my phone, and it's been available on Windows for as long as I can remember, although I'm writing this on a Mac, which does not by default have a Freecell game.
 
 The rules are fairly simple:
@@ -31,7 +31,7 @@ These rules will form the basis of a Frecell Rules Engine. Note that we're not i
 
 This post is a follow on from my previous post of how to setup a dotnet core environment for doing TDD.
 
-# red - first test
+## red - first test
 We know from the rules that we need a standard deck of cards to work with, so our initial test could assert that we can create an array, of some type that is yet to be determined, which has a length of 51.
 {% highlight csharp %}
 [Fact]
@@ -43,7 +43,7 @@ public void Should_CreateAStandardDeckOfCards()
 {% endhighlight %}
 There! Our first test. It fails (by not compiling). We've obeyed [The 3 Laws of TDD](http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd): We've not written any production code and we've only written enough of the unit test to make it fail. We can make the test pass by creating a `Deck` class in the `Freecell.Engine` project. Time for another commit:
 
-# green - it passes
+## green - it passes
 It is trivial to make our first test pass, as all we need to do is create a new class in our `Freecell.Engine` project, and our test passes as it now compiles. We can prove this by instructing `dotnet` to run our unit tests for us:
 {% highlight bash %}
 nostromo:Freecell.Engine.Tests stuart$ dotnet watch xunit
@@ -65,7 +65,7 @@ watch : Waiting for a file to change before restarting dotnet...
 {% endhighlight %}
 It is important to make sure to run `dotnet xunit` from within the test project folder, you can't pass the path to the test project like you can with `dotnet test`. As you can see, I've also started watching xunit, and the runner is now going to wait until I make and save a change before automatically compiling and running the tests.
 
-# red, green
+## red, green
 This first unit test still doesn't really test very much, and because we are obeying the 3 TDD rules, it forces us to think a little before we write any test code. When looking at the rules, I think we will probably want the ability to move through our deck of cards and have the ability to remove cards from the deck. So, with this in mind, the most logical thing to do is to make the `Deck` class enumerable. We could test that by checking a length property. Still in our first test, we can add this:
 {% highlight csharp %}
 var sut = new Deck();
@@ -132,7 +132,7 @@ public class Deck
 }
 {% endhighlight %}
 
-# refactor
+## refactor
 Now that we have a full test with an assertion that passes, we can about the refactor stage of the red/gree/refactor TDD cycle. As it stands, our simple classes passes our test but we can see right away that newing up an array in the getter of the `Length` property is not going to be something that is going to serve our interests well in the long run, so we should do something about that. Making it a member variable seems to be the most logical thing to do at the moment, so we'll do that. We don't need to make any changes to our test on the refactor stage. If we do, that's a design smell that would indicate that something is wrong.
 {% highlight csharp %}
 ublic class Deck
@@ -143,5 +143,5 @@ ublic class Deck
 }
 {% endhighlight %}
 
-# Conclusion
+## Conclusion
 In this post, we've fleshed out our `Deck` class a little more, and gone through the full red/green/refactor TDD cycle. I also introduced `FluentAssertions`, and showed the output from the watch window as it showed the test failing

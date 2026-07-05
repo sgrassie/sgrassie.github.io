@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Writing a simple YAML parser
-tags: [c#,yaml,parsing]
+tags: [csharp, yaml, parsing]
 featured_image: /assets/images/writing-a-simple-yaml-parser.webp
 image: /assets/images/writing-a-simple-yaml-parser.webp
 featured: False

@@ -2,7 +2,7 @@
 layout: post
 title: Learned so much about Vim that I should already know
 description: sucking less at using Vim
-tags: ['Vim']
+tags: [vim]
 featured_image: /assets/images/2015-03-08-learned-so-much-about-vim-that-i-should-already-know.webp
 image: /assets/images/2015-03-08-learned-so-much-about-vim-that-i-should-already-know.webp
 hidden: False

@@ -2,7 +2,7 @@
 layout: post
 title: Source control using Dropbox
 description: 
-tags: [Coding,Scm]
+tags: [coding, source control]
 featured_image: /assets/images/2008-08-29-source-control-using-dropbox.webp
 image: /assets/images/2008-08-29-source-control-using-dropbox.webp
 hidden: False

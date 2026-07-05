@@ -2,7 +2,7 @@
 layout: post
 title: A useful PRISM extension method
 description: Why isn't this included by default?
-tags: [Prism,C#,Mvvm]
+tags: [prism, csharp, mvvm]
 featured_image: /assets/images/2014-10-20-a-useful-prism-extension-method.webp
 image: /assets/images/2014-10-20-a-useful-prism-extension-method.webp
 hidden: False

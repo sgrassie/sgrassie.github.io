@@ -2,7 +2,7 @@
 layout: post
 title: Git plus dropbox
 description: 
-tags: ['Dropbox','Git','Source Control']
+tags: [dropbox, git, source control]
 featured_image: /assets/images/2010-03-04-git-plus-dropbox.webp
 image: /assets/images/2010-03-04-git-plus-dropbox.webp
 hidden: False
@@ -14,14 +14,14 @@ ispublished: True
 However, there are problems with this approach. Consider that you've changed several files, but then you realise that the changes you have made are not good enough, or just don't work. With svn, or vss (*vomit*), you can undo-checkout to get the previous version back, with dropbox you can roll back to the previous version - one file at a time. There is no branching, no merging, no tagging. Nothing like a traditional SCM tool should have.
 
 Dropbox is after all, essentially just a folder that is backed up "to the cloud". If we use the right tool, we can take advantage of this properly.
-<h1>Enter Git</h1>
+## Enter Git
 What is <a title="Git SCM" href="http://git-scm.com/" target="_blank">Git</a>? Well, surely you must have at least heard of Git by now? If not, I refer you to the <a title="Wikipedia article about git" href="http://en.wikipedia.org/wiki/Git_(software)" target="_blank">wikipedia page</a> about Git. Ok? You're back?
 
 The key aspect of Git which we can take advantage of is essentially the very nature of Git itself. Every Git clone is a full-repository, containing the full commit  history and full revision tracking capability for the project, and it does not rely on network access nor a central server.
 
 Basically, the idea is that you initialise an empty, bare repository inside your dropbox folder, and then somewhere else on your filesystem, perhaps a development folder where you store all your projects, you clone the repo from dropbox, and do all your work on that clone. Then when you call 'git push origin master', your changes are pushed into the dropbox repo, ready to be synced up on other computers you use.
 <blockquote>Note: This is not a substitue for having a proper hosted Git repository, such as a project on Github, or somewhere else. However, it useful if you are working on something you aren't ready to put into the public domain, or you haven't yet decided to purchase an account on a private repository provider.</blockquote>
-<h1>Setup</h1>
+## Setup
 Setting it up is fairly simple, but, I am going to assume that you have Dropbox and a dropbox account, Git and (if you are on Windows) GitExtensions, correctly installed already.
 <blockquote>Note: I have only tested this on Windows 7, but I wouldn't expect it to not work on any other system. As always YMMV.</blockquote>
 First, create a folder in your dropbox folder to house your projects, e.g. C:UsersStuartDocumentsMy Dropboxprojects or just store it in the root of your Dropbox, it's upto you. Don't forget to include quotes around any path that has a space in, or else it won't work.

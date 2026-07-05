@@ -2,7 +2,7 @@
 layout: post
 title: Building the Project Euler framework, part 2
 description: 
-tags: [Coding,Java,Project Euler]
+tags: [coding, java, project euler]
 featured_image: /assets/images/2008-09-05-building-the-project-euler-framework-part-2.webp
 image: /assets/images/2008-09-05-building-the-project-euler-framework-part-2.webp
 hidden: False

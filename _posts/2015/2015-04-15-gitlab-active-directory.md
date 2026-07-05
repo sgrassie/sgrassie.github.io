@@ -2,7 +2,7 @@
 layout: post
 title: Gitlab and Active Directory
 description: Gitlab and Active Directory
-tags: ['Asp.Net','Bootstrap']
+tags: [asp.net, bootstrap]
 featured_image: /assets/images/2015-04-15-gitlab-active-directory.webp
 image: /assets/images/2015-04-15-gitlab-active-directory.webp
 hidden: False

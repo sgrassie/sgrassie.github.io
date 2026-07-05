@@ -2,7 +2,7 @@
 layout: post
 title: cakePHP with Eclipse
 description: 
-tags: [PHP]
+tags: [php]
 featured_image: /assets/images/2007-10-07-cakephp-with-eclipse.webp
 image: /assets/images/2007-10-07-cakephp-with-eclipse.webp
 hidden: False

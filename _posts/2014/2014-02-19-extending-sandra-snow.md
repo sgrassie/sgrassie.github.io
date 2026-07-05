@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Extending Sandra.Snow
-tags: ['Snow']
+tags: [sandra.snow]
 featured_image: /assets/images/2014-02-19-extending-sandra-snow.webp
 image: /assets/images/2014-02-19-extending-sandra-snow.webp
 hidden: False

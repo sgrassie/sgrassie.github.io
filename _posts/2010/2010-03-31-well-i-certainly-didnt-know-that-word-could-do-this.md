@@ -2,7 +2,7 @@
 layout: post
 title: Well I certainly didn't know that Word could do this
 description: 
-tags: ['Uncategorized']
+tags: [uncategorized]
 featured_image: /assets/images/2010-03-31-well-i-certainly-didnt-know-that-word-could-do-this.webp
 image: /assets/images/2010-03-31-well-i-certainly-didnt-know-that-word-could-do-this.webp
 hidden: False

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Simple YAML parser - parsing the header
-tags: [C#,yaml]
+tags: [csharp, yaml]
 featured_image: /assets/images/simple-yaml-parser-parsing-the-header.webp
 image: /assets/images/simple-yaml-parser-parsing-the-header.webp
 featured: False

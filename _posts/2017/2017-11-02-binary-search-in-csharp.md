@@ -9,10 +9,10 @@ hidden: False
 published: 02/11/2017
 ispublished: True
 ---
-# Introduction
+## Introduction
 Binary search is the classic search algorithm, and I remember implementing it in C at University. As an experiment I'm going to implement it in C# to see if the line of business applications I usually build have rotted my brain.
 
-# Algorithm
+## Algorithm
 As [Wikipedia explains](https://en.wikipedia.org/wiki/Binary_search_algorithm#Procedure), Binary Search follows this procedure:
 
 Given an array A of n elements with values or records A0, A1, ..., An−1, sorted such that A0 ≤ A1 ≤ ... ≤ An−1, and target value T, the following subroutine uses binary search to find the index of T in A.
@@ -26,13 +26,13 @@ Given an array A of n elements with values or records A0, A1, ..., An−1, sorte
 
 This is actually Knuth's algorithm, from _The Art of Computer Programming_ as stated in the footnote on the Wikipedia article.
 
-# Implementation
+## Implementation
 
 It's worth noting that this is merely a fun exercise, and that .net has an implementation in [Array.BinarySearch](https://docs.microsoft.com/en-gb/dotnet/api/system.array.binarysearch?view=netframework-4.7.1#System_Array_BinarySearch_System_Array_System_Object_) which is much better than the implementation below and I would always use that instead.
 
 It's also worth mentioning that I'm cheating a little bit and assuming that the array is _already_ sorted, and that it only works on ```int```'s.
 
-## My implementation
+### My implementation
 
 {% highlight csharp %}
 public class BinarySearch
@@ -69,7 +69,7 @@ public class BinarySearch
 }
 {% endhighlight %}    
 
-## Console runner
+### Console runner
 
 Here is the console runner:
 

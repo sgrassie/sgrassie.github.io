@@ -2,7 +2,7 @@
 layout: post
 title: Bending jQuery to my will
 description: bending-jquery-to-my-will
-tags: ['Coding','Jquery']
+tags: [coding, jquery]
 featured_image: /assets/images/2009-07-27-bending-jquery-to-my-will.webp
 image: /assets/images/2009-07-27-bending-jquery-to-my-will.webp
 hidden: False

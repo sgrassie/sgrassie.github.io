@@ -2,7 +2,7 @@
 layout: post
 title: Probably giving up my CSharp Github API
 description: 
-tags: ['C#','Coding']
+tags: [csharp, coding]
 featured_image: /assets/images/2011-12-12-probably-giving-up-my-csharp-github-api.webp
 image: /assets/images/2011-12-12-probably-giving-up-my-csharp-github-api.webp
 hidden: False

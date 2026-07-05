@@ -2,7 +2,7 @@
 layout: post
 title: 'Generating the Premier League Table in F#'
 description: 
-tags: [F#]
+tags: [fsharp]
 featured_image: /assets/images/2020-07-07-generate-premier-league-table-in-fsharp.webp
 image: /assets/images/2020-07-07-generate-premier-league-table-in-fsharp.webp
 featured_image_thumbnail: /assets/images/posts/2020/footballs-3597192_640.jpg

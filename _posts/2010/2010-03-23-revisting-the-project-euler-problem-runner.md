@@ -2,7 +2,7 @@
 layout: post
 title: Revisting the Project Euler problem runner
 description: 
-tags: ['Design Patterns','Euler','Java','Project Euler']
+tags: [design patterns, project euler, java]
 featured_image: /assets/images/2010-03-23-revisting-the-project-euler-problem-runner.webp
 image: /assets/images/2010-03-23-revisting-the-project-euler-problem-runner.webp
 hidden: False

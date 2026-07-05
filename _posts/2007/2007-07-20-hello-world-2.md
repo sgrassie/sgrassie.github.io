@@ -2,7 +2,7 @@
 layout: post
 title: Hello world!
 description: 
-tags: [News]
+tags: [news]
 featured_image: /assets/images/2007-07-20-hello-world-2.webp
 image: /assets/images/2007-07-20-hello-world-2.webp
 hidden: False

@@ -2,7 +2,7 @@
 layout: post
 title: New Years Resolutions are so passé
 description: 
-tags: [Life]
+tags: [life]
 featured_image: /assets/images/2008-01-07-new-years-resolutions-are-so-passe.webp
 image: /assets/images/2008-01-07-new-years-resolutions-are-so-passe.webp
 hidden: False

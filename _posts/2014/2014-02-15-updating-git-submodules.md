@@ -2,7 +2,7 @@
 layout: post
 title: Updating git submodules
 description: updating git submodules
-tags: ['Git']
+tags: [git]
 featured_image: /assets/images/2014-02-15-updating-git-submodules.webp
 image: /assets/images/2014-02-15-updating-git-submodules.webp
 hidden: False

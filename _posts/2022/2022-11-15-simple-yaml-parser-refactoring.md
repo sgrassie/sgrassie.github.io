@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Simple YAML Parser Refactoring
-tags: [C#,yaml]
+tags: [csharp, yaml]
 featured_image: /assets/images/simple-yaml-parser-refactoring.webp
 image: /assets/images/simple-yaml-parser-refactoring.webp
 featured: False

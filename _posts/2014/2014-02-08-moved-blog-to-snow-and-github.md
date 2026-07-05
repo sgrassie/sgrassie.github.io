@@ -2,19 +2,19 @@
 layout: post
 title: Moved blog to snow and github
 description: Moved blog to snow and github
-tags: ['Blog','Nancy','Sandra.Snow']
+tags: [blog, nancy, sandra.snow]
 featured_image: /assets/images/2014-02-08-moved-blog-to-snow-and-github.webp
 image: /assets/images/2014-02-08-moved-blog-to-snow-and-github.webp
 hidden: False
 published: 08/02/2014
 ispublished: True
 ---
-# No longed bound to wordpress
+## No longed bound to wordpress
 For most of the time I've been blogging, I've used Wordpress. It's very good software, but kind of requires
 somewhere to host it. Either on your own custom hosting, or wordpress.com. For a long time, I paid for my own
 hosting provider. But the times they are a changing, and I'm no longer prepared to pay for my own hosting.
 
-## Enter snow
+### Enter snow
 Github provide a way of hosting a website, for free, it's called Github Pages. Using a tool called Jekyll, it is
 possible to take a series of Markdown files and generate a static html website from them. The only drawback to Jekyll
 is that that it's written in Ruby, it can be a pain to configure on Windows, and I'm primarily a windows kind of guy. 

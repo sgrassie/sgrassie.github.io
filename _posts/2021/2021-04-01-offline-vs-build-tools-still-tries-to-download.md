@@ -2,7 +2,7 @@
 layout: post
 title: 'Offline VS Build Tools still tries to download?'
 description: 
-tags: ['Build Tools']
+tags: [build tools]
 featured_image: /assets/images/2021-04-01-offline-vs-build-tools-still-tries-to-download.webp
 image: /assets/images/2021-04-01-offline-vs-build-tools-still-tries-to-download.webp
 featured: False

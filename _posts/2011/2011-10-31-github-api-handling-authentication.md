@@ -2,7 +2,7 @@
 layout: post
 title: Github API - Handling authentication
 description: 
-tags: ['C#','Coding','Github-Api']
+tags: [csharp, coding, github-api]
 featured_image: /assets/images/2011-10-31-github-api-handling-authentication.webp
 image: /assets/images/2011-10-31-github-api-handling-authentication.webp
 hidden: False

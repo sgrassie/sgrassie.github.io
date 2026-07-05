@@ -2,7 +2,7 @@
 layout: post
 title: My recommended reading list
 description: 
-tags: ['Books','Coding']
+tags: [books, coding]
 featured_image: /assets/images/2009-10-17-my-recommended-reading-list.webp
 image: /assets/images/2009-10-17-my-recommended-reading-list.webp
 hidden: False
