@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Build the site into _site/. Extra arguments are passed to jekyll,
+# e.g. script/build --drafts
+set -euo pipefail
+cd "$(dirname "$0")/.."
+source script/env.sh
+bundle exec jekyll build "$@"

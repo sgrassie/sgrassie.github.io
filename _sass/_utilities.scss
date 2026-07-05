@@ -1,0 +1,52 @@
+// ---------------------------------------------------------------------------
+// Print: articles come out as clean black-on-white documents
+// ---------------------------------------------------------------------------
+@media print {
+    :root {
+        --c-bg: #fff;
+        --c-text: #000;
+        --c-text-2: #333;
+        --c-border: #ccc;
+    }
+
+    .site-header,
+    .site-footer,
+    .post-nav,
+    .article__comments,
+    .skip-link,
+    .tag-list {
+        display: none !important;
+    }
+
+    .article__body {
+        font-size: 11pt;
+
+        a {
+            color: #000;
+
+            // Show destinations for external links
+            &[href^='http']::after {
+                content: ' (' attr(href) ')';
+                font-size: 0.8em;
+                color: #555;
+                word-break: break-all;
+            }
+        }
+
+        pre {
+            background: #f4f4f4 !important;
+            border: 1px solid #ccc;
+            color: #000;
+            white-space: pre-wrap;
+
+            code {
+                color: #000;
+            }
+        }
+
+        .highlight span {
+            color: #000 !important;
+            background: none !important;
+        }
+    }
+}

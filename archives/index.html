@@ -1,34 +1,34 @@
 ---
 layout: default
-title: Archives
+title: Archive
 ---
 
 <main id="main" class="site-main">
-    <div class="post-full inner">
-        <header class="post-header">
-            <h1 class="post-title">{{ page.title }}</h1>
+    <div class="wrap wrap--content">
+        <header class="page-header">
+            <p class="overline">Every article</p>
+            <h1 class="page-title">Archive</h1>
+            {% assign oldest_post = site.posts | last %}
+            <p class="page-description">
+                {{ site.posts | size }} articles since {{ oldest_post.date | date: '%Y' }}.
+                Looking for a topic instead? <a href="{{ '/tags/' | relative_url }}">Browse by tag</a> or <a href="{{ '/search' | relative_url }}">search</a>.
+            </p>
         </header>
-        <div class="post-content inner">
-            <div class="post-tags">
-                {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
-                {% assign sortedTags = site_tags | split:',' | sort %}
-                {% for tag in sortedTags %}
-                <span style="font-size: {{ tag | size | times: 2 }}px">
-                    <a href="#{{ tag }}" >{{ tag }} </a>
-                </span>
-                {% endfor %}
-            </div><!-- .post-tags -->
-            {% for tag in sortedTags %}
-            <h2 id="{{ tag }}">{{ tag }}</h2>
-            <ul class="archive-posts-list">
-                {% for post in site.tags[tag] %}
-                <li><a href="{{ site.baseurl }}{{ post.url }}" rel="bookmark">{{ post.title }}</a> 
-                    <span class="post-meta"> — <time class="published" datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%B %-d, %Y" }}</time></span>
-                </li>
-                {% endfor %}
-            </ul>
-            <p><a href="#page" class="tag-top-link">Return to top </a></p>
-            {% endfor %}
-        </div><!-- .entry-box -->
-    </div><!-- .inner -->
-</main><!-- .site-main -->
+
+        {% assign current_year = '' %}
+        {% for post in site.posts %}
+            {% assign post_year = post.date | date: '%Y' %}
+            {% if post_year != current_year %}
+                {% unless forloop.first %}</ol>{% endunless %}
+                {% assign current_year = post_year %}
+                <h2 class="archive-year" id="y{{ post_year }}"><span class="archive-year__label">{{ post_year }}</span></h2>
+                <ol class="archive-list" reversed>
+            {% endif %}
+            <li>
+                <time class="dt" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%-d %b' }}</time>
+                <a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a>
+            </li>
+            {% if forloop.last %}</ol>{% endif %}
+        {% endfor %}
+    </div>
+</main>

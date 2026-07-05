@@ -1,0 +1,40 @@
+---
+layout: default
+title: Tags
+permalink: /tags/
+---
+
+<main id="main" class="site-main">
+    <div class="wrap wrap--content">
+        <header class="page-header">
+            <p class="overline">Browse by topic</p>
+            <h1 class="page-title">Tags</h1>
+            <p class="page-description">Every topic on the blog. Pick a tag to jump to its articles.</p>
+        </header>
+
+        {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+        {% assign sorted_tags = site_tags | split: ',' | sort_natural %}
+
+        <nav class="tag-index" aria-label="All tags">
+            <ul class="tag-list">
+                {% for tag in sorted_tags %}
+                <li><a class="tag" href="#{{ tag | slugify }}">#{{ tag }}<span class="tag__count">{{ site.tags[tag].size }}</span></a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        {% for tag in sorted_tags %}
+        <section class="tag-section">
+            <h2 class="tag-section__title" id="{{ tag | slugify }}">{{ tag }}<span class="tag-section__count">{{ site.tags[tag].size }} {% if site.tags[tag].size == 1 %}post{% else %}posts{% endif %}</span></h2>
+            <ol class="archive-list">
+                {% for post in site.tags[tag] %}
+                <li>
+                    <time class="dt" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%b %Y' }}</time>
+                    <a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a>
+                </li>
+                {% endfor %}
+            </ol>
+        </section>
+        {% endfor %}
+    </div>
+</main>

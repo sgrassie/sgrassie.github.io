@@ -1,0 +1,128 @@
+// ---------------------------------------------------------------------------
+// Archive: chronological, grouped by year
+// ---------------------------------------------------------------------------
+.archive-year {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-top: 2.5rem;
+
+    .archive-year__label {
+        font-family: var(--font-serif);
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: var(--c-accent-2);
+        letter-spacing: 0.02em;
+    }
+
+    &::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid var(--c-border);
+        transform: translateY(-0.35rem);
+    }
+}
+
+.archive-list {
+    list-style: none;
+    margin-top: 0.75rem;
+
+    li {
+        display: flex;
+        align-items: baseline;
+        gap: 1.25rem;
+        padding: 0.55rem 0.6rem;
+        margin-inline: -0.6rem;
+        border-radius: var(--r-s);
+
+        &:hover {
+            background: var(--c-surface-2);
+        }
+    }
+
+    .dt {
+        flex-shrink: 0;
+        width: 4.5rem;
+        color: var(--c-text-3);
+    }
+
+    a {
+        font-weight: 550;
+        font-size: 0.98rem;
+        line-height: 1.4;
+        text-decoration: none;
+
+        &:hover {
+            color: var(--c-accent);
+        }
+    }
+
+    @media (max-width: 600px) {
+        li {
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Tags index
+// ---------------------------------------------------------------------------
+.tag-index {
+    margin-top: 1rem;
+}
+
+.tag-section {
+    margin-top: 2.75rem;
+
+    .tag-section__title {
+        font-family: var(--font-mono);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--c-accent);
+        scroll-margin-top: 1.5rem;
+
+        &::before {
+            content: '# ';
+            color: var(--c-text-3);
+        }
+    }
+
+    .tag-section__count {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 400;
+        color: var(--c-text-3);
+        margin-left: 0.5rem;
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Search
+// ---------------------------------------------------------------------------
+.search-field {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.85rem 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    color: var(--c-text);
+    background: var(--c-surface);
+    border: 1px solid var(--c-border-2);
+    border-radius: var(--r-m);
+
+    &::placeholder {
+        color: var(--c-text-3);
+    }
+
+    &:focus {
+        outline: 2px solid var(--c-accent);
+        outline-offset: 0;
+        border-color: transparent;
+    }
+}
+
+.search-results {
+    list-style: none;
+    margin-top: 1.5rem;
+}

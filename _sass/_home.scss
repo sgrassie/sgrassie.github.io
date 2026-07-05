@@ -1,0 +1,146 @@
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-block: 3.25rem 2.5rem;
+    border-bottom: 1px solid var(--c-border);
+
+    .hero__avatar {
+        width: 4.25rem;
+        height: 4.25rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--c-border-2);
+        flex-shrink: 0;
+    }
+
+    .hero__text {
+        font-family: var(--font-serif);
+        font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        line-height: 1.55;
+        color: var(--c-text);
+        max-width: 46ch;
+        text-wrap: pretty;
+    }
+
+    .hero__links {
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+
+        a {
+            font-weight: 600;
+            color: var(--c-accent);
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.post-feed {
+    padding-top: 2.25rem;
+
+    .post-feed-title {
+        margin-bottom: 0.75rem;
+    }
+}
+
+.post-card {
+    padding-block: 1.9rem;
+    border-bottom: 1px solid var(--c-border);
+
+    &:last-of-type {
+        border-bottom: none;
+    }
+
+    .post-card__meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.35rem 1rem;
+    }
+
+    .post-card__title {
+        margin-top: 0.5rem;
+        font-size: 1.4rem;
+        line-height: 1.25;
+
+        a {
+            text-decoration: none;
+
+            &:hover {
+                color: var(--c-accent);
+                text-decoration: underline;
+                text-decoration-color: var(--c-accent-2);
+                text-decoration-thickness: 2px;
+            }
+        }
+    }
+
+    .post-card__excerpt {
+        margin-top: 0.7rem;
+        font-family: var(--font-serif);
+        font-size: 1rem;
+        line-height: 1.65;
+        color: var(--c-text-2);
+        max-width: 62ch;
+        text-wrap: pretty;
+    }
+
+    .tag-list {
+        margin-top: 0.9rem;
+    }
+}
+
+// Larger treatment for the newest article on page one
+.post-card--featured {
+    margin-top: 1.9rem;
+    padding: 1.9rem 2rem 2rem;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-m);
+    box-shadow: var(--shadow-card);
+
+    .post-card__label {
+        color: var(--c-accent);
+    }
+
+    .post-card__title {
+        font-size: clamp(1.5rem, 3.5vw, 1.85rem);
+    }
+
+    + .post-card {
+        border-top: none;
+    }
+
+    @media (max-width: 600px) {
+        padding: 1.4rem 1.25rem 1.5rem;
+    }
+}
+
+.topics-band {
+    margin-top: 1.5rem;
+    padding: 1.75rem 0 0;
+    border-top: 3px double var(--c-border-2);
+
+    .topics-band__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .topics-band__all {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--c-accent);
+        text-decoration: none;
+        align-self: center;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

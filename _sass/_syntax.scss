@@ -1,0 +1,134 @@
+// Rouge syntax highlighting, tuned for the dark code panel used in both
+// light and dark modes. Muted, warm, low-glare.
+
+.highlight {
+    color: var(--c-code-text);
+
+    // Comments
+    .c,
+    .c1,
+    .cm,
+    .cs,
+    .cp,
+    .cd {
+        color: #8a857a;
+        font-style: italic;
+    }
+
+    // Keywords
+    .k,
+    .kd,
+    .kn,
+    .kp,
+    .kr,
+    .kv,
+    .kc {
+        color: #dca75c;
+    }
+
+    // Types, classes, constants
+    .kt,
+    .nc,
+    .no,
+    .nn,
+    .vc {
+        color: #e3c588;
+    }
+
+    // Strings
+    .s,
+    .s1,
+    .s2,
+    .sb,
+    .sc,
+    .sd,
+    .sh,
+    .si,
+    .sx,
+    .sr,
+    .ss {
+        color: #a5c08d;
+    }
+
+    // Numbers and literals
+    .m,
+    .mi,
+    .mf,
+    .mh,
+    .mo,
+    .il {
+        color: #c98a6d;
+    }
+
+    // Functions and methods
+    .nf,
+    .fm {
+        color: #8fbbd9;
+    }
+
+    // Names, attributes, tags, variables
+    .na,
+    .nt,
+    .nb,
+    .bp {
+        color: #9ab8cc;
+    }
+
+    .nv,
+    .vi,
+    .vg {
+        color: #d8d4c8;
+    }
+
+    .nd {
+        color: #c3a3d1;
+    }
+
+    // Operators and punctuation
+    .o,
+    .ow,
+    .p,
+    .pi {
+        color: #b8b3a6;
+    }
+
+    // Generic / diff
+    .gd {
+        color: #d99a8f;
+        background: rgba(184, 92, 74, 0.18);
+    }
+
+    .gi {
+        color: #a5c08d;
+        background: rgba(111, 154, 93, 0.15);
+    }
+
+    .gh,
+    .gu {
+        color: #9ab8cc;
+        font-weight: 600;
+    }
+
+    .ge {
+        font-style: italic;
+    }
+
+    .gs {
+        font-weight: 600;
+    }
+
+    .err {
+        color: #d99a8f;
+    }
+
+    .w {
+        color: inherit;
+    }
+}
+
+// Line numbers, if ever enabled
+.highlight .lineno {
+    color: #6b665c;
+    margin-right: 0.9rem;
+    user-select: none;
+}

@@ -1,15 +1,15 @@
 {% if paginator.total_pages > 1 %}
-<nav class="pagination inner">
-  <div class="nav-links">
+<nav class="pagination wrap" aria-label="Posts pagination">
     {% if paginator.previous_page %}
-    <a class="newer-posts" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}"><span
-        class="icon-arrow-left" aria-hidden="true"></span><span class="screen-reader-text">Newer Posts</span></a>
+    <a class="pagination__link" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer posts</a>
+    {% else %}
+    <span class="pagination__spacer" aria-hidden="true"></span>
     {% endif %}
-    <span class="page-number"> Page {{ paginator.page }} of {{ paginator.total_pages }} </span>
+    <span class="pagination__count">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
     {% if paginator.next_page %}
-    <a class="older-posts" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}"><span
-        class="screen-reader-text">Older Posts</span> <span class="icon-arrow-right" aria-hidden="true"></span></a>
+    <a class="pagination__link" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older posts &rarr;</a>
+    {% else %}
+    <span class="pagination__spacer" aria-hidden="true"></span>
     {% endif %}
-  </div>
-</nav><!-- .pagination -->
+</nav>
 {% endif %}

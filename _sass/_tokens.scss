@@ -1,0 +1,72 @@
+// Design tokens: "engineering notebook" palette.
+// Light is the source of truth; dark overrides via the mixin so the manual
+// toggle ([data-theme]) and the system preference share one definition.
+
+@mixin dark-tokens {
+    --c-bg: #191813;
+    --c-surface: #201e18;
+    --c-surface-2: #262319;
+    --c-text: #e8e3d6;
+    --c-text-2: #aaa192;
+    --c-text-3: #7d7566;
+    --c-border: #35322a;
+    --c-border-2: #454034;
+    --c-accent: #d9a65c;
+    --c-accent-2: #c08a3e;
+    --c-accent-soft: rgba(217, 166, 92, 0.1);
+    --c-code-text: #d8d4c8;
+    --c-inline-code-bg: #2a281f;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+:root {
+    // Colour
+    --c-bg: #faf7f1;
+    --c-surface: #ffffff;
+    --c-surface-2: #f1ecdf;
+    --c-text: #2b2620;
+    --c-text-2: #6e6558;
+    --c-text-3: #9c9284;
+    --c-border: #e5decf;
+    --c-border-2: #d5cbb6;
+    --c-accent: #96591b;        // links, focus — AA on --c-bg
+    --c-accent-2: #c08a3e;      // decorative brass
+    --c-accent-soft: rgba(192, 138, 62, 0.12);
+
+    // Code panels stay dark in both modes
+    --c-code-bg: #24221b;
+    --c-code-border: #37342a;
+    --c-code-text: #d8d4c8;
+    --c-inline-code-bg: #f1ecdf;
+
+    // Alerts (work on both light and dark backgrounds)
+    --c-info: #4a90b8;
+    --c-success: #6f9a5d;
+    --c-warning: #c2882f;
+    --c-danger: #b85c4a;
+
+    --shadow-card: 0 1px 2px rgba(43, 38, 32, 0.06);
+
+    // Type
+    --font-sans: 'Hanken Grotesk', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+    // Measure
+    --w-content: 44rem;
+    --w-wide: 68rem;
+
+    // Radii
+    --r-s: 5px;
+    --r-m: 10px;
+}
+
+:root[data-theme='dark'] {
+    @include dark-tokens;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        @include dark-tokens;
+    }
+}

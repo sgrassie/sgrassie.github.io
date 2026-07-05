@@ -1,11 +1,18 @@
 <footer id="colophon" class="site-footer">
-    <p class="site-info inner">
-        <a href="#">{{ site.name }}</a> &copy; {{ site.time | date: '%Y' }}. Royce theme by
-        <a target="_blank" href="https://justgoodthemes.com/">JustGoodThemes</a>.
-        Powered by <a target="_blank" href="https://jekyllrb.com/">Jekyll</a>.
-    </p>
-    <a id="back-to-top" class="back-to-top" href="#page">
-        <span class="icon-arrow-up" aria-hidden="true"></span>
-        <span class="screen-reader-text">Back to top</span>
-    </a>
-</footer><!-- .site-footer -->
+    <div class="wrap">
+        <div class="site-footer__top">
+            <div class="site-footer__brand brand">
+                <span class="brand__title">Temporal<em>Cohesion</em></span>
+                <p class="site-footer__tagline">{{ site.tagline }}, written by {{ site.social.name }} in the North West of England.</p>
+            </div>
+            {% include social-links.html %}
+        </div>
+        <div class="site-footer__meta">
+            <span>&copy; {{ site.time | date: '%Y' }} {{ site.social.name }}</span>
+            <span>Content: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+            <span>Code samples: <a href="https://choosealicense.com/licenses/mit/">MIT</a></span>
+            <span><a href="{{ '/feed.xml' | relative_url }}">RSS</a></span>
+            <span>Built with <a href="https://jekyllrb.com/">Jekyll</a></span>
+        </div>
+    </div>
+</footer>

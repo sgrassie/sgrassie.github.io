@@ -1,49 +1,77 @@
-/**
- * 5. Site Footer
- * ----------------------------------------------------------------------------
- */
 .site-footer {
-  border-top: 1px solid $gray-lighter;
-  padding-top: 2.5em;
+    flex-shrink: 0;
+    border-top: 3px double var(--c-border-2);
+    padding: 2.5rem 0 2.25rem;
+    background: var(--c-bg);
+
+    .site-footer__top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .site-footer__brand {
+        .brand__title {
+            font-size: 1.05rem;
+        }
+    }
+
+    .site-footer__tagline {
+        margin-top: 0.35rem;
+        font-family: var(--font-serif);
+        font-size: 0.92rem;
+        color: var(--c-text-2);
+        max-width: 40ch;
+    }
+
+    .site-footer__meta {
+        margin-top: 2rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--c-border);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1.75rem;
+        font-size: 0.8rem;
+        color: var(--c-text-3);
+
+        a {
+            color: var(--c-text-2);
+            text-decoration-color: var(--c-border-2);
+
+            &:hover {
+                color: var(--c-accent);
+            }
+        }
+    }
 }
 
-.site-info {
-  font-size: 11px;
-  letter-spacing: 1px;
-  line-height: 1.5;
-  margin-bottom: 0;
-  text-transform: uppercase;
-}
+.social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
 
-.site-info a {
-  text-decoration: none;
-}
+    a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.15rem;
+        height: 2.15rem;
+        border-radius: 50%;
+        border: 1px solid var(--c-border);
+        color: var(--c-text-2);
 
-.back-to-top {
-  bottom: 3vw;
-  display: none;
-  height: 40px;
-  position: fixed;
-  right: 3vw;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  width: 40px;
-  z-index: 1;
-}
+        &:hover {
+            color: var(--c-accent);
+            border-color: var(--c-accent-2);
+            background: var(--c-accent-soft);
+        }
+    }
 
-.back-to-top:hover {
-  color: $color-accent;
-}
-
-.back-to-top:focus {
-  outline: 0;
-}
-
-.back-to-top canvas{
-  display: block;
-  left: 0;
-  position: absolute;
-  top: 0;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
+    svg {
+        width: 0.95rem;
+        height: 0.95rem;
+        fill: currentColor;
+    }
 }

@@ -1,0 +1,24 @@
+{% comment %}
+    Pure-Liquid table of contents. Usage, from a layout:
+        {% include toc.html html=content h_min=2 h_max=3 %}
+    Relies on kramdown's automatic heading ids. Enable per post with
+    `toc: true` in front matter.
+{% endcomment %}
+{% assign h_min = include.h_min | default: 2 %}
+{% assign h_max = include.h_max | default: 3 %}
+{% assign nodes = include.html | split: '<h' %}
+<ul class="toc__list">
+    {% for node in nodes %}
+        {% if node == '' %}{% continue %}{% endif %}
+        {% assign level = node | slice: 0, 1 | times: 1 %}
+        {% if level < h_min or level > h_max %}{% continue %}{% endif %}
+        {% assign header = node | split: '</h' | first %}
+        {% assign open_tag = header | split: '>' | first %}
+        {% unless open_tag contains 'id="' %}{% continue %}{% endunless %}
+        {% assign header_id = open_tag | split: 'id="' | last | split: '"' | first %}
+        {% assign title = header | remove_first: open_tag | remove_first: '>' | strip_html | strip %}
+        <li class="toc__item toc__item--h{{ level }}">
+            <a href="#{{ header_id }}">{{ title }}</a>
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,12 @@
+<article class="post-card{% if include.featured %} post-card--featured{% endif %}">
+    <div class="post-card__meta">
+        {% if include.featured %}<span class="overline post-card__label">{{ include.label | default: 'Latest article' }}</span>{% endif %}
+        <time class="dt" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %b %Y" }}</time>
+        {% if post.series %}<span class="overline">Series: {{ post.series }}</span>{% endif %}
+    </div>
+    <h2 class="post-card__title">
+        <a href="{{ post.url | relative_url }}" rel="bookmark">{{ post.title }}</a>
+    </h2>
+    <p class="post-card__excerpt">{{ post.excerpt | strip_html | normalize_whitespace | truncatewords: 38 }}</p>
+    {% include tag-list.html tags=post.tags %}
+</article>

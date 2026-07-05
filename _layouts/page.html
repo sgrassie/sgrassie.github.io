@@ -3,18 +3,17 @@ layout: default
 ---
 
 <main id="main" class="site-main">
-    <article class="post-full inner">
-        <header class="post-header">
-            <h1 class="post-title">{{ page.title }}</h1>
-        </header><!-- .post-header -->
+    <article class="article article--page wrap wrap--content">
+        <header class="article__header">
+            <h1 class="article__title">{{ page.title }}</h1>
+        </header>
         {% if page.featured_image %}
-        <div class="post-thumbnail"><img src="{{ site.baseurl }}{{ page.featured_image }}" alt="{% if page.featured_image_alt %}{{ page.featured_image_alt }}{% else %}{{ page.title }}{% endif %}" /></div>
+        <figure class="article__hero">
+            <img src="{{ page.featured_image | relative_url }}" alt="{% if page.featured_image_alt %}{{ page.featured_image_alt }}{% else %}{{ page.title }}{% endif %}">
+        </figure>
         {% endif %}
-        <div class="post-content inner">
-            {{content}}
+        <div class="article__body">
+            {{ content }}
         </div>
     </article>
-    {% if site.mailchimp_url %}
-    {% include newsletter-box.html %}
-    {% endif %}
-</main><!-- .site-main -->
+</main>

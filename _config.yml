@@ -51,11 +51,13 @@ social:
 navigation:
   - text: Home
     url: /
-  - text: Archives 
+  - text: Archive
     url: /archives
+  - text: Tags
+    url: /tags/
   - text: About
     url: /about
-  - text: Contact Me
+  - text: Contact
     url: /contact
   - text: Search
     url: /search
@@ -77,6 +79,15 @@ permalink: /:year/:month/:day/:title
 # Other
 markdown: kramdown
 highlighter: rouge
+
+# Keep repo tooling and working files out of the built site
+exclude:
+  - script
+  - README.md
+  - Changelog.md
+  - headerimagetemplate
+  - tool.config
+  - contact.original
 
 # Sass
 sass:

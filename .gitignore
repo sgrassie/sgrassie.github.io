@@ -10,3 +10,4 @@ _drafts
 .ionide
 .jekyll-cache
 .jekyll-metadata
+.claude/settings.local.json
