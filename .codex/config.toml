@@ -1,0 +1,10 @@
+[mcp_servers.dotnet]
+command = "dotnet"
+args = [
+    "run",
+    "--no-build",
+    "--project",
+    "/Users/stuart/dev/BlogHelper9000/BlogHelper9000.Mcp/BlogHelper9000.Mcp.csproj",
+    "--",
+    "/Users/stuart/dev/sgrassie.github.io",
+]
