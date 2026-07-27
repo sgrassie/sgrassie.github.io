@@ -6,6 +6,7 @@ Gemfile.lock
 .sass-cache
 _drafts
 
+.bundle/
 .fake
 .ionide
 .jekyll-cache
