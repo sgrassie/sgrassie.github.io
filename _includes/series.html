@@ -1,8 +1,9 @@
 {% if page.series %}
 {% assign series_posts = site.posts | where: 'series', page.series | sort: 'date' %}
 {% assign series_count = series_posts | size %}
+{% if series_count > 1 %}
 <aside class="series" aria-label="Article series">
-    <p class="series__title">Series: {{ page.series }}</p>
+    <p class="series__title">Series: {{ page.series }} ({{ series_count }} parts)</p>
     <ol>
         {% for post in series_posts %}
         <li>
@@ -15,4 +16,5 @@
         {% endfor %}
     </ol>
 </aside>
+{% endif %}
 {% endif %}

@@ -1,8 +1,11 @@
 ---
 layout: page
-title: Contact Me 
+title: Contact
 featured_image: /assets/images/pages/contact.jpg
 ---
-Please contact me using one of the social media links on the left. This helps me to cut down on spam in my email inbox.
+
+To keep inbox spam down, I don't publish an email form here. The fastest way to reach me is via GitHub, Mastodon, or LinkedIn below:
+
+{% include social-links.html %}
 
 *Thanks for understanding!*

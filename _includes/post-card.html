@@ -2,6 +2,8 @@
     <div class="post-card__meta">
         {% if include.featured %}<span class="overline post-card__label">{{ include.label | default: 'Latest article' }}</span>{% endif %}
         <time class="dt" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%-d %b %Y" }}</time>
+        {% assign words = post.content | strip_html | number_of_words %}
+        <span class="dt">{{ words | divided_by: 220 | at_least: 1 }} min read</span>
         {% if post.series %}<span class="overline">Series: {{ post.series }}</span>{% endif %}
     </div>
     <h2 class="post-card__title">

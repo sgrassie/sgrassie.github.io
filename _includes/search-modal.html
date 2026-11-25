@@ -1,0 +1,44 @@
+<dialog id="search-dialog" class="search-modal" aria-label="Search articles" data-index-url="{{ '/search.json' | relative_url }}" data-archive-url="{{ '/archives' | relative_url }}" data-tags-url="{{ '/tags/' | relative_url }}" data-search-url="{{ '/search' | relative_url }}">
+    <div class="search-modal__inner">
+        <div class="search-modal__header">
+            <svg class="search-modal__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" />
+            </svg>
+            <label class="screen-reader-text" for="modal-search-input">Search articles</label>
+            <input
+                type="search"
+                id="modal-search-input"
+                class="search-modal__input"
+                placeholder="Search {{ site.posts | size }} articles (e.g. csharp, traefik, yaml)…"
+                autocomplete="off"
+            >
+            <button type="button" class="icon-button search-modal__close" aria-label="Close search">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 6l12 12M18 6l-12 12" />
+                </svg>
+            </button>
+        </div>
+        <p id="modal-search-status" class="search-modal__status overline" role="status" aria-live="polite"></p>
+        <div class="search-modal__body">
+            <ul id="modal-search-results" class="search-results archive-list"></ul>
+            <div id="modal-search-suggestions" class="search-suggestions">
+                <p class="overline">Popular topics</p>
+                <div class="topics-band__tags">
+                    {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+                    {% assign sorted_tags = site_tags | split: ',' | sort_natural %}
+                    {% for tag in sorted_tags %}
+                        {% assign tagged = site.tags[tag] %}
+                        {% if tag != 'uncategorized' and tagged.size >= 4 %}
+                        <button type="button" class="tag search-chip" data-query="{{ tag | escape }}">#{{ tag }}<span class="tag__count">{{ tagged.size }}</span></button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="search-modal__footer">
+            <span class="search-modal__hints"><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate &middot; <kbd>Enter</kbd> open &middot; <kbd>Esc</kbd> close</span>
+            <a id="modal-search-full" class="search-modal__full" href="{{ '/search' | relative_url }}">Full search page &rarr;</a>
+        </div>
+    </div>
+</dialog>

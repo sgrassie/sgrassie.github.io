@@ -8,6 +8,7 @@ image: /assets/images/2011-10-31-github-api-handling-authentication.webp
 hidden: False
 published: 31/10/2011
 ispublished: True
+series: "GitHub C# API Wrapper"
 ---
 With v3 of the Github REST API, calling a certain methods when unauthenticated will return a limited set of information, and when authenticated will return extra information. One of the things I wanted to do was to make it easy, in a fluent manner, to add authentication to a request. For example:
 <pre class="brush:csharp">var a = new UserApi();

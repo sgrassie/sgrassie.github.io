@@ -2,7 +2,7 @@
 layout: post
 title: You don't have to kneel at the altar of the cult of Apple
 description: you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple
-tags: [uncategorized]
+tags: [opinion]
 featured_image: /assets/images/2010-03-07-you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple.webp
 image: /assets/images/2010-03-07-you-dont-have-to-kneel-at-the-altar-of-the-cult-of-apple.webp
 hidden: False

@@ -8,6 +8,7 @@ image: /assets/images/2010-11-01-github-c-api-handling-the-response-with-restsha
 hidden: False
 published: 01/11/2010
 ispublished: True
+series: "GitHub C# API Wrapper"
 ---
 Once we make a request to Github.com with <a title="RestSharp.org" href="http://restsharp.org/" target="_blank">RestSharp</a>, we get a response, and RestSharp gives us a <a title="RestResponse class in RestSharp on github.com" href="http://github.com/johnsheehan/RestSharp/blob/master/RestSharp/RestResponse.cs" target="_blank">RestResponse</a> object, with which we can do something with the content. The content will be in the format that we specified when we made the request, either JSON, XML or YAML.
 

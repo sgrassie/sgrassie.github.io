@@ -1,3 +1,27 @@
+// ---------------------------------------------------------------------------
+// Reading progress bar (post pages)
+// ---------------------------------------------------------------------------
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 90;
+    pointer-events: none;
+}
+
+.reading-progress__bar {
+    height: 100%;
+    width: 0;
+    background: var(--c-accent-2);
+    transition: width 60ms linear;
+}
+
+.article__column {
+    max-width: var(--w-content);
+}
+
 .article__header {
     padding-top: 3rem;
 
@@ -24,6 +48,8 @@
 
     img {
         width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
         border-radius: var(--r-m);
         border: 1px solid var(--c-border);
     }
@@ -32,6 +58,7 @@
 // Static pages (About, Contact): keep portrait images modest
 .article--page .article__hero img {
     width: auto;
+    aspect-ratio: auto;
     max-width: min(24rem, 100%);
     max-height: 24rem;
 }
@@ -60,6 +87,16 @@
 
         &:hover {
             color: var(--c-accent);
+        }
+
+        &[href^='http']:not([href*='temporalcohesion.co.uk']):not(.heading-anchor)::after {
+            content: ' \2197';
+            font-family: var(--font-mono);
+            font-size: 0.72em;
+            opacity: 0.72;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 0.08em;
         }
     }
 
@@ -99,6 +136,34 @@
     h4 {
         margin-top: 1.75rem;
         font-size: 1.02rem;
+    }
+
+    h1[id],
+    h2[id],
+    h3[id],
+    h4[id] {
+        scroll-margin-top: 2rem;
+
+        .heading-anchor {
+            margin-left: 0.45rem;
+            font-family: var(--font-mono);
+            font-weight: 400;
+            font-size: 0.85em;
+            color: var(--c-text-3);
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 120ms ease;
+
+            &:focus-visible,
+            &:hover {
+                opacity: 1;
+                color: var(--c-accent);
+            }
+        }
+
+        &:hover .heading-anchor {
+            opacity: 1;
+        }
     }
 
     ul,
@@ -160,6 +225,10 @@
     img {
         margin-inline: auto;
         border-radius: var(--r-s);
+
+        &.is-zoomable {
+            cursor: zoom-in;
+        }
     }
 
     figure {
@@ -211,6 +280,17 @@
         }
     }
 
+    .table-scroll {
+        margin: 1.75rem 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+
+        table {
+            margin: 0;
+            min-width: 28rem;
+        }
+    }
+
     // Inline code
     code {
         font-family: var(--font-mono);
@@ -250,6 +330,79 @@
         }
     }
 
+    .code-block {
+        position: relative;
+        margin: 1.75rem 0;
+        border: 1px solid var(--c-code-border);
+        border-radius: var(--r-m);
+        overflow: hidden;
+        background: var(--c-code-bg);
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 2.75rem;
+            right: 0;
+            bottom: 0;
+            width: 2.5rem;
+            background: linear-gradient(to right, rgba(36, 34, 27, 0), rgba(36, 34, 27, 0.92));
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 150ms ease;
+        }
+
+        &.is-scrollable:not(.is-scrolled-end)::after {
+            opacity: 1;
+        }
+
+        div.highlighter-rouge,
+        figure.highlight,
+        pre {
+            margin: 0;
+            border: 0;
+            border-radius: 0;
+        }
+    }
+
+    .code-block__bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.35rem 0.75rem 0.35rem 1.3rem;
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid var(--c-code-border);
+    }
+
+    .code-block__lang {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9b968a;
+    }
+
+    .code-block__copy {
+        min-height: 2.25rem;
+        padding: 0.25rem 0.75rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--c-code-text);
+        border: 1px solid var(--c-code-border);
+        border-radius: var(--r-s);
+        background: rgba(255, 255, 255, 0.05);
+
+        &:hover,
+        &:focus-visible {
+            border-color: #d9a65c;
+            color: #d9a65c;
+        }
+
+        &.is-copied {
+            border-color: var(--c-success);
+            color: #a5c08d;
+        }
+    }
+
     // Gists keep their own styling; give them breathing room
     .gist {
         margin: 1.75rem 0;
@@ -274,6 +427,25 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--c-text-2);
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &::after {
+            content: '+';
+            font-size: 0.9rem;
+            color: var(--c-text-3);
+        }
+    }
+
+    &[open] .toc__title::after {
+        content: '−';
     }
 
     ul {
@@ -299,6 +471,11 @@
                 color: var(--c-accent);
                 text-decoration: underline;
             }
+
+            &.is-active {
+                color: var(--c-accent);
+                font-weight: 650;
+            }
         }
     }
 
@@ -309,6 +486,36 @@
 
     .toc__item--h3 {
         padding-left: 1.2rem;
+    }
+}
+
+// Wide desktop: place TOC in a sticky right rail alongside the 44rem measure
+@media (min-width: 1240px) {
+    .article--has-toc {
+        max-width: calc(var(--w-content) + 17.5rem + 2 * clamp(1.25rem, 5vw, 2.5rem));
+
+        .article__layout {
+            display: grid;
+            grid-template-columns: minmax(0, var(--w-content)) 15rem;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .article__body {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .toc {
+            grid-column: 2;
+            grid-row: 1;
+            position: sticky;
+            top: 2rem;
+            margin: 2.25rem 0 0;
+            max-height: calc(100dvh - 4rem);
+            overflow-y: auto;
+            font-size: 0.86rem;
+        }
     }
 }
 

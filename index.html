@@ -7,10 +7,10 @@ title: Home
     {% if paginator.page == 1 %}
     <section class="hero wrap" aria-label="Introduction">
         {% if site.author.image %}
-        <img class="hero__avatar" src="{{ site.author.image | prepend: '/assets/images/' | relative_url }}" alt="Photograph of {{ site.social.name }}" width="68" height="68">
+        <img class="hero__avatar" src="{{ site.author.image | prepend: '/assets/images/' | relative_url }}" alt="Photograph of {{ site.social.name }}" width="68" height="68" decoding="async">
         {% endif %}
         <div>
-            <p class="hero__text">{{ site.author.greetings }}</p>
+            <h1 class="hero__text">{{ site.author.greetings }}</h1>
             <p class="hero__links"><a href="{{ '/about' | relative_url }}">More about me &rarr;</a></p>
         </div>
     </section>
@@ -28,7 +28,11 @@ title: Home
     {% endif %}
 
     <div class="post-feed wrap">
-        <h2 class="post-feed-title overline">{% if paginator.page == 1 %}Latest articles{% else %}Articles, page {{ paginator.page }}{% endif %}</h2>
+        {% if paginator.page == 1 %}
+        <h2 class="post-feed-title overline">Latest articles</h2>
+        {% else %}
+        <h1 class="post-feed-title overline">Articles, page {{ paginator.page }}</h1>
+        {% endif %}
         {% if featured_post %}
             {% assign post = featured_post %}
             {% include post-card.html featured=true label='Featured' %}
@@ -54,7 +58,7 @@ title: Home
             {% assign sorted_tags = site_tags | split: ',' | sort_natural %}
             {% for tag in sorted_tags %}
                 {% assign tagged = site.tags[tag] %}
-                {% if tagged.size >= 4 %}
+                {% if tag != 'uncategorized' and tagged.size >= 4 %}
                 <a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}<span class="tag__count">{{ tagged.size }}</span></a>
                 {% endif %}
             {% endfor %}

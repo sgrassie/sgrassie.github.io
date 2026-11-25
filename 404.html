@@ -12,9 +12,10 @@ sitemap: false
             <h1 class="page-title">Page not found</h1>
             <p class="page-description">
                 That page doesn't exist — it may have moved when the blog changed platforms over the years.
-                Try the <a href="{{ '/search' | relative_url }}">search page</a>, the <a href="{{ '/archives' | relative_url }}">archive</a>,
+                Search below, browse the <a href="{{ '/archives' | relative_url }}">archive</a>,
                 or head <a href="{{ '/' | relative_url }}">back home</a>.
             </p>
         </header>
+        {% include search-widget.html seed_from_path=true %}
     </div>
 </main>

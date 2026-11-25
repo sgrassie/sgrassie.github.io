@@ -8,6 +8,7 @@ image: /assets/images/2013-11-07-definitely-given-up-on-my-github-csharp-api-pro
 hidden: False
 published: 07/11/2013
 ispublished: True
+series: "GitHub C# API Wrapper"
 ---
 Not that I'd spent much time working on it lately. The fine folks at github have released Ocktokit.net, a C# library for accessing the github api. It's an official api - it renders my crappy project useless, so I'm putting it down completely.
 

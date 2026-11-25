@@ -8,6 +8,7 @@ image: /assets/images/2008-08-22-building-the-project-euler-framework-part-1.web
 hidden: False
 published: 22/08/2008
 ispublished: True
+series: "Project Euler Runner in Java"
 ---
 As promised, here is the first part of the series of posts I hope to write demonstrating how I wrote my problem runner framework for <a title="Project Euler!" href="http://projecteuler.net/" target="_blank">Project Euler</a>.
 

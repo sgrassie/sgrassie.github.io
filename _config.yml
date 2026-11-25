@@ -8,25 +8,27 @@ logo:
 # Author image is used in site sidebar and greetings in the home page hero text
 author:
   twitter: stugrassie
-  image: 'me1280x.jpg'
-  greetings: "Welcome! My name is Stuart Grassie. I'm a software developer based in the North West of England. It’s nice to meet you."
+  image: 'me-avatar.webp'
+  greetings: "I'm Stuart Grassie, a software developer in North West England. Notes and practical guides on .NET, C#, F#, Neovim, and self-hosted homelab tooling."
 favicon: 'assets/images/favicon.ico'
+url: https://temporalcohesion.co.uk
 baseurl: 
 production_url: https://temporalcohesion.co.uk
+locale: en_GB
 disqus: 'temporalcohesion'
 mailchimp_url: 
-# Add your GA Tracking Id
-ga_analytics: UA-9870754-1
+# Add your GA4 Tracking Id if needed (Universal Analytics UA-* was sunset in July 2023)
+ga_analytics: 
 
 # Contact form setings
 email: sgrassie@gmail.com
-contact_page_description: "Horace theme comes with a contact form built-in. You can use this form with Formspree service and get up to 50 submissions for free. Also, you can easily switch to another service if you want."
-thankyou_page_description: "Your message has been successfully sent. We will contact you very soon!"
+contact_page_description: 
+thankyou_page_description: "Your message has been sent. I'll get back to you soon."
 
 # Social links
 twitter: 
    username: 'stugrassie'
-   card: summary
+   card: summary_large_image
 facebook: 'sgrassie'
 github: 'sgrassie'
 codepen: 
@@ -47,7 +49,7 @@ social:
     - https://www.linkedin.com/in/sgrassie
     - https://github.com/sgrassie
 
-# Navigation
+# Navigation (Search lives in the header actions bar with "/" shortcut)
 navigation:
   - text: Home
     url: /
@@ -59,8 +61,6 @@ navigation:
     url: /about
   - text: Contact
     url: /contact
-  - text: Search
-    url: /search
 
 # Required Plugins
 plugins:
@@ -70,7 +70,7 @@ plugins:
   - jekyll-gist
 
 # Pagination
-paginate: 5
+paginate: 10
 paginate_path: /page:num/
 
 # Permalinks
@@ -88,6 +88,7 @@ exclude:
   - headerimagetemplate
   - tool.config
   - contact.original
+  - style-guide.md
 
 # Sass
 sass:

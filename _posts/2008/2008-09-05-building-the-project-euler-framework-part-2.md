@@ -8,6 +8,7 @@ image: /assets/images/2008-09-05-building-the-project-euler-framework-part-2.web
 hidden: False
 published: 05/09/2008
 ispublished: True
+series: "Project Euler Runner in Java"
 ---
 In Part 1, I showed a basic problem runner framework for Project Euler, however there are a number of ways in which we can improve it. For example:
 <ul>

@@ -8,6 +8,7 @@ featured: False
 hidden: False
 published: 30/07/2022
 ispublished: True
+series: "Simple YAML Parser in C#"
 ---
 Previously we left off with a method which could parse the YAML header in one of our markdown files, and it was collecting each line between the `---` header marker, for further processing.
 

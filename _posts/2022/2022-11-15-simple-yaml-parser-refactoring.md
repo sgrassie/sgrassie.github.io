@@ -8,6 +8,7 @@ featured: False
 hidden: False
 published: 15/11/2022
 ispublished: True
+series: "Simple YAML Parser in C#"
 ---
 After reviewing the code for the simple YAML parser I wrote, I decided it was getting a little messy, so before continuing, I decided to refactor it a little bit.
 

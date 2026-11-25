@@ -2,7 +2,7 @@
 layout: post
 title: Is this thing on?
 description: 
-tags: [uncategorized]
+tags: [blog]
 featured_image: /assets/images/2011-09-26-is-this-thing-on.webp
 image: /assets/images/2011-09-26-is-this-thing-on.webp
 hidden: False

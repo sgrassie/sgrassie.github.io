@@ -2,7 +2,7 @@
 layout: post
 title: Custom Structuremap Dependency Resolver for ReactiveUI 5
 description: custom-structuremap-dependency-resolver-for-reactiveui-5
-tags: [uncategorized]
+tags: [csharp, reactiveui, structuremap]
 featured_image: /assets/images/2013-07-04-custom-structuremap-dependency-resolver-for-reactiveui-5.webp
 image: /assets/images/2013-07-04-custom-structuremap-dependency-resolver-for-reactiveui-5.webp
 hidden: False

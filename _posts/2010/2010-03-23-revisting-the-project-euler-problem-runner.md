@@ -8,6 +8,7 @@ image: /assets/images/2010-03-23-revisting-the-project-euler-problem-runner.webp
 hidden: False
 published: 23/03/2010
 ispublished: True
+series: "Project Euler Runner in Java"
 ---
 I'm sure that you must have heard about <a title="Project Euler website" href="http://projecteuler.net/" target="_blank">Project Euler</a>, which "is a series of challenging mathematical/computer programming problems that  will require more than just mathematical insights to solve". I have blogged about tackling the Project Euler problems <a href="http://temporalcohesion.co.uk/2008/08/22/building-the-project-euler-framework-part-1/">before</a>, and at the time, I developed a simple program to try to automate running the problems.
 

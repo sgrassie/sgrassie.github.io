@@ -8,6 +8,7 @@ image: /assets/images/2010-10-25-lets-write-an-api-library-for-github.webp
 hidden: False
 published: 25/10/2010
 ispublished: True
+series: "GitHub C# API Wrapper"
 ---
 Let's write a C# API library for <a title="Github.com" href="http://www.github.com">github.com</a>.
 

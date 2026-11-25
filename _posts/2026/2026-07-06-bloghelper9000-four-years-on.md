@@ -1,13 +1,14 @@
 ---
 layout: post
 title: BlogHelper9000, four years on
-tags: [c#,dotnet,blog,jekyll,bloghelper9000]
+tags: [csharp, dotnet, blog, jekyll, bloghelper9000]
 featured_image: /assets/images/bloghelper9000-four-years-on.webp
 image: /assets/images/bloghelper9000-four-years-on.webp
 featured: False
 hidden: False
 published: 06/07/2026
 ispublished: True
+series: "BlogHelper9000"
 ---
 
 In March 2022 I wrote a post called *Automating jekyll with dotnet*, laid out seven requirements for a little CLI tool, ran `dotnet new console --name BlogHelper9000`, and promised a series of follow-up posts.

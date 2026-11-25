@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "One solution, seven projects: how BlogHelper9000 is structured"
-tags: [c#,dotnet,architecture,bloghelper9000]
+tags: [csharp, dotnet, architecture, bloghelper9000]
 featured_image: /assets/images/one-solution-seven-projects-how-bloghelper9000-is-structured.webp
 image: /assets/images/one-solution-seven-projects-how-bloghelper9000-is-structured.webp
 featured: False
 hidden: False
 published: 13/07/2026
 ispublished: True
+series: "BlogHelper9000"
 ---
 
 BlogHelper9000 began life as a single console project. It's now seven non-test projects plus four test projects. One of those seven, `BlogHelper9000.TestHelpers`, only exists to support the tests, but it's useful enough to count in its own right.

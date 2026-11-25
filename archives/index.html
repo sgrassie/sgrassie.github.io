@@ -15,6 +15,17 @@ title: Archive
             </p>
         </header>
 
+        <nav class="year-jump" aria-label="Jump to year">
+            {% assign seen_years = '' %}
+            {% for post in site.posts %}
+                {% assign y = post.date | date: '%Y' %}
+                {% unless seen_years contains y %}
+                    {% assign seen_years = seen_years | append: y | append: ',' %}
+                    <a class="tag" href="#y{{ y }}">{{ y }}</a>
+                {% endunless %}
+            {% endfor %}
+        </nav>
+
         {% assign current_year = '' %}
         {% for post in site.posts %}
             {% assign post_year = post.date | date: '%Y' %}

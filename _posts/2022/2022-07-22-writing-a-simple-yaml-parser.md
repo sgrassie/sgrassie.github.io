@@ -8,6 +8,7 @@ featured: False
 hidden: False
 published: 22/07/2022
 ispublished: True
+series: "Simple YAML Parser in C#"
 ---
 The next thing to do to get BlogHelper9000 functional is to write a command which provides some information about the posts in the blog. I want to know:
 

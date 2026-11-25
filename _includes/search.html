@@ -3,23 +3,8 @@
         <header class="page-header">
             <p class="overline">Find an article</p>
             <h1 class="page-title">{{ page.title }}</h1>
-            <p class="page-description">Search {{ site.posts | size }} articles by title, tag, or category.</p>
+            <p class="page-description">Search {{ site.posts | size }} articles by title, topic, or keyword.</p>
         </header>
-        <label class="screen-reader-text" for="search-input">Search articles</label>
-        <input type="search" id="search-input" class="search-field" placeholder="Type to search&hellip;" autocomplete="off">
-        <ul id="search-results" class="search-results archive-list" aria-live="polite"></ul>
-        <script src="{{ '/assets/js/simple-jekyll-search.min.js' | relative_url }}"></script>
-        <script>
-            window.simpleJekyllSearch = new SimpleJekyllSearch({
-                searchInput: document.getElementById('search-input'),
-                resultsContainer: document.getElementById('search-results'),
-                json: '{{ '/search.json' | relative_url }}',
-                searchResultTemplate: '<li><time class="dt" datetime="{date}">{pretty_date}</time><a href="{url}">{title}</a></li>',
-                noResultsText: '<li class="search-results__empty">No results found.</li>',
-                limit: 15,
-                fuzzy: false,
-                exclude: ['Welcome']
-            })
-        </script>
+        {% include search-widget.html autofocus=true %}
     </div>
 </main>

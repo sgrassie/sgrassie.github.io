@@ -1,0 +1,36 @@
+<div
+    class="search-widget"
+    data-search-widget="true"
+    data-index-url="{{ '/search.json' | relative_url }}"
+    data-archive-url="{{ '/archives' | relative_url }}"
+    data-tags-url="{{ '/tags/' | relative_url }}"{% if include.seed_from_path %}
+    data-seed-from-path="true"{% endif %}
+>
+    <form class="search-form" role="search" onsubmit="return false;">
+        <label class="screen-reader-text" for="search-input">Search articles</label>
+        <input
+            type="search"
+            id="search-input"
+            class="search-field"
+            placeholder="Try 'csharp', 'traefik', 'yaml', or 'neovim'&hellip;"
+            autocomplete="off"{% if include.autofocus %} autofocus{% endif %}
+        >
+    </form>
+
+    <p id="search-status" class="search-status overline" role="status" aria-live="polite"></p>
+    <ul id="search-results" class="search-results archive-list"></ul>
+
+    <div id="search-empty-suggestions" class="search-suggestions">
+        <p class="overline">Popular topics</p>
+        <div class="topics-band__tags">
+            {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+            {% assign sorted_tags = site_tags | split: ',' | sort_natural %}
+            {% for tag in sorted_tags %}
+                {% assign tagged = site.tags[tag] %}
+                {% if tag != 'uncategorized' and tagged.size >= 4 %}
+                <button type="button" class="tag search-chip" data-query="{{ tag | escape }}">#{{ tag }}<span class="tag__count">{{ tagged.size }}</span></button>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

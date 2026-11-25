@@ -1,13 +1,14 @@
 ---
 layout: post
 title: Using TimeWarp.Nuru as a command-line parser
-tags: [c#,dotnet,cli,bloghelper9000]
+tags: [csharp, dotnet, cli, bloghelper9000]
 featured_image: /assets/images/2026-07-21-using-timewarp.webp
 image: /assets/images/2026-07-21-using-timewarp.webp
 featured: False
 hidden: False
 published: 21/07/2026
 ispublished: True
+series: "BlogHelper9000"
 ---
 
 The CLI is the oldest frontend in [BlogHelper9000](https://github.com/sgrassie/BlogHelper9000), and its command-line parsing is done by [TimeWarp.Nuru](https://github.com/TimeWarpEngineering/timewarp-nuru), a route-based CLI framework that brings web-style routing and the mediator pattern to console apps. What I get out of it is that the CLI behaves like any other .NET application: commands are classes, logic lives in handlers, and dependencies arrive through `Microsoft.Extensions.DependencyInjection`. What I pay for it is riding a 3.0 beta with some genuinely sharp edges, and I'll show both.

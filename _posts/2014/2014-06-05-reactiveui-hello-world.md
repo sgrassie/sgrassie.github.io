@@ -8,6 +8,7 @@ image: /assets/images/2014-06-05-reactiveui-hello-world.webp
 hidden: False
 published: 05/06/2014
 ispublished: True
+series: "Learning ReactiveUI"
 ---
 > ReactiveUI is an MVVM framework. I'm going to mess around with it and see if I
 can make it do something useful, and maybe get shouted at for Doing It Wrong&#8482;

@@ -9,6 +9,7 @@ featured: False
 hidden: False
 published: 03/08/2026
 ispublished: True
+series: "Football Data Platform"
 ---
 
 For the last while I've been building a football data platform. It collects match results and statistics, stores bookmaker odds, fits a statistical model to predict match outcomes, and then compares what the model thinks against what the market thinks. This post is the start of a long series about how it works.

@@ -2,41 +2,83 @@
 layout: default
 ---
 
+{% assign words = content | strip_html | number_of_words %}
+{% assign show_toc = false %}
+{% if page.toc == true %}
+    {% assign show_toc = true %}
+{% elsif page.toc != false and words >= 900 %}
+    {% assign show_toc = true %}
+{% endif %}
+{% assign has_toc = false %}
+{% if show_toc %}
+    {% capture toc_markup %}{% include toc.html html=content h_min=2 h_max=3 %}{% endcapture %}
+    {% if toc_markup contains '<li' %}
+        {% assign has_toc = true %}
+    {% endif %}
+{% endif %}
+
+<div class="reading-progress" aria-hidden="true">
+    <div id="reading-progress-bar" class="reading-progress__bar"></div>
+</div>
+
 <main id="main" class="site-main">
-    <article class="article wrap wrap--content">
-        <header class="article__header">
-            <div class="article__meta">
-                <time class="dt" datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%-d %B %Y" }}</time>
-                {% assign words = content | strip_html | number_of_words %}
-                <span class="dt">{{ words | divided_by: 220 | at_least: 1 }} min read</span>
-            </div>
-            <h1 class="article__title">{{ page.title }}</h1>
-            {% include tag-list.html tags=page.tags %}
-        </header>
+    <article class="article wrap wrap--content{% if has_toc %} article--has-toc{% endif %}">
+        <div class="article__column">
+            <header class="article__header">
+                <div class="article__meta">
+                    <time class="dt" datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: "%-d %B %Y" }}</time>
+                    <span class="dt">{{ words | divided_by: 220 | at_least: 1 }} min read</span>
+                </div>
+                <h1 class="article__title">{{ page.title }}</h1>
+                {% include tag-list.html tags=page.tags %}
+            </header>
 
-        {% if page.featured_image %}
-        <figure class="article__hero">
-            <img src="{{ page.featured_image | relative_url }}" alt="{% if page.featured_image_alt %}{{ page.featured_image_alt }}{% else %}{{ page.title }}{% endif %}">
-        </figure>
-        {% endif %}
+            {% assign post_year = page.date | date: '%Y' | plus: 0 %}
+            {% assign current_year = site.time | date: '%Y' | plus: 0 %}
+            {% assign post_age = current_year | minus: post_year %}
+            {% if post_age >= 5 %}
+            <aside class="article-age-notice" role="note">
+                <strong>Archive note:</strong> Published in {{ post_year }} ({{ post_age }} years ago). APIs, libraries, and tooling referenced here may have changed.
+            </aside>
+            {% endif %}
 
-        {% include series.html %}
+            {% if page.featured_image %}
+            <figure class="article__hero">
+                <img
+                    src="{{ page.featured_image | relative_url }}"
+                    alt="{% if page.featured_image_alt %}{{ page.featured_image_alt | escape }}{% endif %}"
+                    fetchpriority="high"
+                    decoding="async"
+                >
+            </figure>
+            {% endif %}
 
-        {% if page.toc %}
-        <aside class="toc" aria-label="Table of contents">
-            <p class="toc__title">Contents</p>
-            {% include toc.html html=content h_min=2 h_max=3 %}
-        </aside>
-        {% endif %}
-
-        <div class="article__body">
-            {{ content }}
+            {% include series.html %}
         </div>
 
-        <div class="article__comments">
-            {% include utterances.html %}
+        <div class="article__layout">
+            {% if has_toc %}
+            <details class="toc" open aria-label="Table of contents">
+                <summary class="toc__title">Contents</summary>
+                {{ toc_markup }}
+            </details>
+            {% endif %}
+
+            <div class="article__body">
+                {{ content }}
+            </div>
+        </div>
+
+        <div class="article__column">
+            {% include series.html %}
+
+            <div class="article__comments">
+                {% include utterances.html %}
+            </div>
         </div>
     </article>
+
+    {% include related-posts.html %}
 
     <nav class="post-nav wrap wrap--content" aria-label="More articles">
         {% if page.next.url %}
